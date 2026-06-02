@@ -19,6 +19,7 @@ la chaîne DevOps demandée par le TP.
   - [A.2 — Build de l'image avec Buildah](#a2--build-de-limage-avec-buildah)
   - [A.3 — Scan de sécurité avec Trivy](#a3--scan-de-sécurité-avec-trivy)
   - [A.4 — Audit de l'image avec Dive](#a4--audit-de-limage-avec-dive)
+  - [A.5 — Chaîne CI (GitHub Actions)](#a5--chaîne-ci-github-actions)
 
 ---
 
@@ -214,3 +215,38 @@ la base** et seulement ~42 MB de l'application.
 > 2 CVE CRITICAL OS (`gnutls`) qui feraient échouer la gate Trivy. On **garde `jammy`**
 > (meilleur compromis taille/sécurité). Optimisations déjà appliquées : multi-stage,
 > `USER 1000` (non-root, sans `useradd`), couches Spring Boot ordonnées.
+
+### A.5 — Chaîne CI (GitHub Actions)
+
+Pipeline : **[`.github/workflows/ci.yml`](.github/workflows/ci.yml)**. Se déclenche à chaque
+push / PR et, **pour chaque microservice** (via une **matrice**), enchaîne dans l'ordre :
+
+1. **Compilation Maven** du JAR (`mvn -pl <module> -am package -DskipTests`).
+2. **Hadolint** — lint du Containerfile.
+3. **Buildah** — build de l'image (`--storage-driver=vfs`, robuste en CI rootless).
+4. **Trivy** — rapports complets (JSON + SARIF + table) **puis gate** : `--exit-code 1` sur
+   `--severity CRITICAL` avec `.trivyignore` → **la CI échoue sur toute CVE CRITICAL non
+   acceptée**.
+5. **Dive** — audit avec les seuils imposés (efficacité ≥ 95 %, gaspillage ≤ 20 MB / 10 %).
+6. **Publication** : rapports en **artifacts** (`build-reports-<service>`) + **SARIF** poussé
+   dans l'onglet *Security* (Code scanning).
+
+**Stratégie multi-module (matrice).** Plutôt que dupliquer le YAML 6 fois, la `matrix`
+exécute le **même job** une fois par service ; seuls `module` (dossier) et `port` changent.
+Le même `Containerfile.api_gateway` (générique) sert aux 6 images.
+
+```yaml
+matrix:
+  include:
+    - { name: apigateway,       module: Banque-APIGateway,       port: 10000 }
+    - { name: annuaire,         module: Banque-Annuaire,         port: 10001 }
+    - { name: configserver,     module: Banque-ConfigServer,     port: 10003 }
+    - { name: clientservice,    module: Banque-ClientService,    port: 10011 }
+    - { name: compteservice,    module: Banque-CompteService,    port: 10021 }
+    - { name: compositeservice, module: Banque-CompositeService, port: 10031 }
+```
+
+> La gate Trivy raisonne par **identifiant de CVE** : les 3 CRITICAL acceptées (Spring Boot
+> 2.6.4) étant communes à tous les modules, `.trivyignore` s'applique aux 6 services. Toute
+> **nouvelle** CRITICAL propre à un service ferait échouer **ce** job (les autres continuent
+> grâce à `fail-fast: false`).

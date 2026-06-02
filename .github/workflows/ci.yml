@@ -1,0 +1,142 @@
+# ============================================================================
+#  CI — Chaîne de build OCI : Hadolint -> Buildah -> Trivy -> Dive
+#
+#  Se déclenche à chaque push / PR. Pour chaque microservice (matrice), on :
+#   1. compile le JAR (Maven)
+#   2. lint le Containerfile (Hadolint)
+#   3. construit l'image (Buildah)
+#   4. scanne les CVE (Trivy) + ÉCHOUE si une CVE CRITICAL non acceptée
+#   5. audite les couches/taille (Dive) avec les seuils imposés
+#   6. publie les rapports (artifacts) + le SARIF dans l'onglet Security
+# ============================================================================
+name: CI - Build OCI (Hadolint -> Buildah -> Trivy -> Dive)
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+  workflow_dispatch: # permet de lancer la CI à la main depuis l'onglet Actions
+
+permissions:
+  contents: read
+  security-events: write # nécessaire pour uploader le rapport SARIF
+
+# Annule un run précédent encore en cours sur la même branche (économie de runners)
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-scan:
+    runs-on: ubuntu-latest
+    name: ${{ matrix.name }}
+    strategy:
+      fail-fast: false # un service qui échoue n'arrête pas les autres
+      matrix:
+        # Généralisation aux 6 modules : même recette, seuls module + port changent.
+        include:
+          - { name: apigateway,       module: Banque-APIGateway,       port: 10000 }
+          - { name: annuaire,         module: Banque-Annuaire,         port: 10001 }
+          - { name: configserver,     module: Banque-ConfigServer,     port: 10003 }
+          - { name: clientservice,    module: Banque-ClientService,    port: 10011 }
+          - { name: compteservice,    module: Banque-CompteService,    port: 10021 }
+          - { name: compositeservice, module: Banque-CompositeService, port: 10031 }
+
+    env:
+      IMAGE: banquemssol-${{ matrix.name }}:ci
+      TARBALL: /tmp/banquemssol-${{ matrix.name }}.tar
+      # vfs = pilote de stockage sans fuse, robuste sur les runners CI (rootless).
+      STORAGE_DRIVER: vfs
+
+    steps:
+      - name: Checkout du code
+        uses: actions/checkout@v4
+
+      - name: Installer le JDK 11 (Temurin)
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "11"
+          cache: maven # met en cache ~/.m2 pour accélérer les builds suivants
+
+      # 1) Compiler le JAR du module (les tests sont ignorés : certains exigent
+      #    une base de données qui n'existe pas dans la CI).
+      - name: Compiler le JAR (Maven)
+        run: mvn -B -ntp -pl ${{ matrix.module }} -am package -DskipTests
+
+      # 2) Lint du Containerfile (bonnes pratiques).
+      - name: Lint du Containerfile (Hadolint)
+        uses: hadolint/hadolint-action@v3.1.0
+        with:
+          dockerfile: Containerfile.api_gateway
+
+      # Buildah est préinstallé sur les runners Ubuntu ; on le garantit au cas où.
+      - name: Garantir Buildah
+        run: command -v buildah || (sudo apt-get update && sudo apt-get install -y buildah)
+
+      # 3) Construire l'image OCI avec Buildah (mode daemonless).
+      - name: Build de l'image (Buildah)
+        run: |
+          buildah --storage-driver=$STORAGE_DRIVER bud \
+            -t "$IMAGE" \
+            --build-arg APP_PORT=${{ matrix.port }} \
+            -f Containerfile.api_gateway ${{ matrix.module }}
+
+      # Exporter l'image en archive : Trivy et Dive liront ce fichier
+      # (pas de démon Docker dans lequel charger l'image).
+      - name: Exporter l'image en archive
+        run: buildah --storage-driver=$STORAGE_DRIVER push "$IMAGE" docker-archive:"$TARBALL":"$IMAGE"
+
+      - name: Préparer le dossier des rapports
+        run: mkdir -p build-reports
+
+      - name: Installer Trivy
+        run: curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sudo sh -s -- -b /usr/local/bin
+
+      # 4a) Rapports Trivy COMPLETS (vue exhaustive, sans ignore) : JSON + SARIF + table.
+      - name: Rapports Trivy (HIGH + CRITICAL, complet)
+        run: |
+          for fmt in json sarif table; do
+            ext=$fmt; [ "$fmt" = table ] && ext=txt
+            trivy image --input "$TARBALL" --severity HIGH,CRITICAL --scanners vuln \
+              --ignorefile /dev/null --format "$fmt" \
+              --output "build-reports/trivy-${{ matrix.name }}.$ext"
+          done
+
+      # Pousser le SARIF dans l'onglet "Security" de GitHub (Code scanning alerts).
+      - name: Upload SARIF vers GitHub Security
+        if: always()
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: build-reports/trivy-${{ matrix.name }}.sarif
+          category: trivy-${{ matrix.name }}
+
+      # 4b) GATE : échoue si une CVE CRITICAL NON listée dans .trivyignore est trouvée.
+      #     (.trivyignore documente les CRITICAL acceptées — voir docs/trivy-cve-analysis.md)
+      - name: Gate Trivy (échec sur CVE CRITICAL)
+        run: |
+          trivy image --input "$TARBALL" --severity CRITICAL --scanners vuln \
+            --exit-code 1 --ignorefile .trivyignore
+
+      - name: Installer Dive
+        run: |
+          DIVE_VERSION=0.13.1
+          curl -sfL "https://github.com/wagoodman/dive/releases/download/v${DIVE_VERSION}/dive_${DIVE_VERSION}_linux_amd64.deb" -o /tmp/dive.deb
+          sudo dpkg -i /tmp/dive.deb
+
+      # 5) Audit Dive en mode CI avec les seuils imposés (échoue si dépassés).
+      - name: Audit Dive (seuils CI)
+        run: |
+          CI=true dive --source docker-archive "$TARBALL" --ci \
+            --lowestEfficiency 0.95 \
+            --highestWastedBytes 20MB \
+            --highestUserWastedPercent 0.10 \
+            | tee "build-reports/dive-${{ matrix.name }}.txt"
+
+      # 6) Publier tous les rapports en artifacts téléchargeables.
+      - name: Upload des rapports (artifacts)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-reports-${{ matrix.name }}
+          path: build-reports/

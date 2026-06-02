@@ -1,0 +1,58 @@
+# ============================================================================
+#  Containerfile.api_gateway — service de référence : Banque-APIGateway
+#  Construit avec Buildah (rootless). Multi-stage pour une image finale légère.
+#
+#  Build :
+#    buildah bud -t banquemssol-apigateway:local \
+#      --build-arg APP_PORT=10000 \
+#      -f Containerfile.api_gateway Banque-APIGateway
+#
+#  Généralisation aux autres modules : on change juste le contexte (dossier du
+#  module) et APP_PORT. Le JAR est toujours dans <module>/target/*.jar.
+# ============================================================================
+
+# ---------------------------------------------------------------------------
+# STAGE 1 — "builder" : on prend le JAR déjà compilé et on l'éclate en couches
+# (layertools). But : séparer les dépendances (qui changent peu) du code de
+# l'appli (qui change souvent) -> meilleur cache au rebuild.
+# ---------------------------------------------------------------------------
+FROM eclipse-temurin:11-jre-jammy AS builder
+WORKDIR /build
+
+# Le JAR du module. ARG = variable de build modifiable depuis la ligne de commande.
+ARG JAR_FILE=target/*.jar
+COPY ${JAR_FILE} application.jar
+
+# "layertools extract" décompose le fat-jar Spring Boot en 4 dossiers :
+# dependencies, spring-boot-loader, snapshot-dependencies, application.
+RUN java -Djarmode=layertools -jar application.jar extract
+
+# ---------------------------------------------------------------------------
+# STAGE 2 — image finale : une base JRE légère, SANS les outils de build.
+# Seuls les fichiers extraits à l'étape 1 sont copiés -> image minimale.
+# ---------------------------------------------------------------------------
+FROM eclipse-temurin:11-jre-jammy AS runtime
+
+# Port applicatif (10000 pour l'API Gateway). Surchargable au build.
+ARG APP_PORT=10000
+
+# Bonne pratique sécurité : ne PAS tourner en root dans le conteneur.
+# On crée un utilisateur non privilégié "spring".
+RUN groupadd --system spring && useradd --system --gid spring spring
+WORKDIR /app
+
+# Copie des couches extraites depuis le stage builder (ordre = du moins au plus
+# volatil, pour maximiser la réutilisation du cache).
+COPY --from=builder --chown=spring:spring /build/dependencies/          ./
+COPY --from=builder --chown=spring:spring /build/spring-boot-loader/    ./
+COPY --from=builder --chown=spring:spring /build/snapshot-dependencies/ ./
+COPY --from=builder --chown=spring:spring /build/application/           ./
+
+# On bascule sur l'utilisateur non privilégié pour l'exécution.
+USER spring:spring
+
+# Documente le port exposé par le conteneur (informatif).
+EXPOSE ${APP_PORT}
+
+# Lanceur Spring Boot pour un jar éclaté en couches.
+ENTRYPOINT ["java", "org.springframework.boot.loader.JarLauncher"]

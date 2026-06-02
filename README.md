@@ -16,6 +16,7 @@ la chaîne DevOps demandée par le TP.
 - [Prérequis outils](#prérequis-outils)
 - [Partie A — Chaîne de build OCI](#partie-a--chaîne-de-build-oci)
   - [A.1 — Docker vs Buildah](#a1--docker-vs-buildah)
+  - [A.2 — Build de l'image avec Buildah](#a2--build-de-limage-avec-buildah)
 
 ---
 
@@ -35,7 +36,8 @@ Le `pom.xml` parent (`ExempleMicroServices`) agrège **6 modules** Maven :
 Infrastructure annexe (lancée via `docker-compose.yml`, ce ne sont **pas** des modules
 Maven) : MySQL, MongoDB, Prometheus, Zipkin.
 
-**Service de référence = Banque-APIGateway.** c'est le point
+**Service de référence = Banque-APIGateway.** 
+c'est le point
 d'entrée unique, il n'a **pas besoin d'une base de données** pour démarrer (contrairement
 aux services clients/comptes), donc l'image est simple à construire, scanner et auditer.
 La chaîne est détaillée sur ce service, puis **généralisée** aux autres modules via une
@@ -86,3 +88,59 @@ $ buildah info
 
 > Docker reste utilisé pour *exécuter* l'infra locale (`docker-compose`), mais la
 > **construction** des images du TP passe exclusivement par Buildah.
+
+### A.2 — Build de l'image avec Buildah
+
+Recette de build : **[Containerfile.api_gateway](Containerfile.api_gateway)** (multi-stage,
+utilisateur non-root). Informations lues dans le projet (non devinées) :
+JAR = `Banque-APIGateway/target/Banque-APIGateway-7.0.jar`, port applicatif = `10000`
+(`Banque-configs/apigateway-dev.yml`).
+
+> **Note registry** : Buildah rootless refuse les noms d'image « courts » par sécurité. On
+> déclare donc Docker Hub comme registry par défaut dans
+> `~/.config/containers/registries.conf` (`unqualified-search-registries = ["docker.io"]`).
+
+**Approche 1 — via le Containerfile** (recommandée, reproductible) :
+
+```bash
+buildah bud -t banquemssol-apigateway:local \
+  --build-arg APP_PORT=10000 \
+  -f Containerfile.api_gateway Banque-APIGateway
+```
+
+`bud` = *build using Dockerfile* · `-t` = nom:tag · `--build-arg` = valeur d'un `ARG` ·
+`-f` = la recette · `Banque-APIGateway` = le **contexte** (dossier d'origine des `COPY`).
+
+**Approche 2 — layer-par-layer (mode natif, sans Containerfile)** : montre ce que fait un
+Containerfile « sous le capot ».
+
+```bash
+ctr=$(buildah from eclipse-temurin:11-jre-jammy)          # conteneur de travail
+buildah copy $ctr Banque-APIGateway/target/Banque-APIGateway-7.0.jar /app/app.jar
+buildah config --port 10000 \
+  --entrypoint '["java","-jar","/app/app.jar"]' $ctr       # config exécution
+buildah commit $ctr banquemssol-apigateway:native          # fige en image
+buildah rm $ctr
+```
+
+**Comparaison des deux approches :**
+
+| Critère | `:local` (Containerfile multi-stage) | `:native` (layer-par-layer) |
+|---|---|---|
+| Taille | 313 MB | 312 MB |
+| Couches (FS) | 6 | 6 |
+| JAR | éclaté en 4 couches (deps/loader/snapshot/app) | fat-jar entier en 1 couche |
+| Utilisateur | **non-root** (`spring`) ✅ | root (par défaut) ⚠️ |
+| Lisibilité | recette versionnée, auto-documentée ✅ | commandes impératives |
+| Reproductibilité | élevée (le fichier = source de vérité) ✅ | dépend du script |
+| Cache au rebuild | bon (seule la couche *app* change) ✅ | faible (couche jar refaite) |
+
+**Constat :** les deux images font ~312 MB — le multi-stage ne réduit *presque pas* la
+taille ici, car le JAR est déjà compilé et les deux partent de la même base `jammy`. Le
+multi-stage apporte surtout **non-root**, **cache** et **reproductibilité**. Le vrai levier
+sur la taille est l'**image de base** : démontré en A.4 (Dive, comparatif avant/après).
+
+**Généralisation aux autres modules.** Même recette pour les 6 services : seuls le
+**contexte** (dossier du module) et `APP_PORT` changent. Le JAR est toujours dans
+`<module>/target/*.jar`. Le script `build.sh` automatise le build du service de référence ;
+la CI (A.5) généralise via une **matrice** (un build par service).

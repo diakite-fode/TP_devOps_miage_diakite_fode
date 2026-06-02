@@ -1,0 +1,24 @@
+# ============================================================================
+#  .trivyignore — CVE CRITICAL acceptées (abaissement de gate DOCUMENTÉ)
+#
+#  Règle du TP : on peut abaisser une gate à condition de le documenter
+#  explicitement (quelle CVE, pourquoi). Ici, les CRITICAL sont toutes
+#  APPLICATIVES (Spring Boot 2.6.4) et non exploitables dans le contexte d'une
+#  API Gateway WebFlux/Netty. Remédiation réelle = monter Spring Boot (2.7.18),
+#  hors périmètre de ce TP DevOps. Détail : docs/trivy-cve-analysis.md
+#
+#  Effet : la CI échoue toujours sur toute NOUVELLE CVE CRITICAL ; seules les
+#  3 CVE ci-dessous (connues et justifiées) sont acceptées.
+# ============================================================================
+
+# Spring4Shell — RCE via data binding. Exploit type = Spring MVC en WAR sur
+# Tomcat ; ici gateway WebFlux/Netty (pas de servlet Tomcat) -> non exploitable.
+CVE-2022-22965
+
+# spring-web HttpInvokerServiceExporter — désérialisation Java. Nécessite
+# d'utiliser HttpInvokerServiceExporter, non utilisé par la gateway.
+CVE-2016-1000027
+
+# spring-boot-actuator — bypass auth sur Cloud Foundry uniquement. Pas de
+# déploiement Cloud Foundry ici -> non applicable.
+CVE-2023-20873

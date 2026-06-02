@@ -1,0 +1,2525 @@
+{
+  "version": "2.1.0",
+  "$schema": "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/main/sarif-2.1/schema/sarif-schema-2.1.0.json",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "fullName": "Trivy Vulnerability Scanner",
+          "informationUri": "https://github.com/aquasecurity/trivy",
+          "name": "Trivy",
+          "rules": [
+            {
+              "id": "CVE-2023-6378",
+              "name": "LanguageSpecificPackageVulnerability",
+              "shortDescription": {
+                "text": "logback: serialization vulnerability in logback receiver"
+              },
+              "fullDescription": {
+                "text": "A serialization vulnerability in logback receiver component part of \nlogback version 1.4.11 allows an attacker to mount a Denial-Of-Service \nattack by sending poisoned data.\n\n"
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "helpUri": "https://avd.aquasec.com/nvd/cve-2023-6378",
+              "help": {
+                "text": "Vulnerability CVE-2023-6378\nSeverity: HIGH\nPackage: ch.qos.logback:logback-core\nFixed Version: 1.3.12, 1.4.12, 1.2.13\nLink: [CVE-2023-6378](https://avd.aquasec.com/nvd/cve-2023-6378)\nA serialization vulnerability in logback receiver component part of \nlogback version 1.4.11 allows an attacker to mount a Denial-Of-Service \nattack by sending poisoned data.\n\n",
+                "markdown": "**Vulnerability CVE-2023-6378**\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|HIGH|ch.qos.logback:logback-core|1.3.12, 1.4.12, 1.2.13|[CVE-2023-6378](https://avd.aquasec.com/nvd/cve-2023-6378)|\n\nA serialization vulnerability in logback receiver component part of \nlogback version 1.4.11 allows an attacker to mount a Denial-Of-Service \nattack by sending poisoned data.\n\n"
+              },
+              "properties": {
+                "cvssv3_baseScore": 7.1,
+                "cvssv3_vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:C/C:N/I:N/A:H",
+                "precision": "very-high",
+                "security-severity": "7.1",
+                "tags": [
+                  "vulnerability",
+                  "security",
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2025-52999",
+              "name": "LanguageSpecificPackageVulnerability",
+              "shortDescription": {
+                "text": "com.fasterxml.jackson.core/jackson-core: jackson-core Potential StackoverflowError"
+              },
+              "fullDescription": {
+                "text": "jackson-core contains core low-level incremental (\"streaming\") parser and generator abstractions used by Jackson Data Processor. In versions prior to 2.15.0, if a user parses an input file and it has deeply nested data, Jackson could end up throwing a StackoverflowError if the depth is particularly large. jackson-core 2.15.0 contains a configurable limit for how deep Jackson will traverse in an input document, defaulting to an allowable depth of 1000. jackson-core will throw a StreamConstraintsException if the limit is reached. jackson-databind also benefits from this change because it uses jackson-core to parse JSON inputs. As a workaround, users should avoid parsing input files from untrusted sources."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "helpUri": "https://avd.aquasec.com/nvd/cve-2025-52999",
+              "help": {
+                "text": "Vulnerability CVE-2025-52999\nSeverity: HIGH\nPackage: com.fasterxml.jackson.core:jackson-core\nFixed Version: 2.15.0\nLink: [CVE-2025-52999](https://avd.aquasec.com/nvd/cve-2025-52999)\njackson-core contains core low-level incremental (\"streaming\") parser and generator abstractions used by Jackson Data Processor. In versions prior to 2.15.0, if a user parses an input file and it has deeply nested data, Jackson could end up throwing a StackoverflowError if the depth is particularly large. jackson-core 2.15.0 contains a configurable limit for how deep Jackson will traverse in an input document, defaulting to an allowable depth of 1000. jackson-core will throw a StreamConstraintsException if the limit is reached. jackson-databind also benefits from this change because it uses jackson-core to parse JSON inputs. As a workaround, users should avoid parsing input files from untrusted sources.",
+                "markdown": "**Vulnerability CVE-2025-52999**\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|HIGH|com.fasterxml.jackson.core:jackson-core|2.15.0|[CVE-2025-52999](https://avd.aquasec.com/nvd/cve-2025-52999)|\n\njackson-core contains core low-level incremental (\"streaming\") parser and generator abstractions used by Jackson Data Processor. In versions prior to 2.15.0, if a user parses an input file and it has deeply nested data, Jackson could end up throwing a StackoverflowError if the depth is particularly large. jackson-core 2.15.0 contains a configurable limit for how deep Jackson will traverse in an input document, defaulting to an allowable depth of 1000. jackson-core will throw a StreamConstraintsException if the limit is reached. jackson-databind also benefits from this change because it uses jackson-core to parse JSON inputs. As a workaround, users should avoid parsing input files from untrusted sources."
+              },
+              "properties": {
+                "cvssv40_baseScore": 8.7,
+                "cvssv40_vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N",
+                "precision": "very-high",
+                "security-severity": "8.0",
+                "tags": [
+                  "vulnerability",
+                  "security",
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2020-36518",
+              "name": "LanguageSpecificPackageVulnerability",
+              "shortDescription": {
+                "text": "jackson-databind: denial of service via a large depth of nested objects"
+              },
+              "fullDescription": {
+                "text": "jackson-databind before 2.13.0 allows a Java StackOverflow exception and denial of service via a large depth of nested objects."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "helpUri": "https://avd.aquasec.com/nvd/cve-2020-36518",
+              "help": {
+                "text": "Vulnerability CVE-2020-36518\nSeverity: HIGH\nPackage: com.fasterxml.jackson.core:jackson-databind\nFixed Version: 2.13.2.1, 2.12.6.1\nLink: [CVE-2020-36518](https://avd.aquasec.com/nvd/cve-2020-36518)\njackson-databind before 2.13.0 allows a Java StackOverflow exception and denial of service via a large depth of nested objects.",
+                "markdown": "**Vulnerability CVE-2020-36518**\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|HIGH|com.fasterxml.jackson.core:jackson-databind|2.13.2.1, 2.12.6.1|[CVE-2020-36518](https://avd.aquasec.com/nvd/cve-2020-36518)|\n\njackson-databind before 2.13.0 allows a Java StackOverflow exception and denial of service via a large depth of nested objects."
+              },
+              "properties": {
+                "cvssv3_baseScore": 7.5,
+                "cvssv3_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+                "precision": "very-high",
+                "security-severity": "7.5",
+                "tags": [
+                  "vulnerability",
+                  "security",
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2022-42003",
+              "name": "LanguageSpecificPackageVulnerability",
+              "shortDescription": {
+                "text": "jackson-databind: deep wrapper array nesting wrt UNWRAP_SINGLE_VALUE_ARRAYS"
+              },
+              "fullDescription": {
+                "text": "In FasterXML jackson-databind before versions 2.13.4.1 and 2.12.17.1, resource exhaustion can occur because of a lack of a check in primitive value deserializers to avoid deep wrapper array nesting, when the UNWRAP_SINGLE_VALUE_ARRAYS feature is enabled."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "helpUri": "https://avd.aquasec.com/nvd/cve-2022-42003",
+              "help": {
+                "text": "Vulnerability CVE-2022-42003\nSeverity: HIGH\nPackage: com.fasterxml.jackson.core:jackson-databind\nFixed Version: 2.12.7.1, 2.13.4.2\nLink: [CVE-2022-42003](https://avd.aquasec.com/nvd/cve-2022-42003)\nIn FasterXML jackson-databind before versions 2.13.4.1 and 2.12.17.1, resource exhaustion can occur because of a lack of a check in primitive value deserializers to avoid deep wrapper array nesting, when the UNWRAP_SINGLE_VALUE_ARRAYS feature is enabled.",
+                "markdown": "**Vulnerability CVE-2022-42003**\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|HIGH|com.fasterxml.jackson.core:jackson-databind|2.12.7.1, 2.13.4.2|[CVE-2022-42003](https://avd.aquasec.com/nvd/cve-2022-42003)|\n\nIn FasterXML jackson-databind before versions 2.13.4.1 and 2.12.17.1, resource exhaustion can occur because of a lack of a check in primitive value deserializers to avoid deep wrapper array nesting, when the UNWRAP_SINGLE_VALUE_ARRAYS feature is enabled."
+              },
+              "properties": {
+                "cvssv3_baseScore": 7.5,
+                "cvssv3_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+                "precision": "very-high",
+                "security-severity": "7.5",
+                "tags": [
+                  "vulnerability",
+                  "security",
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2022-42004",
+              "name": "LanguageSpecificPackageVulnerability",
+              "shortDescription": {
+                "text": "jackson-databind: use of deeply nested arrays"
+              },
+              "fullDescription": {
+                "text": "In FasterXML jackson-databind before 2.13.4, resource exhaustion can occur because of a lack of a check in BeanDeserializer._deserializeFromArray to prevent use of deeply nested arrays. An application is vulnerable only with certain customized choices for deserialization."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "helpUri": "https://avd.aquasec.com/nvd/cve-2022-42004",
+              "help": {
+                "text": "Vulnerability CVE-2022-42004\nSeverity: HIGH\nPackage: com.fasterxml.jackson.core:jackson-databind\nFixed Version: 2.12.7.1, 2.13.4\nLink: [CVE-2022-42004](https://avd.aquasec.com/nvd/cve-2022-42004)\nIn FasterXML jackson-databind before 2.13.4, resource exhaustion can occur because of a lack of a check in BeanDeserializer._deserializeFromArray to prevent use of deeply nested arrays. An application is vulnerable only with certain customized choices for deserialization.",
+                "markdown": "**Vulnerability CVE-2022-42004**\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|HIGH|com.fasterxml.jackson.core:jackson-databind|2.12.7.1, 2.13.4|[CVE-2022-42004](https://avd.aquasec.com/nvd/cve-2022-42004)|\n\nIn FasterXML jackson-databind before 2.13.4, resource exhaustion can occur because of a lack of a check in BeanDeserializer._deserializeFromArray to prevent use of deeply nested arrays. An application is vulnerable only with certain customized choices for deserialization."
+              },
+              "properties": {
+                "cvssv3_baseScore": 7.5,
+                "cvssv3_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+                "cvssv40_baseScore": 8.2,
+                "cvssv40_vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N",
+                "precision": "very-high",
+                "security-severity": "7.5",
+                "tags": [
+                  "vulnerability",
+                  "security",
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2021-43859",
+              "name": "LanguageSpecificPackageVulnerability",
+              "shortDescription": {
+                "text": "xstream: Injecting highly recursive collections or maps can cause a DoS"
+              },
+              "fullDescription": {
+                "text": "XStream is an open source java library to serialize objects to XML and back again. Versions prior to 1.4.19 may allow a remote attacker to allocate 100% CPU time on the target system depending on CPU type or parallel execution of such a payload resulting in a denial of service only by manipulating the processed input stream. XStream 1.4.19 monitors and accumulates the time it takes to add elements to collections and throws an exception if a set threshold is exceeded. Users are advised to upgrade as soon as possible. Users unable to upgrade may set the NO_REFERENCE mode to prevent recursion. See GHSA-rmr5-cpv2-vgjf for further details on a workaround if an upgrade is not possible."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "helpUri": "https://avd.aquasec.com/nvd/cve-2021-43859",
+              "help": {
+                "text": "Vulnerability CVE-2021-43859\nSeverity: HIGH\nPackage: com.thoughtworks.xstream:xstream\nFixed Version: 1.4.19\nLink: [CVE-2021-43859](https://avd.aquasec.com/nvd/cve-2021-43859)\nXStream is an open source java library to serialize objects to XML and back again. Versions prior to 1.4.19 may allow a remote attacker to allocate 100% CPU time on the target system depending on CPU type or parallel execution of such a payload resulting in a denial of service only by manipulating the processed input stream. XStream 1.4.19 monitors and accumulates the time it takes to add elements to collections and throws an exception if a set threshold is exceeded. Users are advised to upgrade as soon as possible. Users unable to upgrade may set the NO_REFERENCE mode to prevent recursion. See GHSA-rmr5-cpv2-vgjf for further details on a workaround if an upgrade is not possible.",
+                "markdown": "**Vulnerability CVE-2021-43859**\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|HIGH|com.thoughtworks.xstream:xstream|1.4.19|[CVE-2021-43859](https://avd.aquasec.com/nvd/cve-2021-43859)|\n\nXStream is an open source java library to serialize objects to XML and back again. Versions prior to 1.4.19 may allow a remote attacker to allocate 100% CPU time on the target system depending on CPU type or parallel execution of such a payload resulting in a denial of service only by manipulating the processed input stream. XStream 1.4.19 monitors and accumulates the time it takes to add elements to collections and throws an exception if a set threshold is exceeded. Users are advised to upgrade as soon as possible. Users unable to upgrade may set the NO_REFERENCE mode to prevent recursion. See GHSA-rmr5-cpv2-vgjf for further details on a workaround if an upgrade is not possible."
+              },
+              "properties": {
+                "cvssv3_baseScore": 7.5,
+                "cvssv3_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+                "precision": "very-high",
+                "security-severity": "7.5",
+                "tags": [
+                  "vulnerability",
+                  "security",
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2022-40151",
+              "name": "LanguageSpecificPackageVulnerability",
+              "shortDescription": {
+                "text": "xstream: Xstream to serialise XML data was vulnerable to Denial of Service attacks"
+              },
+              "fullDescription": {
+                "text": "Those using Xstream to seralize XML data may be vulnerable to Denial of Service attacks (DOS). If the parser is running on user supplied input, an attacker may supply content that causes the parser to crash by stackoverflow. This effect may support a denial of service attack."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "helpUri": "https://avd.aquasec.com/nvd/cve-2022-40151",
+              "help": {
+                "text": "Vulnerability CVE-2022-40151\nSeverity: HIGH\nPackage: com.thoughtworks.xstream:xstream\nFixed Version: 1.4.20\nLink: [CVE-2022-40151](https://avd.aquasec.com/nvd/cve-2022-40151)\nThose using Xstream to seralize XML data may be vulnerable to Denial of Service attacks (DOS). If the parser is running on user supplied input, an attacker may supply content that causes the parser to crash by stackoverflow. This effect may support a denial of service attack.",
+                "markdown": "**Vulnerability CVE-2022-40151**\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|HIGH|com.thoughtworks.xstream:xstream|1.4.20|[CVE-2022-40151](https://avd.aquasec.com/nvd/cve-2022-40151)|\n\nThose using Xstream to seralize XML data may be vulnerable to Denial of Service attacks (DOS). If the parser is running on user supplied input, an attacker may supply content that causes the parser to crash by stackoverflow. This effect may support a denial of service attack."
+              },
+              "properties": {
+                "cvssv3_baseScore": 7.5,
+                "cvssv3_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+                "precision": "very-high",
+                "security-severity": "7.5",
+                "tags": [
+                  "vulnerability",
+                  "security",
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2022-41966",
+              "name": "LanguageSpecificPackageVulnerability",
+              "shortDescription": {
+                "text": "xstream: Denial of Service by injecting recursive collections or maps based on element's hash values raising a stack overflow"
+              },
+              "fullDescription": {
+                "text": "XStream serializes Java objects to XML and back again. Versions prior to 1.4.20 may allow a remote attacker to terminate the application with a stack overflow error, resulting in a denial of service only via manipulation the processed input stream. The attack uses the hash code implementation for collections and maps to force recursive hash calculation causing a stack overflow. This issue is patched in version 1.4.20 which handles the stack overflow and raises an InputManipulationException instead. A potential workaround for users who only use HashMap or HashSet and whose XML refers these only as default map or set, is to change the default implementation of java.util.Map and java.util per the code example in the referenced advisory. However, this implies that your application does not care about the implementation of the map and all elements are comparable."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "helpUri": "https://avd.aquasec.com/nvd/cve-2022-41966",
+              "help": {
+                "text": "Vulnerability CVE-2022-41966\nSeverity: HIGH\nPackage: com.thoughtworks.xstream:xstream\nFixed Version: 1.4.20\nLink: [CVE-2022-41966](https://avd.aquasec.com/nvd/cve-2022-41966)\nXStream serializes Java objects to XML and back again. Versions prior to 1.4.20 may allow a remote attacker to terminate the application with a stack overflow error, resulting in a denial of service only via manipulation the processed input stream. The attack uses the hash code implementation for collections and maps to force recursive hash calculation causing a stack overflow. This issue is patched in version 1.4.20 which handles the stack overflow and raises an InputManipulationException instead. A potential workaround for users who only use HashMap or HashSet and whose XML refers these only as default map or set, is to change the default implementation of java.util.Map and java.util per the code example in the referenced advisory. However, this implies that your application does not care about the implementation of the map and all elements are comparable.",
+                "markdown": "**Vulnerability CVE-2022-41966**\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|HIGH|com.thoughtworks.xstream:xstream|1.4.20|[CVE-2022-41966](https://avd.aquasec.com/nvd/cve-2022-41966)|\n\nXStream serializes Java objects to XML and back again. Versions prior to 1.4.20 may allow a remote attacker to terminate the application with a stack overflow error, resulting in a denial of service only via manipulation the processed input stream. The attack uses the hash code implementation for collections and maps to force recursive hash calculation causing a stack overflow. This issue is patched in version 1.4.20 which handles the stack overflow and raises an InputManipulationException instead. A potential workaround for users who only use HashMap or HashSet and whose XML refers these only as default map or set, is to change the default implementation of java.util.Map and java.util per the code example in the referenced advisory. However, this implies that your application does not care about the implementation of the map and all elements are comparable."
+              },
+              "properties": {
+                "cvssv3_baseScore": 8.2,
+                "cvssv3_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:H",
+                "precision": "very-high",
+                "security-severity": "8.2",
+                "tags": [
+                  "vulnerability",
+                  "security",
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2024-47072",
+              "name": "LanguageSpecificPackageVulnerability",
+              "shortDescription": {
+                "text": "com.thoughtworks.xstream: XStream is vulnerable to a Denial of Service attack due to stack overflow from a manipulated binary input stream"
+              },
+              "fullDescription": {
+                "text": "XStream is a simple library to serialize objects to XML and back again. This vulnerability may allow a remote attacker to terminate the application with a stack overflow error resulting in a denial of service only by manipulating the processed input stream when XStream is configured to use the BinaryStreamDriver. XStream 1.4.21 has been patched to detect the manipulation in the binary input stream causing the the stack overflow and raises an InputManipulationException instead. Users are advised to upgrade. Users unable to upgrade may catch the StackOverflowError in the client code calling XStream if XStream is configured to use the BinaryStreamDriver."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "helpUri": "https://avd.aquasec.com/nvd/cve-2024-47072",
+              "help": {
+                "text": "Vulnerability CVE-2024-47072\nSeverity: HIGH\nPackage: com.thoughtworks.xstream:xstream\nFixed Version: 1.4.21\nLink: [CVE-2024-47072](https://avd.aquasec.com/nvd/cve-2024-47072)\nXStream is a simple library to serialize objects to XML and back again. This vulnerability may allow a remote attacker to terminate the application with a stack overflow error resulting in a denial of service only by manipulating the processed input stream when XStream is configured to use the BinaryStreamDriver. XStream 1.4.21 has been patched to detect the manipulation in the binary input stream causing the the stack overflow and raises an InputManipulationException instead. Users are advised to upgrade. Users unable to upgrade may catch the StackOverflowError in the client code calling XStream if XStream is configured to use the BinaryStreamDriver.",
+                "markdown": "**Vulnerability CVE-2024-47072**\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|HIGH|com.thoughtworks.xstream:xstream|1.4.21|[CVE-2024-47072](https://avd.aquasec.com/nvd/cve-2024-47072)|\n\nXStream is a simple library to serialize objects to XML and back again. This vulnerability may allow a remote attacker to terminate the application with a stack overflow error resulting in a denial of service only by manipulating the processed input stream when XStream is configured to use the BinaryStreamDriver. XStream 1.4.21 has been patched to detect the manipulation in the binary input stream causing the the stack overflow and raises an InputManipulationException instead. Users are advised to upgrade. Users unable to upgrade may catch the StackOverflowError in the client code calling XStream if XStream is configured to use the BinaryStreamDriver."
+              },
+              "properties": {
+                "cvssv3_baseScore": 7.5,
+                "cvssv3_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+                "cvssv40_baseScore": 7.7,
+                "cvssv40_vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:P",
+                "precision": "very-high",
+                "security-severity": "7.5",
+                "tags": [
+                  "vulnerability",
+                  "security",
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2026-42583",
+              "name": "LanguageSpecificPackageVulnerability",
+              "shortDescription": {
+                "text": "Netty is an asynchronous, event-driven network application framework.  ..."
+              },
+              "fullDescription": {
+                "text": "Netty is an asynchronous, event-driven network application framework. Prior to 4.2.13.Final and 4.1.133.Final, Lz4FrameDecoder allocates a ByteBuf of size decompressedLength (up to 32 MB per block) before LZ4 runs. A peer only needs a 21-byte header plus compressedLength payload bytes - 22 bytes if compressedLength == 1 - to force that allocation. This vulnerability is fixed in 4.2.13.Final and 4.1.133.Final."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "helpUri": "https://avd.aquasec.com/nvd/cve-2026-42583",
+              "help": {
+                "text": "Vulnerability CVE-2026-42583\nSeverity: HIGH\nPackage: io.netty:netty-codec\nFixed Version: 4.1.133.Final\nLink: [CVE-2026-42583](https://avd.aquasec.com/nvd/cve-2026-42583)\nNetty is an asynchronous, event-driven network application framework. Prior to 4.2.13.Final and 4.1.133.Final, Lz4FrameDecoder allocates a ByteBuf of size decompressedLength (up to 32 MB per block) before LZ4 runs. A peer only needs a 21-byte header plus compressedLength payload bytes - 22 bytes if compressedLength == 1 - to force that allocation. This vulnerability is fixed in 4.2.13.Final and 4.1.133.Final.",
+                "markdown": "**Vulnerability CVE-2026-42583**\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|HIGH|io.netty:netty-codec|4.1.133.Final|[CVE-2026-42583](https://avd.aquasec.com/nvd/cve-2026-42583)|\n\nNetty is an asynchronous, event-driven network application framework. Prior to 4.2.13.Final and 4.1.133.Final, Lz4FrameDecoder allocates a ByteBuf of size decompressedLength (up to 32 MB per block) before LZ4 runs. A peer only needs a 21-byte header plus compressedLength payload bytes - 22 bytes if compressedLength == 1 - to force that allocation. This vulnerability is fixed in 4.2.13.Final and 4.1.133.Final."
+              },
+              "properties": {
+                "cvssv3_baseScore": 7.5,
+                "cvssv3_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+                "precision": "very-high",
+                "security-severity": "7.5",
+                "tags": [
+                  "vulnerability",
+                  "security",
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2026-42579",
+              "name": "LanguageSpecificPackageVulnerability",
+              "shortDescription": {
+                "text": "netty: Netty: High integrity impact due to improper DNS domain name constraint enforcement"
+              },
+              "fullDescription": {
+                "text": "Netty is an asynchronous, event-driven network application framework. Prior to 4.2.13.Final and 4.1.133.Final, Netty's DNS codec does not enforce RFC 1035 domain name constraints during either encoding or decoding. This creates a bidirectional attack surface: malicious DNS responses can exploit the decoder, and user-influenced hostnames can exploit the encoder. This vulnerability is fixed in 4.2.13.Final and 4.1.133.Final."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "helpUri": "https://avd.aquasec.com/nvd/cve-2026-42579",
+              "help": {
+                "text": "Vulnerability CVE-2026-42579\nSeverity: HIGH\nPackage: io.netty:netty-codec-dns\nFixed Version: 4.2.13.Final, 4.1.133.Final\nLink: [CVE-2026-42579](https://avd.aquasec.com/nvd/cve-2026-42579)\nNetty is an asynchronous, event-driven network application framework. Prior to 4.2.13.Final and 4.1.133.Final, Netty's DNS codec does not enforce RFC 1035 domain name constraints during either encoding or decoding. This creates a bidirectional attack surface: malicious DNS responses can exploit the decoder, and user-influenced hostnames can exploit the encoder. This vulnerability is fixed in 4.2.13.Final and 4.1.133.Final.",
+                "markdown": "**Vulnerability CVE-2026-42579**\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|HIGH|io.netty:netty-codec-dns|4.2.13.Final, 4.1.133.Final|[CVE-2026-42579](https://avd.aquasec.com/nvd/cve-2026-42579)|\n\nNetty is an asynchronous, event-driven network application framework. Prior to 4.2.13.Final and 4.1.133.Final, Netty's DNS codec does not enforce RFC 1035 domain name constraints during either encoding or decoding. This creates a bidirectional attack surface: malicious DNS responses can exploit the decoder, and user-influenced hostnames can exploit the encoder. This vulnerability is fixed in 4.2.13.Final and 4.1.133.Final."
+              },
+              "properties": {
+                "cvssv3_baseScore": 7.5,
+                "cvssv3_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N",
+                "precision": "very-high",
+                "security-severity": "7.5",
+                "tags": [
+                  "vulnerability",
+                  "security",
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2026-33870",
+              "name": "LanguageSpecificPackageVulnerability",
+              "shortDescription": {
+                "text": "io.netty/netty-codec-http: Netty: Request smuggling via incorrect parsing of HTTP/1.1 chunked transfer encoding extension values"
+              },
+              "fullDescription": {
+                "text": "Netty is an asynchronous, event-driven network application framework. In versions prior to 4.1.132.Final and 4.2.10.Final, Netty incorrectly parses quoted strings in HTTP/1.1 chunked transfer encoding extension values, enabling request smuggling attacks. Versions 4.1.132.Final and 4.2.10.Final fix the issue."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "helpUri": "https://avd.aquasec.com/nvd/cve-2026-33870",
+              "help": {
+                "text": "Vulnerability CVE-2026-33870\nSeverity: HIGH\nPackage: io.netty:netty-codec-http\nFixed Version: 4.1.132.Final, 4.2.10.Final\nLink: [CVE-2026-33870](https://avd.aquasec.com/nvd/cve-2026-33870)\nNetty is an asynchronous, event-driven network application framework. In versions prior to 4.1.132.Final and 4.2.10.Final, Netty incorrectly parses quoted strings in HTTP/1.1 chunked transfer encoding extension values, enabling request smuggling attacks. Versions 4.1.132.Final and 4.2.10.Final fix the issue.",
+                "markdown": "**Vulnerability CVE-2026-33870**\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|HIGH|io.netty:netty-codec-http|4.1.132.Final, 4.2.10.Final|[CVE-2026-33870](https://avd.aquasec.com/nvd/cve-2026-33870)|\n\nNetty is an asynchronous, event-driven network application framework. In versions prior to 4.1.132.Final and 4.2.10.Final, Netty incorrectly parses quoted strings in HTTP/1.1 chunked transfer encoding extension values, enabling request smuggling attacks. Versions 4.1.132.Final and 4.2.10.Final fix the issue."
+              },
+              "properties": {
+                "cvssv3_baseScore": 7.5,
+                "cvssv3_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N",
+                "precision": "very-high",
+                "security-severity": "7.5",
+                "tags": [
+                  "vulnerability",
+                  "security",
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2026-42584",
+              "name": "LanguageSpecificPackageVulnerability",
+              "shortDescription": {
+                "text": "netty: io.netty/netty-codec-http: Netty: Incorrect HTTP response parsing leads to data confusion"
+              },
+              "fullDescription": {
+                "text": "Netty is an asynchronous, event-driven network application framework. Prior to 4.2.13.Final and 4.1.133.Final, HttpClientCodec pairs each inbound response with an outbound request by queue.poll() once per response, including for 1xx. If the client pipelines GET then HEAD and the server sends 103, then 200 with GET body, then 200 for HEAD, the queue pairs HEAD with the first 200. The HEAD rule then skips reading that message’s body, so the GET entity bytes stay on the stream and the following 200 is parsed from the wrong offset. This vulnerability is fixed in 4.2.13.Final and 4.1.133.Final."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "helpUri": "https://avd.aquasec.com/nvd/cve-2026-42584",
+              "help": {
+                "text": "Vulnerability CVE-2026-42584\nSeverity: HIGH\nPackage: io.netty:netty-codec-http\nFixed Version: 4.2.13.Final, 4.1.133.Final\nLink: [CVE-2026-42584](https://avd.aquasec.com/nvd/cve-2026-42584)\nNetty is an asynchronous, event-driven network application framework. Prior to 4.2.13.Final and 4.1.133.Final, HttpClientCodec pairs each inbound response with an outbound request by queue.poll() once per response, including for 1xx. If the client pipelines GET then HEAD and the server sends 103, then 200 with GET body, then 200 for HEAD, the queue pairs HEAD with the first 200. The HEAD rule then skips reading that message’s body, so the GET entity bytes stay on the stream and the following 200 is parsed from the wrong offset. This vulnerability is fixed in 4.2.13.Final and 4.1.133.Final.",
+                "markdown": "**Vulnerability CVE-2026-42584**\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|HIGH|io.netty:netty-codec-http|4.2.13.Final, 4.1.133.Final|[CVE-2026-42584](https://avd.aquasec.com/nvd/cve-2026-42584)|\n\nNetty is an asynchronous, event-driven network application framework. Prior to 4.2.13.Final and 4.1.133.Final, HttpClientCodec pairs each inbound response with an outbound request by queue.poll() once per response, including for 1xx. If the client pipelines GET then HEAD and the server sends 103, then 200 with GET body, then 200 for HEAD, the queue pairs HEAD with the first 200. The HEAD rule then skips reading that message’s body, so the GET entity bytes stay on the stream and the following 200 is parsed from the wrong offset. This vulnerability is fixed in 4.2.13.Final and 4.1.133.Final."
+              },
+              "properties": {
+                "cvssv3_baseScore": 7.3,
+                "cvssv3_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L",
+                "precision": "very-high",
+                "security-severity": "7.3",
+                "tags": [
+                  "vulnerability",
+                  "security",
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2026-42587",
+              "name": "LanguageSpecificPackageVulnerability",
+              "shortDescription": {
+                "text": "netty: io.netty/netty-codec-http: io.netty/netty-codec-http2: Netty: Denial of Service via unbounded memory allocation in HTTP content decompression"
+              },
+              "fullDescription": {
+                "text": "Netty is an asynchronous, event-driven network application framework. Prior to 4.2.13.Final and 4.1.133.Final, HttpContentDecompressor accepts a maxAllocation parameter to limit decompression buffer size and prevent decompression bomb attacks. This limit is correctly enforced for gzip and deflate encodings via ZlibDecoder, but is silently ignored when the content encoding is br (Brotli), zstd, or snappy. An attacker can bypass the configured decompression limit by sending a compressed payload with Content-Encoding: br instead of Content-Encoding: gzip, causing unbounded memory allocation and out-of-memory denial of service. The same vulnerability exists in DelegatingDecompressorFrameListener for HTTP/2 connections. This vulnerability is fixed in 4.2.13.Final and 4.1.133.Final."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "helpUri": "https://avd.aquasec.com/nvd/cve-2026-42587",
+              "help": {
+                "text": "Vulnerability CVE-2026-42587\nSeverity: HIGH\nPackage: io.netty:netty-codec-http2\nFixed Version: 4.2.13.Final, 4.1.133.Final\nLink: [CVE-2026-42587](https://avd.aquasec.com/nvd/cve-2026-42587)\nNetty is an asynchronous, event-driven network application framework. Prior to 4.2.13.Final and 4.1.133.Final, HttpContentDecompressor accepts a maxAllocation parameter to limit decompression buffer size and prevent decompression bomb attacks. This limit is correctly enforced for gzip and deflate encodings via ZlibDecoder, but is silently ignored when the content encoding is br (Brotli), zstd, or snappy. An attacker can bypass the configured decompression limit by sending a compressed payload with Content-Encoding: br instead of Content-Encoding: gzip, causing unbounded memory allocation and out-of-memory denial of service. The same vulnerability exists in DelegatingDecompressorFrameListener for HTTP/2 connections. This vulnerability is fixed in 4.2.13.Final and 4.1.133.Final.",
+                "markdown": "**Vulnerability CVE-2026-42587**\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|HIGH|io.netty:netty-codec-http2|4.2.13.Final, 4.1.133.Final|[CVE-2026-42587](https://avd.aquasec.com/nvd/cve-2026-42587)|\n\nNetty is an asynchronous, event-driven network application framework. Prior to 4.2.13.Final and 4.1.133.Final, HttpContentDecompressor accepts a maxAllocation parameter to limit decompression buffer size and prevent decompression bomb attacks. This limit is correctly enforced for gzip and deflate encodings via ZlibDecoder, but is silently ignored when the content encoding is br (Brotli), zstd, or snappy. An attacker can bypass the configured decompression limit by sending a compressed payload with Content-Encoding: br instead of Content-Encoding: gzip, causing unbounded memory allocation and out-of-memory denial of service. The same vulnerability exists in DelegatingDecompressorFrameListener for HTTP/2 connections. This vulnerability is fixed in 4.2.13.Final and 4.1.133.Final."
+              },
+              "properties": {
+                "cvssv3_baseScore": 7.5,
+                "cvssv3_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+                "precision": "very-high",
+                "security-severity": "7.5",
+                "tags": [
+                  "vulnerability",
+                  "security",
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2025-55163",
+              "name": "LanguageSpecificPackageVulnerability",
+              "shortDescription": {
+                "text": "netty: netty-codec-http2: Netty MadeYouReset HTTP/2 DDoS Vulnerability"
+              },
+              "fullDescription": {
+                "text": "Netty is an asynchronous, event-driven network application framework. Prior to versions 4.1.124.Final and 4.2.4.Final, Netty is vulnerable to MadeYouReset DDoS. This is a logical vulnerability in the HTTP/2 protocol, that uses malformed HTTP/2 control frames in order to break the max concurrent streams limit - which results in resource exhaustion and distributed denial of service. This issue has been patched in versions 4.1.124.Final and 4.2.4.Final."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "helpUri": "https://avd.aquasec.com/nvd/cve-2025-55163",
+              "help": {
+                "text": "Vulnerability CVE-2025-55163\nSeverity: HIGH\nPackage: io.netty:netty-codec-http2\nFixed Version: 4.2.4.Final, 4.1.124.Final\nLink: [CVE-2025-55163](https://avd.aquasec.com/nvd/cve-2025-55163)\nNetty is an asynchronous, event-driven network application framework. Prior to versions 4.1.124.Final and 4.2.4.Final, Netty is vulnerable to MadeYouReset DDoS. This is a logical vulnerability in the HTTP/2 protocol, that uses malformed HTTP/2 control frames in order to break the max concurrent streams limit - which results in resource exhaustion and distributed denial of service. This issue has been patched in versions 4.1.124.Final and 4.2.4.Final.",
+                "markdown": "**Vulnerability CVE-2025-55163**\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|HIGH|io.netty:netty-codec-http2|4.2.4.Final, 4.1.124.Final|[CVE-2025-55163](https://avd.aquasec.com/nvd/cve-2025-55163)|\n\nNetty is an asynchronous, event-driven network application framework. Prior to versions 4.1.124.Final and 4.2.4.Final, Netty is vulnerable to MadeYouReset DDoS. This is a logical vulnerability in the HTTP/2 protocol, that uses malformed HTTP/2 control frames in order to break the max concurrent streams limit - which results in resource exhaustion and distributed denial of service. This issue has been patched in versions 4.1.124.Final and 4.2.4.Final."
+              },
+              "properties": {
+                "cvssv3_baseScore": 7.5,
+                "cvssv3_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+                "cvssv40_baseScore": 8.2,
+                "cvssv40_vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N",
+                "precision": "very-high",
+                "security-severity": "7.5",
+                "tags": [
+                  "vulnerability",
+                  "security",
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2026-33871",
+              "name": "LanguageSpecificPackageVulnerability",
+              "shortDescription": {
+                "text": "netty: Netty: Denial of Service via HTTP/2 CONTINUATION frame flood"
+              },
+              "fullDescription": {
+                "text": "Netty is an asynchronous, event-driven network application framework. In versions prior to 4.1.132.Final and 4.2.10.Final, a remote user can trigger a Denial of Service (DoS) against a Netty HTTP/2 server by sending a flood of `CONTINUATION` frames. The server's lack of a limit on the number of `CONTINUATION` frames, combined with a bypass of existing size-based mitigations using zero-byte frames, allows an user to cause excessive CPU consumption with minimal bandwidth, rendering the server unresponsive. Versions 4.1.132.Final and 4.2.10.Final fix the issue."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "helpUri": "https://avd.aquasec.com/nvd/cve-2026-33871",
+              "help": {
+                "text": "Vulnerability CVE-2026-33871\nSeverity: HIGH\nPackage: io.netty:netty-codec-http2\nFixed Version: 4.1.132.Final, 4.2.11.Final\nLink: [CVE-2026-33871](https://avd.aquasec.com/nvd/cve-2026-33871)\nNetty is an asynchronous, event-driven network application framework. In versions prior to 4.1.132.Final and 4.2.10.Final, a remote user can trigger a Denial of Service (DoS) against a Netty HTTP/2 server by sending a flood of `CONTINUATION` frames. The server's lack of a limit on the number of `CONTINUATION` frames, combined with a bypass of existing size-based mitigations using zero-byte frames, allows an user to cause excessive CPU consumption with minimal bandwidth, rendering the server unresponsive. Versions 4.1.132.Final and 4.2.10.Final fix the issue.",
+                "markdown": "**Vulnerability CVE-2026-33871**\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|HIGH|io.netty:netty-codec-http2|4.1.132.Final, 4.2.11.Final|[CVE-2026-33871](https://avd.aquasec.com/nvd/cve-2026-33871)|\n\nNetty is an asynchronous, event-driven network application framework. In versions prior to 4.1.132.Final and 4.2.10.Final, a remote user can trigger a Denial of Service (DoS) against a Netty HTTP/2 server by sending a flood of `CONTINUATION` frames. The server's lack of a limit on the number of `CONTINUATION` frames, combined with a bypass of existing size-based mitigations using zero-byte frames, allows an user to cause excessive CPU consumption with minimal bandwidth, rendering the server unresponsive. Versions 4.1.132.Final and 4.2.10.Final fix the issue."
+              },
+              "properties": {
+                "cvssv40_baseScore": 8.7,
+                "cvssv40_vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N",
+                "precision": "very-high",
+                "security-severity": "8.0",
+                "tags": [
+                  "vulnerability",
+                  "security",
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "GHSA-xpw8-rcwv-8f8p",
+              "name": "LanguageSpecificPackageVulnerability",
+              "shortDescription": {
+                "text": "io.netty:netty-codec-http2 vulnerable to HTTP/2 Rapid Reset Attack"
+              },
+              "fullDescription": {
+                "text": "A client might overload the server by issue frequent RST frames. This can cause a massive amount of load on the remote system and so cause a DDOS attack. \n\n### Impact\nThis is a DDOS attack, any http2 server is affected and so you should update as soon as possible.\n\n### Patches\nThis is patched in version 4.1.100.Final.\n\n### Workarounds\nA user can limit the amount of RST frames that are accepted per connection over a timeframe manually using either an own `Http2FrameListener` implementation or an `ChannelInboundHandler` implementation (depending which http2 API is used).\n\n### References\n- https://www.cve.org/CVERecord?id=CVE-2023-44487\n- https://blog.cloudflare.com/technical-breakdown-http2-rapid-reset-ddos-attack/\n- https://cloud.google.com/blog/products/identity-security/google-cloud-mitigated-largest-ddos-attack-peaking-above-398-million-rps/"
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "helpUri": "https://github.com/advisories/GHSA-xpw8-rcwv-8f8p",
+              "help": {
+                "text": "Vulnerability GHSA-xpw8-rcwv-8f8p\nSeverity: HIGH\nPackage: io.netty:netty-codec-http2\nFixed Version: 4.1.100.Final\nLink: [GHSA-xpw8-rcwv-8f8p](https://github.com/advisories/GHSA-xpw8-rcwv-8f8p)\nA client might overload the server by issue frequent RST frames. This can cause a massive amount of load on the remote system and so cause a DDOS attack. \n\n### Impact\nThis is a DDOS attack, any http2 server is affected and so you should update as soon as possible.\n\n### Patches\nThis is patched in version 4.1.100.Final.\n\n### Workarounds\nA user can limit the amount of RST frames that are accepted per connection over a timeframe manually using either an own `Http2FrameListener` implementation or an `ChannelInboundHandler` implementation (depending which http2 API is used).\n\n### References\n- https://www.cve.org/CVERecord?id=CVE-2023-44487\n- https://blog.cloudflare.com/technical-breakdown-http2-rapid-reset-ddos-attack/\n- https://cloud.google.com/blog/products/identity-security/google-cloud-mitigated-largest-ddos-attack-peaking-above-398-million-rps/",
+                "markdown": "**Vulnerability GHSA-xpw8-rcwv-8f8p**\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|HIGH|io.netty:netty-codec-http2|4.1.100.Final|[GHSA-xpw8-rcwv-8f8p](https://github.com/advisories/GHSA-xpw8-rcwv-8f8p)|\n\nA client might overload the server by issue frequent RST frames. This can cause a massive amount of load on the remote system and so cause a DDOS attack. \n\n### Impact\nThis is a DDOS attack, any http2 server is affected and so you should update as soon as possible.\n\n### Patches\nThis is patched in version 4.1.100.Final.\n\n### Workarounds\nA user can limit the amount of RST frames that are accepted per connection over a timeframe manually using either an own `Http2FrameListener` implementation or an `ChannelInboundHandler` implementation (depending which http2 API is used).\n\n### References\n- https://www.cve.org/CVERecord?id=CVE-2023-44487\n- https://blog.cloudflare.com/technical-breakdown-http2-rapid-reset-ddos-attack/\n- https://cloud.google.com/blog/products/identity-security/google-cloud-mitigated-largest-ddos-attack-peaking-above-398-million-rps/"
+              },
+              "properties": {
+                "cvssv3_baseScore": 7.5,
+                "cvssv3_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+                "precision": "very-high",
+                "security-severity": "7.5",
+                "tags": [
+                  "vulnerability",
+                  "security",
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2023-34054",
+              "name": "LanguageSpecificPackageVulnerability",
+              "shortDescription": {
+                "text": "Reactor Netty HTTP Server denial of service vulnerability"
+              },
+              "fullDescription": {
+                "text": "\nIn Reactor Netty HTTP Server, versions 1.1.x prior to 1.1.13 and versions 1.0.x prior to 1.0.39, it is possible for a user to provide specially crafted HTTP requests that may cause a denial-of-service (DoS) condition.\n\nSpecifically, an application is vulnerable if Reactor Netty HTTP Server built-in integration with Micrometer is enabled.\n\n\n\n\n"
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "helpUri": "https://avd.aquasec.com/nvd/cve-2023-34054",
+              "help": {
+                "text": "Vulnerability CVE-2023-34054\nSeverity: HIGH\nPackage: io.projectreactor.netty:reactor-netty-core\nFixed Version: 1.1.13, 1.0.39\nLink: [CVE-2023-34054](https://avd.aquasec.com/nvd/cve-2023-34054)\n\nIn Reactor Netty HTTP Server, versions 1.1.x prior to 1.1.13 and versions 1.0.x prior to 1.0.39, it is possible for a user to provide specially crafted HTTP requests that may cause a denial-of-service (DoS) condition.\n\nSpecifically, an application is vulnerable if Reactor Netty HTTP Server built-in integration with Micrometer is enabled.\n\n\n\n\n",
+                "markdown": "**Vulnerability CVE-2023-34054**\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|HIGH|io.projectreactor.netty:reactor-netty-core|1.1.13, 1.0.39|[CVE-2023-34054](https://avd.aquasec.com/nvd/cve-2023-34054)|\n\n\nIn Reactor Netty HTTP Server, versions 1.1.x prior to 1.1.13 and versions 1.0.x prior to 1.0.39, it is possible for a user to provide specially crafted HTTP requests that may cause a denial-of-service (DoS) condition.\n\nSpecifically, an application is vulnerable if Reactor Netty HTTP Server built-in integration with Micrometer is enabled.\n\n\n\n\n"
+              },
+              "properties": {
+                "cvssv3_baseScore": 7.5,
+                "cvssv3_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+                "precision": "very-high",
+                "security-severity": "7.5",
+                "tags": [
+                  "vulnerability",
+                  "security",
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2023-34062",
+              "name": "LanguageSpecificPackageVulnerability",
+              "shortDescription": {
+                "text": "reactor-netty-http: directory traversal vulnerability"
+              },
+              "fullDescription": {
+                "text": "In Reactor Netty HTTP Server, versions 1.1.x prior to 1.1.13 and versions 1.0.x prior to 1.0.39, a malicious user can send a request using a specially crafted URL that can lead to a directory traversal attack.\n\nSpecifically, an application is vulnerable if Reactor Netty HTTP Server is configured to serve static resources.\n\n\n"
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "helpUri": "https://avd.aquasec.com/nvd/cve-2023-34062",
+              "help": {
+                "text": "Vulnerability CVE-2023-34062\nSeverity: HIGH\nPackage: io.projectreactor.netty:reactor-netty-http\nFixed Version: 1.1.13, 1.0.39\nLink: [CVE-2023-34062](https://avd.aquasec.com/nvd/cve-2023-34062)\nIn Reactor Netty HTTP Server, versions 1.1.x prior to 1.1.13 and versions 1.0.x prior to 1.0.39, a malicious user can send a request using a specially crafted URL that can lead to a directory traversal attack.\n\nSpecifically, an application is vulnerable if Reactor Netty HTTP Server is configured to serve static resources.\n\n\n",
+                "markdown": "**Vulnerability CVE-2023-34062**\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|HIGH|io.projectreactor.netty:reactor-netty-http|1.1.13, 1.0.39|[CVE-2023-34062](https://avd.aquasec.com/nvd/cve-2023-34062)|\n\nIn Reactor Netty HTTP Server, versions 1.1.x prior to 1.1.13 and versions 1.0.x prior to 1.0.39, a malicious user can send a request using a specially crafted URL that can lead to a directory traversal attack.\n\nSpecifically, an application is vulnerable if Reactor Netty HTTP Server is configured to serve static resources.\n\n\n"
+              },
+              "properties": {
+                "cvssv3_baseScore": 7.5,
+                "cvssv3_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+                "precision": "very-high",
+                "security-severity": "7.5",
+                "tags": [
+                  "vulnerability",
+                  "security",
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2022-40150",
+              "name": "LanguageSpecificPackageVulnerability",
+              "shortDescription": {
+                "text": "jettison: memory exhaustion via user-supplied XML or JSON data"
+              },
+              "fullDescription": {
+                "text": "Those using Jettison to parse untrusted XML or JSON data may be vulnerable to Denial of Service attacks (DOS). If the parser is running on user supplied input, an attacker may supply content that causes the parser to crash by Out of memory. This effect may support a denial of service attack."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "helpUri": "https://avd.aquasec.com/nvd/cve-2022-40150",
+              "help": {
+                "text": "Vulnerability CVE-2022-40150\nSeverity: HIGH\nPackage: org.codehaus.jettison:jettison\nFixed Version: 1.5.2\nLink: [CVE-2022-40150](https://avd.aquasec.com/nvd/cve-2022-40150)\nThose using Jettison to parse untrusted XML or JSON data may be vulnerable to Denial of Service attacks (DOS). If the parser is running on user supplied input, an attacker may supply content that causes the parser to crash by Out of memory. This effect may support a denial of service attack.",
+                "markdown": "**Vulnerability CVE-2022-40150**\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|HIGH|org.codehaus.jettison:jettison|1.5.2|[CVE-2022-40150](https://avd.aquasec.com/nvd/cve-2022-40150)|\n\nThose using Jettison to parse untrusted XML or JSON data may be vulnerable to Denial of Service attacks (DOS). If the parser is running on user supplied input, an attacker may supply content that causes the parser to crash by Out of memory. This effect may support a denial of service attack."
+              },
+              "properties": {
+                "cvssv3_baseScore": 7.5,
+                "cvssv3_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+                "precision": "very-high",
+                "security-severity": "7.5",
+                "tags": [
+                  "vulnerability",
+                  "security",
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2022-45685",
+              "name": "LanguageSpecificPackageVulnerability",
+              "shortDescription": {
+                "text": "jettison: stack overflow in JSONObject() allows attackers to cause a Denial of Service (DoS) via crafted JSON data"
+              },
+              "fullDescription": {
+                "text": "A stack overflow in Jettison before v1.5.2 allows attackers to cause a Denial of Service (DoS) via crafted JSON data."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "helpUri": "https://avd.aquasec.com/nvd/cve-2022-45685",
+              "help": {
+                "text": "Vulnerability CVE-2022-45685\nSeverity: HIGH\nPackage: org.codehaus.jettison:jettison\nFixed Version: 1.5.2\nLink: [CVE-2022-45685](https://avd.aquasec.com/nvd/cve-2022-45685)\nA stack overflow in Jettison before v1.5.2 allows attackers to cause a Denial of Service (DoS) via crafted JSON data.",
+                "markdown": "**Vulnerability CVE-2022-45685**\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|HIGH|org.codehaus.jettison:jettison|1.5.2|[CVE-2022-45685](https://avd.aquasec.com/nvd/cve-2022-45685)|\n\nA stack overflow in Jettison before v1.5.2 allows attackers to cause a Denial of Service (DoS) via crafted JSON data."
+              },
+              "properties": {
+                "cvssv3_baseScore": 7.5,
+                "cvssv3_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+                "precision": "very-high",
+                "security-severity": "7.5",
+                "tags": [
+                  "vulnerability",
+                  "security",
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2022-45693",
+              "name": "LanguageSpecificPackageVulnerability",
+              "shortDescription": {
+                "text": "jettison: If the value in map is the map's self, the new new JSONObject(map) cause StackOverflowError which may lead to dos"
+              },
+              "fullDescription": {
+                "text": "Jettison before v1.5.2 was discovered to contain a stack overflow via the map parameter. This vulnerability allows attackers to cause a Denial of Service (DoS) via a crafted string."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "helpUri": "https://avd.aquasec.com/nvd/cve-2022-45693",
+              "help": {
+                "text": "Vulnerability CVE-2022-45693\nSeverity: HIGH\nPackage: org.codehaus.jettison:jettison\nFixed Version: 1.5.2\nLink: [CVE-2022-45693](https://avd.aquasec.com/nvd/cve-2022-45693)\nJettison before v1.5.2 was discovered to contain a stack overflow via the map parameter. This vulnerability allows attackers to cause a Denial of Service (DoS) via a crafted string.",
+                "markdown": "**Vulnerability CVE-2022-45693**\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|HIGH|org.codehaus.jettison:jettison|1.5.2|[CVE-2022-45693](https://avd.aquasec.com/nvd/cve-2022-45693)|\n\nJettison before v1.5.2 was discovered to contain a stack overflow via the map parameter. This vulnerability allows attackers to cause a Denial of Service (DoS) via a crafted string."
+              },
+              "properties": {
+                "cvssv3_baseScore": 7.5,
+                "cvssv3_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+                "precision": "very-high",
+                "security-severity": "7.5",
+                "tags": [
+                  "vulnerability",
+                  "security",
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2023-1436",
+              "name": "LanguageSpecificPackageVulnerability",
+              "shortDescription": {
+                "text": "jettison: Uncontrolled Recursion in JSONArray"
+              },
+              "fullDescription": {
+                "text": "An infinite recursion is triggered in Jettison when constructing a JSONArray from a Collection that contains a self-reference in one of its elements. This leads to a StackOverflowError exception being thrown.\n\n"
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "helpUri": "https://avd.aquasec.com/nvd/cve-2023-1436",
+              "help": {
+                "text": "Vulnerability CVE-2023-1436\nSeverity: HIGH\nPackage: org.codehaus.jettison:jettison\nFixed Version: 1.5.4\nLink: [CVE-2023-1436](https://avd.aquasec.com/nvd/cve-2023-1436)\nAn infinite recursion is triggered in Jettison when constructing a JSONArray from a Collection that contains a self-reference in one of its elements. This leads to a StackOverflowError exception being thrown.\n\n",
+                "markdown": "**Vulnerability CVE-2023-1436**\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|HIGH|org.codehaus.jettison:jettison|1.5.4|[CVE-2023-1436](https://avd.aquasec.com/nvd/cve-2023-1436)|\n\nAn infinite recursion is triggered in Jettison when constructing a JSONArray from a Collection that contains a self-reference in one of its elements. This leads to a StackOverflowError exception being thrown.\n\n"
+              },
+              "properties": {
+                "cvssv3_baseScore": 7.5,
+                "cvssv3_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+                "precision": "very-high",
+                "security-severity": "7.5",
+                "tags": [
+                  "vulnerability",
+                  "security",
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2025-22235",
+              "name": "LanguageSpecificPackageVulnerability",
+              "shortDescription": {
+                "text": "org.springframework.boot/spring-boot: Spring Boot EndpointRequest.to() creates wrong matcher if actuator endpoint is not exposed"
+              },
+              "fullDescription": {
+                "text": "EndpointRequest.to() creates a matcher for null/** if the actuator endpoint, for which the EndpointRequest has been created, is disabled or not exposed.\n\nYour application may be affected by this if all the following conditions are met:\n\n  *  You use Spring Security\n  *  EndpointRequest.to() has been used in a Spring Security chain configuration\n  *  The endpoint which EndpointRequest references is disabled or not exposed via web\n  *  Your application handles requests to /null and this path needs protection\n\n\nYou are not affected if any of the following is true:\n\n  *  You don't use Spring Security\n  *  You don't use EndpointRequest.to()\n  *  The endpoint which EndpointRequest.to() refers to is enabled and is exposed\n  *  Your application does not handle requests to /null or this path does not need protection"
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "helpUri": "https://avd.aquasec.com/nvd/cve-2025-22235",
+              "help": {
+                "text": "Vulnerability CVE-2025-22235\nSeverity: HIGH\nPackage: org.springframework.boot:spring-boot\nFixed Version: 3.3.11, 3.4.5\nLink: [CVE-2025-22235](https://avd.aquasec.com/nvd/cve-2025-22235)\nEndpointRequest.to() creates a matcher for null/** if the actuator endpoint, for which the EndpointRequest has been created, is disabled or not exposed.\n\nYour application may be affected by this if all the following conditions are met:\n\n  *  You use Spring Security\n  *  EndpointRequest.to() has been used in a Spring Security chain configuration\n  *  The endpoint which EndpointRequest references is disabled or not exposed via web\n  *  Your application handles requests to /null and this path needs protection\n\n\nYou are not affected if any of the following is true:\n\n  *  You don't use Spring Security\n  *  You don't use EndpointRequest.to()\n  *  The endpoint which EndpointRequest.to() refers to is enabled and is exposed\n  *  Your application does not handle requests to /null or this path does not need protection",
+                "markdown": "**Vulnerability CVE-2025-22235**\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|HIGH|org.springframework.boot:spring-boot|3.3.11, 3.4.5|[CVE-2025-22235](https://avd.aquasec.com/nvd/cve-2025-22235)|\n\nEndpointRequest.to() creates a matcher for null/** if the actuator endpoint, for which the EndpointRequest has been created, is disabled or not exposed.\n\nYour application may be affected by this if all the following conditions are met:\n\n  *  You use Spring Security\n  *  EndpointRequest.to() has been used in a Spring Security chain configuration\n  *  The endpoint which EndpointRequest references is disabled or not exposed via web\n  *  Your application handles requests to /null and this path needs protection\n\n\nYou are not affected if any of the following is true:\n\n  *  You don't use Spring Security\n  *  You don't use EndpointRequest.to()\n  *  The endpoint which EndpointRequest.to() refers to is enabled and is exposed\n  *  Your application does not handle requests to /null or this path does not need protection"
+              },
+              "properties": {
+                "cvssv3_baseScore": 7.3,
+                "cvssv3_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L",
+                "precision": "very-high",
+                "security-severity": "7.3",
+                "tags": [
+                  "vulnerability",
+                  "security",
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2026-40973",
+              "name": "LanguageSpecificPackageVulnerability",
+              "shortDescription": {
+                "text": "Spring Boot: Spring Boot: Arbitrary Code Execution and Session Hijacking via predictable temporary directory"
+              },
+              "fullDescription": {
+                "text": "A local attacker on the same host as the application may be able to take control of the directory used by `ApplicationTemp`. When `server.servlet.session.persistent` is set to `true` and the attack persists across application restarts, this may allow the attacker to read session information and hijack authenticated users or deploy a gadget chain and execute code as the application's user.\n\nAffected: Spring Boot 4.0.0–4.0.5 (fix 4.0.6), 3.5.0–3.5.13 (fix 3.5.14), 3.4.0–3.4.15 (fix 3.4.16), 3.3.0–3.3.18 (fix 3.3.19), 2.7.0–2.7.32 (fix 2.7.33); predictable temp directory / `ApplicationTemp` ownership verification. Versions that are no longer supported are also affected per vendor advisory."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "helpUri": "https://avd.aquasec.com/nvd/cve-2026-40973",
+              "help": {
+                "text": "Vulnerability CVE-2026-40973\nSeverity: HIGH\nPackage: org.springframework.boot:spring-boot\nFixed Version: 4.0.6, 3.5.14\nLink: [CVE-2026-40973](https://avd.aquasec.com/nvd/cve-2026-40973)\nA local attacker on the same host as the application may be able to take control of the directory used by `ApplicationTemp`. When `server.servlet.session.persistent` is set to `true` and the attack persists across application restarts, this may allow the attacker to read session information and hijack authenticated users or deploy a gadget chain and execute code as the application's user.\n\nAffected: Spring Boot 4.0.0–4.0.5 (fix 4.0.6), 3.5.0–3.5.13 (fix 3.5.14), 3.4.0–3.4.15 (fix 3.4.16), 3.3.0–3.3.18 (fix 3.3.19), 2.7.0–2.7.32 (fix 2.7.33); predictable temp directory / `ApplicationTemp` ownership verification. Versions that are no longer supported are also affected per vendor advisory.",
+                "markdown": "**Vulnerability CVE-2026-40973**\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|HIGH|org.springframework.boot:spring-boot|4.0.6, 3.5.14|[CVE-2026-40973](https://avd.aquasec.com/nvd/cve-2026-40973)|\n\nA local attacker on the same host as the application may be able to take control of the directory used by `ApplicationTemp`. When `server.servlet.session.persistent` is set to `true` and the attack persists across application restarts, this may allow the attacker to read session information and hijack authenticated users or deploy a gadget chain and execute code as the application's user.\n\nAffected: Spring Boot 4.0.0–4.0.5 (fix 4.0.6), 3.5.0–3.5.13 (fix 3.5.14), 3.4.0–3.4.15 (fix 3.4.16), 3.3.0–3.3.18 (fix 3.3.19), 2.7.0–2.7.32 (fix 2.7.33); predictable temp directory / `ApplicationTemp` ownership verification. Versions that are no longer supported are also affected per vendor advisory."
+              },
+              "properties": {
+                "cvssv3_baseScore": 7,
+                "cvssv3_vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H",
+                "precision": "very-high",
+                "security-severity": "7.0",
+                "tags": [
+                  "vulnerability",
+                  "security",
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2023-20873",
+              "name": "LanguageSpecificPackageVulnerability",
+              "shortDescription": {
+                "text": "spring-boot: Security Bypass With Wildcard Pattern Matching on Cloud Foundry"
+              },
+              "fullDescription": {
+                "text": "In Spring Boot versions 3.0.0 - 3.0.5, 2.7.0 - 2.7.10, and older unsupported versions, an application that is deployed to Cloud Foundry could be susceptible to a security bypass. Users of affected versions should apply the following mitigation: 3.0.x users should upgrade to 3.0.6+. 2.7.x users should upgrade to 2.7.11+. Users of older, unsupported versions should upgrade to 3.0.6+ or 2.7.11+."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "helpUri": "https://avd.aquasec.com/nvd/cve-2023-20873",
+              "help": {
+                "text": "Vulnerability CVE-2023-20873\nSeverity: CRITICAL\nPackage: org.springframework.boot:spring-boot-actuator-autoconfigure\nFixed Version: 3.0.6, 2.7.11, 2.6.15, 2.5.15\nLink: [CVE-2023-20873](https://avd.aquasec.com/nvd/cve-2023-20873)\nIn Spring Boot versions 3.0.0 - 3.0.5, 2.7.0 - 2.7.10, and older unsupported versions, an application that is deployed to Cloud Foundry could be susceptible to a security bypass. Users of affected versions should apply the following mitigation: 3.0.x users should upgrade to 3.0.6+. 2.7.x users should upgrade to 2.7.11+. Users of older, unsupported versions should upgrade to 3.0.6+ or 2.7.11+.",
+                "markdown": "**Vulnerability CVE-2023-20873**\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|CRITICAL|org.springframework.boot:spring-boot-actuator-autoconfigure|3.0.6, 2.7.11, 2.6.15, 2.5.15|[CVE-2023-20873](https://avd.aquasec.com/nvd/cve-2023-20873)|\n\nIn Spring Boot versions 3.0.0 - 3.0.5, 2.7.0 - 2.7.10, and older unsupported versions, an application that is deployed to Cloud Foundry could be susceptible to a security bypass. Users of affected versions should apply the following mitigation: 3.0.x users should upgrade to 3.0.6+. 2.7.x users should upgrade to 2.7.11+. Users of older, unsupported versions should upgrade to 3.0.6+ or 2.7.11+."
+              },
+              "properties": {
+                "cvssv3_baseScore": 9.8,
+                "cvssv3_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+                "precision": "very-high",
+                "security-severity": "9.8",
+                "tags": [
+                  "vulnerability",
+                  "security",
+                  "CRITICAL"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2023-20883",
+              "name": "LanguageSpecificPackageVulnerability",
+              "shortDescription": {
+                "text": "spring-boot: Spring Boot Welcome Page DoS Vulnerability"
+              },
+              "fullDescription": {
+                "text": "In Spring Boot versions 3.0.0 - 3.0.6, 2.7.0 - 2.7.11, 2.6.0 - 2.6.14, 2.5.0 - 2.5.14 and older unsupported versions, there is potential for a denial-of-service (DoS) attack if Spring MVC is used together with a reverse proxy cache."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "helpUri": "https://avd.aquasec.com/nvd/cve-2023-20883",
+              "help": {
+                "text": "Vulnerability CVE-2023-20883\nSeverity: HIGH\nPackage: org.springframework.boot:spring-boot-autoconfigure\nFixed Version: 3.0.7, 2.7.12, 2.6.15, 2.5.15\nLink: [CVE-2023-20883](https://avd.aquasec.com/nvd/cve-2023-20883)\nIn Spring Boot versions 3.0.0 - 3.0.6, 2.7.0 - 2.7.11, 2.6.0 - 2.6.14, 2.5.0 - 2.5.14 and older unsupported versions, there is potential for a denial-of-service (DoS) attack if Spring MVC is used together with a reverse proxy cache.",
+                "markdown": "**Vulnerability CVE-2023-20883**\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|HIGH|org.springframework.boot:spring-boot-autoconfigure|3.0.7, 2.7.12, 2.6.15, 2.5.15|[CVE-2023-20883](https://avd.aquasec.com/nvd/cve-2023-20883)|\n\nIn Spring Boot versions 3.0.0 - 3.0.6, 2.7.0 - 2.7.11, 2.6.0 - 2.6.14, 2.5.0 - 2.5.14 and older unsupported versions, there is potential for a denial-of-service (DoS) attack if Spring MVC is used together with a reverse proxy cache."
+              },
+              "properties": {
+                "cvssv3_baseScore": 7.5,
+                "cvssv3_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+                "precision": "very-high",
+                "security-severity": "7.5",
+                "tags": [
+                  "vulnerability",
+                  "security",
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2025-41235",
+              "name": "LanguageSpecificPackageVulnerability",
+              "shortDescription": {
+                "text": "Spring Cloud Gateway Server Forwards Headers from Untrusted Proxies"
+              },
+              "fullDescription": {
+                "text": "Spring Cloud Gateway Server forwards the X-Forwarded-For and Forwarded headers from untrusted proxies."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "helpUri": "https://avd.aquasec.com/nvd/cve-2025-41235",
+              "help": {
+                "text": "Vulnerability CVE-2025-41235\nSeverity: HIGH\nPackage: org.springframework.cloud:spring-cloud-gateway-server\nFixed Version: 4.2.3, 4.1.8, 3.1.10\nLink: [CVE-2025-41235](https://avd.aquasec.com/nvd/cve-2025-41235)\nSpring Cloud Gateway Server forwards the X-Forwarded-For and Forwarded headers from untrusted proxies.",
+                "markdown": "**Vulnerability CVE-2025-41235**\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|HIGH|org.springframework.cloud:spring-cloud-gateway-server|4.2.3, 4.1.8, 3.1.10|[CVE-2025-41235](https://avd.aquasec.com/nvd/cve-2025-41235)|\n\nSpring Cloud Gateway Server forwards the X-Forwarded-For and Forwarded headers from untrusted proxies."
+              },
+              "properties": {
+                "cvssv3_baseScore": 8.6,
+                "cvssv3_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:N/I:H/A:N",
+                "precision": "very-high",
+                "security-severity": "8.6",
+                "tags": [
+                  "vulnerability",
+                  "security",
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2025-41253",
+              "name": "LanguageSpecificPackageVulnerability",
+              "shortDescription": {
+                "text": "Spring Cloud Gateway Server Webflux is vulnerable to Expression Language Injection"
+              },
+              "fullDescription": {
+                "text": "The following versions of Spring Cloud Gateway Server Webflux may be vulnerable to the ability to expose environment variables and system properties to attackers.\n\nAn application should be considered vulnerable when all the following are true:\n\n  *  The application is using Spring Cloud Gateway Server Webflux (Spring Cloud Gateway Server WebMVC is not vulnerable).\n  *  An admin or untrusted third party using Spring Expression Language (SpEL) to access environment variables or system properties via routes.\n  *  An untrusted third party could create a route that uses SpEL to access environment variables or system properties if:  *  The Spring Cloud Gateway Server Webflux actuator web endpoint is enabled via management.endpoints.web.exposure.include=gateway and management.endpoint.gateway.enabled=trueor management.endpoint.gateway.access=unrestricte.\n  *  The actuator endpoints are available to attackers.\n  *  The actuator endpoints are unsecured."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "helpUri": "https://avd.aquasec.com/nvd/cve-2025-41253",
+              "help": {
+                "text": "Vulnerability CVE-2025-41253\nSeverity: HIGH\nPackage: org.springframework.cloud:spring-cloud-gateway-server\nFixed Version: 4.3.2, 4.2.6\nLink: [CVE-2025-41253](https://avd.aquasec.com/nvd/cve-2025-41253)\nThe following versions of Spring Cloud Gateway Server Webflux may be vulnerable to the ability to expose environment variables and system properties to attackers.\n\nAn application should be considered vulnerable when all the following are true:\n\n  *  The application is using Spring Cloud Gateway Server Webflux (Spring Cloud Gateway Server WebMVC is not vulnerable).\n  *  An admin or untrusted third party using Spring Expression Language (SpEL) to access environment variables or system properties via routes.\n  *  An untrusted third party could create a route that uses SpEL to access environment variables or system properties if:  *  The Spring Cloud Gateway Server Webflux actuator web endpoint is enabled via management.endpoints.web.exposure.include=gateway and management.endpoint.gateway.enabled=trueor management.endpoint.gateway.access=unrestricte.\n  *  The actuator endpoints are available to attackers.\n  *  The actuator endpoints are unsecured.",
+                "markdown": "**Vulnerability CVE-2025-41253**\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|HIGH|org.springframework.cloud:spring-cloud-gateway-server|4.3.2, 4.2.6|[CVE-2025-41253](https://avd.aquasec.com/nvd/cve-2025-41253)|\n\nThe following versions of Spring Cloud Gateway Server Webflux may be vulnerable to the ability to expose environment variables and system properties to attackers.\n\nAn application should be considered vulnerable when all the following are true:\n\n  *  The application is using Spring Cloud Gateway Server Webflux (Spring Cloud Gateway Server WebMVC is not vulnerable).\n  *  An admin or untrusted third party using Spring Expression Language (SpEL) to access environment variables or system properties via routes.\n  *  An untrusted third party could create a route that uses SpEL to access environment variables or system properties if:  *  The Spring Cloud Gateway Server Webflux actuator web endpoint is enabled via management.endpoints.web.exposure.include=gateway and management.endpoint.gateway.enabled=trueor management.endpoint.gateway.access=unrestricte.\n  *  The actuator endpoints are available to attackers.\n  *  The actuator endpoints are unsecured."
+              },
+              "properties": {
+                "cvssv3_baseScore": 7.5,
+                "cvssv3_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+                "precision": "very-high",
+                "security-severity": "7.5",
+                "tags": [
+                  "vulnerability",
+                  "security",
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2025-22228",
+              "name": "LanguageSpecificPackageVulnerability",
+              "shortDescription": {
+                "text": "spring-security-core: Spring Security BCryptPasswordEncoder does not enforce maximum password length"
+              },
+              "fullDescription": {
+                "text": "BCryptPasswordEncoder.matches(CharSequence,String) will incorrectly return true for passwords larger than 72 characters as long as the first 72 characters are the same."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "helpUri": "https://avd.aquasec.com/nvd/cve-2025-22228",
+              "help": {
+                "text": "Vulnerability CVE-2025-22228\nSeverity: HIGH\nPackage: org.springframework.security:spring-security-crypto\nFixed Version: 6.3.8, 6.4.4, 6.2.10, 6.1.14, 6.0.16, 5.8.18, 5.7.16\nLink: [CVE-2025-22228](https://avd.aquasec.com/nvd/cve-2025-22228)\nBCryptPasswordEncoder.matches(CharSequence,String) will incorrectly return true for passwords larger than 72 characters as long as the first 72 characters are the same.",
+                "markdown": "**Vulnerability CVE-2025-22228**\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|HIGH|org.springframework.security:spring-security-crypto|6.3.8, 6.4.4, 6.2.10, 6.1.14, 6.0.16, 5.8.18, 5.7.16|[CVE-2025-22228](https://avd.aquasec.com/nvd/cve-2025-22228)|\n\nBCryptPasswordEncoder.matches(CharSequence,String) will incorrectly return true for passwords larger than 72 characters as long as the first 72 characters are the same."
+              },
+              "properties": {
+                "cvssv3_baseScore": 7.4,
+                "cvssv3_vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:N",
+                "precision": "very-high",
+                "security-severity": "7.4",
+                "tags": [
+                  "vulnerability",
+                  "security",
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2022-22965",
+              "name": "LanguageSpecificPackageVulnerability",
+              "shortDescription": {
+                "text": "spring-framework: RCE via Data Binding on JDK 9+"
+              },
+              "fullDescription": {
+                "text": "A Spring MVC or Spring WebFlux application running on JDK 9+ may be vulnerable to remote code execution (RCE) via data binding. The specific exploit requires the application to run on Tomcat as a WAR deployment. If the application is deployed as a Spring Boot executable jar, i.e. the default, it is not vulnerable to the exploit. However, the nature of the vulnerability is more general, and there may be other ways to exploit it."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "helpUri": "https://avd.aquasec.com/nvd/cve-2022-22965",
+              "help": {
+                "text": "Vulnerability CVE-2022-22965\nSeverity: CRITICAL\nPackage: org.springframework:spring-webflux\nFixed Version: 5.2.20.RELEASE, 5.3.18\nLink: [CVE-2022-22965](https://avd.aquasec.com/nvd/cve-2022-22965)\nA Spring MVC or Spring WebFlux application running on JDK 9+ may be vulnerable to remote code execution (RCE) via data binding. The specific exploit requires the application to run on Tomcat as a WAR deployment. If the application is deployed as a Spring Boot executable jar, i.e. the default, it is not vulnerable to the exploit. However, the nature of the vulnerability is more general, and there may be other ways to exploit it.",
+                "markdown": "**Vulnerability CVE-2022-22965**\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|CRITICAL|org.springframework:spring-webflux|5.2.20.RELEASE, 5.3.18|[CVE-2022-22965](https://avd.aquasec.com/nvd/cve-2022-22965)|\n\nA Spring MVC or Spring WebFlux application running on JDK 9+ may be vulnerable to remote code execution (RCE) via data binding. The specific exploit requires the application to run on Tomcat as a WAR deployment. If the application is deployed as a Spring Boot executable jar, i.e. the default, it is not vulnerable to the exploit. However, the nature of the vulnerability is more general, and there may be other ways to exploit it."
+              },
+              "properties": {
+                "cvssv3_baseScore": 9.8,
+                "cvssv3_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H/E:H",
+                "precision": "very-high",
+                "security-severity": "9.8",
+                "tags": [
+                  "vulnerability",
+                  "security",
+                  "CRITICAL"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2022-22970",
+              "name": "LanguageSpecificPackageVulnerability",
+              "shortDescription": {
+                "text": "springframework: DoS via data binding to multipartFile or servlet part"
+              },
+              "fullDescription": {
+                "text": "In spring framework versions prior to 5.3.20+ , 5.2.22+ and old unsupported versions, applications that handle file uploads are vulnerable to DoS attack if they rely on data binding to set a MultipartFile or javax.servlet.Part to a field in a model object."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "helpUri": "https://avd.aquasec.com/nvd/cve-2022-22970",
+              "help": {
+                "text": "Vulnerability CVE-2022-22970\nSeverity: HIGH\nPackage: org.springframework:spring-beans\nFixed Version: 5.2.22.RELEASE, 5.3.20\nLink: [CVE-2022-22970](https://avd.aquasec.com/nvd/cve-2022-22970)\nIn spring framework versions prior to 5.3.20+ , 5.2.22+ and old unsupported versions, applications that handle file uploads are vulnerable to DoS attack if they rely on data binding to set a MultipartFile or javax.servlet.Part to a field in a model object.",
+                "markdown": "**Vulnerability CVE-2022-22970**\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|HIGH|org.springframework:spring-beans|5.2.22.RELEASE, 5.3.20|[CVE-2022-22970](https://avd.aquasec.com/nvd/cve-2022-22970)|\n\nIn spring framework versions prior to 5.3.20+ , 5.2.22+ and old unsupported versions, applications that handle file uploads are vulnerable to DoS attack if they rely on data binding to set a MultipartFile or javax.servlet.Part to a field in a model object."
+              },
+              "properties": {
+                "cvssv3_baseScore": 7.5,
+                "cvssv3_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+                "precision": "very-high",
+                "security-severity": "7.5",
+                "tags": [
+                  "vulnerability",
+                  "security",
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2022-22968",
+              "name": "LanguageSpecificPackageVulnerability",
+              "shortDescription": {
+                "text": "Framework: Data Binding Rules Vulnerability"
+              },
+              "fullDescription": {
+                "text": "In Spring Framework versions 5.3.0 - 5.3.18, 5.2.0 - 5.2.20, and older unsupported versions, the patterns for disallowedFields on a DataBinder are case sensitive which means a field is not effectively protected unless it is listed with both upper and lower case for the first character of the field, including upper and lower case for the first character of all nested fields within the property path."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "helpUri": "https://avd.aquasec.com/nvd/cve-2022-22968",
+              "help": {
+                "text": "Vulnerability CVE-2022-22968\nSeverity: HIGH\nPackage: org.springframework:spring-context\nFixed Version: 5.3.19, 5.2.21.RELEASE\nLink: [CVE-2022-22968](https://avd.aquasec.com/nvd/cve-2022-22968)\nIn Spring Framework versions 5.3.0 - 5.3.18, 5.2.0 - 5.2.20, and older unsupported versions, the patterns for disallowedFields on a DataBinder are case sensitive which means a field is not effectively protected unless it is listed with both upper and lower case for the first character of the field, including upper and lower case for the first character of all nested fields within the property path.",
+                "markdown": "**Vulnerability CVE-2022-22968**\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|HIGH|org.springframework:spring-context|5.3.19, 5.2.21.RELEASE|[CVE-2022-22968](https://avd.aquasec.com/nvd/cve-2022-22968)|\n\nIn Spring Framework versions 5.3.0 - 5.3.18, 5.2.0 - 5.2.20, and older unsupported versions, the patterns for disallowedFields on a DataBinder are case sensitive which means a field is not effectively protected unless it is listed with both upper and lower case for the first character of the field, including upper and lower case for the first character of all nested fields within the property path."
+              },
+              "properties": {
+                "cvssv3_baseScore": 7.5,
+                "cvssv3_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N",
+                "precision": "very-high",
+                "security-severity": "7.5",
+                "tags": [
+                  "vulnerability",
+                  "security",
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2025-41249",
+              "name": "LanguageSpecificPackageVulnerability",
+              "shortDescription": {
+                "text": "org.springframework/spring-core: Spring Framework Annotation Detection Vulnerability"
+              },
+              "fullDescription": {
+                "text": "The Spring Framework annotation detection mechanism may not correctly resolve annotations on methods within type hierarchies with a parameterized super type with unbounded generics. This can be an issue if such annotations are used for authorization decisions.\n\nYour application may be affected by this if you are using Spring Security's @EnableMethodSecurity feature.\n\nYou are not affected by this if you are not using @EnableMethodSecurity or if you do not use security annotations on methods in generic superclasses or generic interfaces.\n\nThis CVE is published in conjunction with  CVE-2025-41248 https://spring.io/security/cve-2025-41248 ."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "helpUri": "https://avd.aquasec.com/nvd/cve-2025-41249",
+              "help": {
+                "text": "Vulnerability CVE-2025-41249\nSeverity: HIGH\nPackage: org.springframework:spring-core\nFixed Version: 6.2.11\nLink: [CVE-2025-41249](https://avd.aquasec.com/nvd/cve-2025-41249)\nThe Spring Framework annotation detection mechanism may not correctly resolve annotations on methods within type hierarchies with a parameterized super type with unbounded generics. This can be an issue if such annotations are used for authorization decisions.\n\nYour application may be affected by this if you are using Spring Security's @EnableMethodSecurity feature.\n\nYou are not affected by this if you are not using @EnableMethodSecurity or if you do not use security annotations on methods in generic superclasses or generic interfaces.\n\nThis CVE is published in conjunction with  CVE-2025-41248 https://spring.io/security/cve-2025-41248 .",
+                "markdown": "**Vulnerability CVE-2025-41249**\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|HIGH|org.springframework:spring-core|6.2.11|[CVE-2025-41249](https://avd.aquasec.com/nvd/cve-2025-41249)|\n\nThe Spring Framework annotation detection mechanism may not correctly resolve annotations on methods within type hierarchies with a parameterized super type with unbounded generics. This can be an issue if such annotations are used for authorization decisions.\n\nYour application may be affected by this if you are using Spring Security's @EnableMethodSecurity feature.\n\nYou are not affected by this if you are not using @EnableMethodSecurity or if you do not use security annotations on methods in generic superclasses or generic interfaces.\n\nThis CVE is published in conjunction with  CVE-2025-41248 https://spring.io/security/cve-2025-41248 ."
+              },
+              "properties": {
+                "cvssv3_baseScore": 7.5,
+                "cvssv3_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+                "precision": "very-high",
+                "security-severity": "7.5",
+                "tags": [
+                  "vulnerability",
+                  "security",
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2023-20863",
+              "name": "LanguageSpecificPackageVulnerability",
+              "shortDescription": {
+                "text": "springframework: Spring Expression DoS Vulnerability"
+              },
+              "fullDescription": {
+                "text": "In spring framework versions prior to 5.2.24 release+ ,5.3.27+ and 6.0.8+ , it is possible for a user to provide a specially crafted SpEL expression that may cause a denial-of-service (DoS) condition."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "helpUri": "https://avd.aquasec.com/nvd/cve-2023-20863",
+              "help": {
+                "text": "Vulnerability CVE-2023-20863\nSeverity: HIGH\nPackage: org.springframework:spring-expression\nFixed Version: 6.0.8, 5.3.27, 5.2.24.RELEASE\nLink: [CVE-2023-20863](https://avd.aquasec.com/nvd/cve-2023-20863)\nIn spring framework versions prior to 5.2.24 release+ ,5.3.27+ and 6.0.8+ , it is possible for a user to provide a specially crafted SpEL expression that may cause a denial-of-service (DoS) condition.",
+                "markdown": "**Vulnerability CVE-2023-20863**\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|HIGH|org.springframework:spring-expression|6.0.8, 5.3.27, 5.2.24.RELEASE|[CVE-2023-20863](https://avd.aquasec.com/nvd/cve-2023-20863)|\n\nIn spring framework versions prior to 5.2.24 release+ ,5.3.27+ and 6.0.8+ , it is possible for a user to provide a specially crafted SpEL expression that may cause a denial-of-service (DoS) condition."
+              },
+              "properties": {
+                "cvssv3_baseScore": 7.5,
+                "cvssv3_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+                "precision": "very-high",
+                "security-severity": "7.5",
+                "tags": [
+                  "vulnerability",
+                  "security",
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2016-1000027",
+              "name": "LanguageSpecificPackageVulnerability",
+              "shortDescription": {
+                "text": "spring: HttpInvokerServiceExporter readRemoteInvocation method untrusted java deserialization"
+              },
+              "fullDescription": {
+                "text": "Pivotal Spring Framework through 5.3.16 suffers from a potential remote code execution (RCE) issue if used for Java deserialization of untrusted data. Depending on how the library is implemented within a product, this issue may or not occur, and authentication may be required. NOTE: the vendor's position is that untrusted data is not an intended use case. The product's behavior will not be changed because some users rely on deserialization of trusted data."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "helpUri": "https://avd.aquasec.com/nvd/cve-2016-1000027",
+              "help": {
+                "text": "Vulnerability CVE-2016-1000027\nSeverity: CRITICAL\nPackage: org.springframework:spring-web\nFixed Version: 6.0.0\nLink: [CVE-2016-1000027](https://avd.aquasec.com/nvd/cve-2016-1000027)\nPivotal Spring Framework through 5.3.16 suffers from a potential remote code execution (RCE) issue if used for Java deserialization of untrusted data. Depending on how the library is implemented within a product, this issue may or not occur, and authentication may be required. NOTE: the vendor's position is that untrusted data is not an intended use case. The product's behavior will not be changed because some users rely on deserialization of trusted data.",
+                "markdown": "**Vulnerability CVE-2016-1000027**\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|CRITICAL|org.springframework:spring-web|6.0.0|[CVE-2016-1000027](https://avd.aquasec.com/nvd/cve-2016-1000027)|\n\nPivotal Spring Framework through 5.3.16 suffers from a potential remote code execution (RCE) issue if used for Java deserialization of untrusted data. Depending on how the library is implemented within a product, this issue may or not occur, and authentication may be required. NOTE: the vendor's position is that untrusted data is not an intended use case. The product's behavior will not be changed because some users rely on deserialization of trusted data."
+              },
+              "properties": {
+                "cvssv3_baseScore": 9.8,
+                "cvssv3_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+                "precision": "very-high",
+                "security-severity": "9.8",
+                "tags": [
+                  "vulnerability",
+                  "security",
+                  "CRITICAL"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2024-22243",
+              "name": "LanguageSpecificPackageVulnerability",
+              "shortDescription": {
+                "text": "springframework: URL Parsing with Host Validation"
+              },
+              "fullDescription": {
+                "text": "Applications that use UriComponentsBuilder to parse an externally provided URL (e.g. through a query parameter) AND perform validation checks on the host of the parsed URL may be vulnerable to a  open redirect https://cwe.mitre.org/data/definitions/601.html  attack or to a SSRF attack if the URL is used after passing validation checks."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "helpUri": "https://avd.aquasec.com/nvd/cve-2024-22243",
+              "help": {
+                "text": "Vulnerability CVE-2024-22243\nSeverity: HIGH\nPackage: org.springframework:spring-web\nFixed Version: 6.1.4, 6.0.17, 5.3.32\nLink: [CVE-2024-22243](https://avd.aquasec.com/nvd/cve-2024-22243)\nApplications that use UriComponentsBuilder to parse an externally provided URL (e.g. through a query parameter) AND perform validation checks on the host of the parsed URL may be vulnerable to a  open redirect https://cwe.mitre.org/data/definitions/601.html  attack or to a SSRF attack if the URL is used after passing validation checks.",
+                "markdown": "**Vulnerability CVE-2024-22243**\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|HIGH|org.springframework:spring-web|6.1.4, 6.0.17, 5.3.32|[CVE-2024-22243](https://avd.aquasec.com/nvd/cve-2024-22243)|\n\nApplications that use UriComponentsBuilder to parse an externally provided URL (e.g. through a query parameter) AND perform validation checks on the host of the parsed URL may be vulnerable to a  open redirect https://cwe.mitre.org/data/definitions/601.html  attack or to a SSRF attack if the URL is used after passing validation checks."
+              },
+              "properties": {
+                "cvssv3_baseScore": 8.1,
+                "cvssv3_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:N",
+                "precision": "very-high",
+                "security-severity": "8.1",
+                "tags": [
+                  "vulnerability",
+                  "security",
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2024-22259",
+              "name": "LanguageSpecificPackageVulnerability",
+              "shortDescription": {
+                "text": "springframework: URL Parsing with Host Validation"
+              },
+              "fullDescription": {
+                "text": "Applications that use UriComponentsBuilder in Spring Framework to parse an externally provided URL (e.g. through a query parameter) AND perform validation checks on the host of the parsed URL may be vulnerable to a  open redirect https://cwe.mitre.org/data/definitions/601.html  attack or to a SSRF attack if the URL is used after passing validation checks.\n\nThis is the same as  CVE-2024-22243 https://spring.io/security/cve-2024-22243 , but with different input."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "helpUri": "https://avd.aquasec.com/nvd/cve-2024-22259",
+              "help": {
+                "text": "Vulnerability CVE-2024-22259\nSeverity: HIGH\nPackage: org.springframework:spring-web\nFixed Version: 6.1.5, 6.0.18, 5.3.33\nLink: [CVE-2024-22259](https://avd.aquasec.com/nvd/cve-2024-22259)\nApplications that use UriComponentsBuilder in Spring Framework to parse an externally provided URL (e.g. through a query parameter) AND perform validation checks on the host of the parsed URL may be vulnerable to a  open redirect https://cwe.mitre.org/data/definitions/601.html  attack or to a SSRF attack if the URL is used after passing validation checks.\n\nThis is the same as  CVE-2024-22243 https://spring.io/security/cve-2024-22243 , but with different input.",
+                "markdown": "**Vulnerability CVE-2024-22259**\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|HIGH|org.springframework:spring-web|6.1.5, 6.0.18, 5.3.33|[CVE-2024-22259](https://avd.aquasec.com/nvd/cve-2024-22259)|\n\nApplications that use UriComponentsBuilder in Spring Framework to parse an externally provided URL (e.g. through a query parameter) AND perform validation checks on the host of the parsed URL may be vulnerable to a  open redirect https://cwe.mitre.org/data/definitions/601.html  attack or to a SSRF attack if the URL is used after passing validation checks.\n\nThis is the same as  CVE-2024-22243 https://spring.io/security/cve-2024-22243 , but with different input."
+              },
+              "properties": {
+                "cvssv3_baseScore": 8.1,
+                "cvssv3_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:N",
+                "precision": "very-high",
+                "security-severity": "8.1",
+                "tags": [
+                  "vulnerability",
+                  "security",
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2024-22262",
+              "name": "LanguageSpecificPackageVulnerability",
+              "shortDescription": {
+                "text": "springframework: URL Parsing with Host Validation"
+              },
+              "fullDescription": {
+                "text": "Applications that use UriComponentsBuilder to parse an externally provided URL (e.g. through a query parameter) AND perform validation checks on the host of the parsed URL may be vulnerable to a  open redirect https://cwe.mitre.org/data/definitions/601.html  attack or to a SSRF attack if the URL is used after passing validation checks.\n\nThis is the same as  CVE-2024-22259 https://spring.io/security/cve-2024-22259  and  CVE-2024-22243 https://spring.io/security/cve-2024-22243 , but with different input."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "helpUri": "https://avd.aquasec.com/nvd/cve-2024-22262",
+              "help": {
+                "text": "Vulnerability CVE-2024-22262\nSeverity: HIGH\nPackage: org.springframework:spring-web\nFixed Version: 5.3.34, 6.0.19, 6.1.6\nLink: [CVE-2024-22262](https://avd.aquasec.com/nvd/cve-2024-22262)\nApplications that use UriComponentsBuilder to parse an externally provided URL (e.g. through a query parameter) AND perform validation checks on the host of the parsed URL may be vulnerable to a  open redirect https://cwe.mitre.org/data/definitions/601.html  attack or to a SSRF attack if the URL is used after passing validation checks.\n\nThis is the same as  CVE-2024-22259 https://spring.io/security/cve-2024-22259  and  CVE-2024-22243 https://spring.io/security/cve-2024-22243 , but with different input.",
+                "markdown": "**Vulnerability CVE-2024-22262**\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|HIGH|org.springframework:spring-web|5.3.34, 6.0.19, 6.1.6|[CVE-2024-22262](https://avd.aquasec.com/nvd/cve-2024-22262)|\n\nApplications that use UriComponentsBuilder to parse an externally provided URL (e.g. through a query parameter) AND perform validation checks on the host of the parsed URL may be vulnerable to a  open redirect https://cwe.mitre.org/data/definitions/601.html  attack or to a SSRF attack if the URL is used after passing validation checks.\n\nThis is the same as  CVE-2024-22259 https://spring.io/security/cve-2024-22259  and  CVE-2024-22243 https://spring.io/security/cve-2024-22243 , but with different input."
+              },
+              "properties": {
+                "cvssv3_baseScore": 8.1,
+                "cvssv3_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:N",
+                "precision": "very-high",
+                "security-severity": "8.1",
+                "tags": [
+                  "vulnerability",
+                  "security",
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2024-38816",
+              "name": "LanguageSpecificPackageVulnerability",
+              "shortDescription": {
+                "text": "spring-webmvc: Path Traversal Vulnerability in Spring Applications Using RouterFunctions and FileSystemResource"
+              },
+              "fullDescription": {
+                "text": "Applications serving static resources through the functional web frameworks WebMvc.fn or WebFlux.fn are vulnerable to path traversal attacks. An attacker can craft malicious HTTP requests and obtain any file on the file system that is also accessible to the process in which the Spring application is running.\n\nSpecifically, an application is vulnerable when both of the following are true:\n\n  *  the web application uses RouterFunctions to serve static resources\n  *  resource handling is explicitly configured with a FileSystemResource location\n\n\nHowever, malicious requests are blocked and rejected when any of the following is true:\n\n  *  the  Spring Security HTTP Firewall https://docs.spring.io/spring-security/reference/servlet/exploits/firewall.html  is in use\n  *  the application runs on Tomcat or Jetty"
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "helpUri": "https://avd.aquasec.com/nvd/cve-2024-38816",
+              "help": {
+                "text": "Vulnerability CVE-2024-38816\nSeverity: HIGH\nPackage: org.springframework:spring-webflux\nFixed Version: 6.1.13\nLink: [CVE-2024-38816](https://avd.aquasec.com/nvd/cve-2024-38816)\nApplications serving static resources through the functional web frameworks WebMvc.fn or WebFlux.fn are vulnerable to path traversal attacks. An attacker can craft malicious HTTP requests and obtain any file on the file system that is also accessible to the process in which the Spring application is running.\n\nSpecifically, an application is vulnerable when both of the following are true:\n\n  *  the web application uses RouterFunctions to serve static resources\n  *  resource handling is explicitly configured with a FileSystemResource location\n\n\nHowever, malicious requests are blocked and rejected when any of the following is true:\n\n  *  the  Spring Security HTTP Firewall https://docs.spring.io/spring-security/reference/servlet/exploits/firewall.html  is in use\n  *  the application runs on Tomcat or Jetty",
+                "markdown": "**Vulnerability CVE-2024-38816**\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|HIGH|org.springframework:spring-webflux|6.1.13|[CVE-2024-38816](https://avd.aquasec.com/nvd/cve-2024-38816)|\n\nApplications serving static resources through the functional web frameworks WebMvc.fn or WebFlux.fn are vulnerable to path traversal attacks. An attacker can craft malicious HTTP requests and obtain any file on the file system that is also accessible to the process in which the Spring application is running.\n\nSpecifically, an application is vulnerable when both of the following are true:\n\n  *  the web application uses RouterFunctions to serve static resources\n  *  resource handling is explicitly configured with a FileSystemResource location\n\n\nHowever, malicious requests are blocked and rejected when any of the following is true:\n\n  *  the  Spring Security HTTP Firewall https://docs.spring.io/spring-security/reference/servlet/exploits/firewall.html  is in use\n  *  the application runs on Tomcat or Jetty"
+              },
+              "properties": {
+                "cvssv3_baseScore": 7.5,
+                "cvssv3_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+                "precision": "very-high",
+                "security-severity": "7.5",
+                "tags": [
+                  "vulnerability",
+                  "security",
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2024-38819",
+              "name": "LanguageSpecificPackageVulnerability",
+              "shortDescription": {
+                "text": "org.springframework:spring-webmvc: Path traversal vulnerability in functional web frameworks"
+              },
+              "fullDescription": {
+                "text": "Applications serving static resources through the functional web frameworks WebMvc.fn or WebFlux.fn are vulnerable to path traversal attacks. An attacker can craft malicious HTTP requests and obtain any file on the file system that is also accessible to the process in which the Spring application is running."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "helpUri": "https://avd.aquasec.com/nvd/cve-2024-38819",
+              "help": {
+                "text": "Vulnerability CVE-2024-38819\nSeverity: HIGH\nPackage: org.springframework:spring-webflux\nFixed Version: 6.1.14\nLink: [CVE-2024-38819](https://avd.aquasec.com/nvd/cve-2024-38819)\nApplications serving static resources through the functional web frameworks WebMvc.fn or WebFlux.fn are vulnerable to path traversal attacks. An attacker can craft malicious HTTP requests and obtain any file on the file system that is also accessible to the process in which the Spring application is running.",
+                "markdown": "**Vulnerability CVE-2024-38819**\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|HIGH|org.springframework:spring-webflux|6.1.14|[CVE-2024-38819](https://avd.aquasec.com/nvd/cve-2024-38819)|\n\nApplications serving static resources through the functional web frameworks WebMvc.fn or WebFlux.fn are vulnerable to path traversal attacks. An attacker can craft malicious HTTP requests and obtain any file on the file system that is also accessible to the process in which the Spring application is running."
+              },
+              "properties": {
+                "cvssv3_baseScore": 7.5,
+                "cvssv3_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+                "precision": "very-high",
+                "security-severity": "7.5",
+                "tags": [
+                  "vulnerability",
+                  "security",
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2022-1471",
+              "name": "LanguageSpecificPackageVulnerability",
+              "shortDescription": {
+                "text": "SnakeYaml: Constructor Deserialization Remote Code Execution"
+              },
+              "fullDescription": {
+                "text": "SnakeYaml's Constructor() class does not restrict types which can be instantiated during deserialization. Deserializing yaml content provided by an attacker can lead to remote code execution. We recommend using SnakeYaml's SafeConsturctor when parsing untrusted content to restrict deserialization. We recommend upgrading to version 2.0 and beyond."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "helpUri": "https://avd.aquasec.com/nvd/cve-2022-1471",
+              "help": {
+                "text": "Vulnerability CVE-2022-1471\nSeverity: HIGH\nPackage: org.yaml:snakeyaml\nFixed Version: 2.0\nLink: [CVE-2022-1471](https://avd.aquasec.com/nvd/cve-2022-1471)\nSnakeYaml's Constructor() class does not restrict types which can be instantiated during deserialization. Deserializing yaml content provided by an attacker can lead to remote code execution. We recommend using SnakeYaml's SafeConsturctor when parsing untrusted content to restrict deserialization. We recommend upgrading to version 2.0 and beyond.",
+                "markdown": "**Vulnerability CVE-2022-1471**\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|HIGH|org.yaml:snakeyaml|2.0|[CVE-2022-1471](https://avd.aquasec.com/nvd/cve-2022-1471)|\n\nSnakeYaml's Constructor() class does not restrict types which can be instantiated during deserialization. Deserializing yaml content provided by an attacker can lead to remote code execution. We recommend using SnakeYaml's SafeConsturctor when parsing untrusted content to restrict deserialization. We recommend upgrading to version 2.0 and beyond."
+              },
+              "properties": {
+                "cvssv3_baseScore": 8.3,
+                "cvssv3_vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:L",
+                "precision": "very-high",
+                "security-severity": "8.3",
+                "tags": [
+                  "vulnerability",
+                  "security",
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2022-25857",
+              "name": "LanguageSpecificPackageVulnerability",
+              "shortDescription": {
+                "text": "snakeyaml: Denial of Service due to missing nested depth limitation for collections"
+              },
+              "fullDescription": {
+                "text": "The package org.yaml:snakeyaml from 0 and before 1.31 are vulnerable to Denial of Service (DoS) due missing to nested depth limitation for collections."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "helpUri": "https://avd.aquasec.com/nvd/cve-2022-25857",
+              "help": {
+                "text": "Vulnerability CVE-2022-25857\nSeverity: HIGH\nPackage: org.yaml:snakeyaml\nFixed Version: 1.31\nLink: [CVE-2022-25857](https://avd.aquasec.com/nvd/cve-2022-25857)\nThe package org.yaml:snakeyaml from 0 and before 1.31 are vulnerable to Denial of Service (DoS) due missing to nested depth limitation for collections.",
+                "markdown": "**Vulnerability CVE-2022-25857**\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|HIGH|org.yaml:snakeyaml|1.31|[CVE-2022-25857](https://avd.aquasec.com/nvd/cve-2022-25857)|\n\nThe package org.yaml:snakeyaml from 0 and before 1.31 are vulnerable to Denial of Service (DoS) due missing to nested depth limitation for collections."
+              },
+              "properties": {
+                "cvssv3_baseScore": 7.5,
+                "cvssv3_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+                "precision": "very-high",
+                "security-severity": "7.5",
+                "tags": [
+                  "vulnerability",
+                  "security",
+                  "HIGH"
+                ]
+              }
+            }
+          ],
+          "version": "0.71.0"
+        }
+      },
+      "results": [
+        {
+          "ruleId": "CVE-2023-6378",
+          "ruleIndex": 0,
+          "level": "error",
+          "message": {
+            "text": "Package: ch.qos.logback:logback-classic\nInstalled Version: 1.2.10\nVulnerability CVE-2023-6378\nSeverity: HIGH\nFixed Version: 1.3.12, 1.4.12, 1.2.13\nLink: [CVE-2023-6378](https://avd.aquasec.com/nvd/cve-2023-6378)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/BOOT-INF/lib/logback-classic-1.2.10.jar",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "app/BOOT-INF/lib/logback-classic-1.2.10.jar: ch.qos.logback:logback-classic@1.2.10"
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2023-6378",
+          "ruleIndex": 0,
+          "level": "error",
+          "message": {
+            "text": "Package: ch.qos.logback:logback-core\nInstalled Version: 1.2.10\nVulnerability CVE-2023-6378\nSeverity: HIGH\nFixed Version: 1.3.12, 1.4.12, 1.2.13\nLink: [CVE-2023-6378](https://avd.aquasec.com/nvd/cve-2023-6378)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/BOOT-INF/lib/logback-core-1.2.10.jar",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "app/BOOT-INF/lib/logback-core-1.2.10.jar: ch.qos.logback:logback-core@1.2.10"
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2025-52999",
+          "ruleIndex": 1,
+          "level": "error",
+          "message": {
+            "text": "Package: com.fasterxml.jackson.core:jackson-core\nInstalled Version: 2.13.1\nVulnerability CVE-2025-52999\nSeverity: HIGH\nFixed Version: 2.15.0\nLink: [CVE-2025-52999](https://avd.aquasec.com/nvd/cve-2025-52999)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/BOOT-INF/lib/jackson-core-2.13.1.jar",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "app/BOOT-INF/lib/jackson-core-2.13.1.jar: com.fasterxml.jackson.core:jackson-core@2.13.1"
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2020-36518",
+          "ruleIndex": 2,
+          "level": "error",
+          "message": {
+            "text": "Package: com.fasterxml.jackson.core:jackson-databind\nInstalled Version: 2.13.1\nVulnerability CVE-2020-36518\nSeverity: HIGH\nFixed Version: 2.13.2.1, 2.12.6.1\nLink: [CVE-2020-36518](https://avd.aquasec.com/nvd/cve-2020-36518)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/BOOT-INF/lib/jackson-databind-2.13.1.jar",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "app/BOOT-INF/lib/jackson-databind-2.13.1.jar: com.fasterxml.jackson.core:jackson-databind@2.13.1"
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2022-42003",
+          "ruleIndex": 3,
+          "level": "error",
+          "message": {
+            "text": "Package: com.fasterxml.jackson.core:jackson-databind\nInstalled Version: 2.13.1\nVulnerability CVE-2022-42003\nSeverity: HIGH\nFixed Version: 2.12.7.1, 2.13.4.2\nLink: [CVE-2022-42003](https://avd.aquasec.com/nvd/cve-2022-42003)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/BOOT-INF/lib/jackson-databind-2.13.1.jar",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "app/BOOT-INF/lib/jackson-databind-2.13.1.jar: com.fasterxml.jackson.core:jackson-databind@2.13.1"
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2022-42004",
+          "ruleIndex": 4,
+          "level": "error",
+          "message": {
+            "text": "Package: com.fasterxml.jackson.core:jackson-databind\nInstalled Version: 2.13.1\nVulnerability CVE-2022-42004\nSeverity: HIGH\nFixed Version: 2.12.7.1, 2.13.4\nLink: [CVE-2022-42004](https://avd.aquasec.com/nvd/cve-2022-42004)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/BOOT-INF/lib/jackson-databind-2.13.1.jar",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "app/BOOT-INF/lib/jackson-databind-2.13.1.jar: com.fasterxml.jackson.core:jackson-databind@2.13.1"
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2021-43859",
+          "ruleIndex": 5,
+          "level": "error",
+          "message": {
+            "text": "Package: com.thoughtworks.xstream:xstream\nInstalled Version: 1.4.18\nVulnerability CVE-2021-43859\nSeverity: HIGH\nFixed Version: 1.4.19\nLink: [CVE-2021-43859](https://avd.aquasec.com/nvd/cve-2021-43859)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/BOOT-INF/lib/xstream-1.4.18.jar",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "app/BOOT-INF/lib/xstream-1.4.18.jar: com.thoughtworks.xstream:xstream@1.4.18"
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2022-40151",
+          "ruleIndex": 6,
+          "level": "error",
+          "message": {
+            "text": "Package: com.thoughtworks.xstream:xstream\nInstalled Version: 1.4.18\nVulnerability CVE-2022-40151\nSeverity: HIGH\nFixed Version: 1.4.20\nLink: [CVE-2022-40151](https://avd.aquasec.com/nvd/cve-2022-40151)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/BOOT-INF/lib/xstream-1.4.18.jar",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "app/BOOT-INF/lib/xstream-1.4.18.jar: com.thoughtworks.xstream:xstream@1.4.18"
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2022-41966",
+          "ruleIndex": 7,
+          "level": "error",
+          "message": {
+            "text": "Package: com.thoughtworks.xstream:xstream\nInstalled Version: 1.4.18\nVulnerability CVE-2022-41966\nSeverity: HIGH\nFixed Version: 1.4.20\nLink: [CVE-2022-41966](https://avd.aquasec.com/nvd/cve-2022-41966)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/BOOT-INF/lib/xstream-1.4.18.jar",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "app/BOOT-INF/lib/xstream-1.4.18.jar: com.thoughtworks.xstream:xstream@1.4.18"
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2024-47072",
+          "ruleIndex": 8,
+          "level": "error",
+          "message": {
+            "text": "Package: com.thoughtworks.xstream:xstream\nInstalled Version: 1.4.18\nVulnerability CVE-2024-47072\nSeverity: HIGH\nFixed Version: 1.4.21\nLink: [CVE-2024-47072](https://avd.aquasec.com/nvd/cve-2024-47072)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/BOOT-INF/lib/xstream-1.4.18.jar",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "app/BOOT-INF/lib/xstream-1.4.18.jar: com.thoughtworks.xstream:xstream@1.4.18"
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2026-42583",
+          "ruleIndex": 9,
+          "level": "error",
+          "message": {
+            "text": "Package: io.netty:netty-codec\nInstalled Version: 4.1.74.Final\nVulnerability CVE-2026-42583\nSeverity: HIGH\nFixed Version: 4.1.133.Final\nLink: [CVE-2026-42583](https://avd.aquasec.com/nvd/cve-2026-42583)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/BOOT-INF/lib/netty-codec-4.1.74.Final.jar",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "app/BOOT-INF/lib/netty-codec-4.1.74.Final.jar: io.netty:netty-codec@4.1.74.Final"
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2026-42579",
+          "ruleIndex": 10,
+          "level": "error",
+          "message": {
+            "text": "Package: io.netty:netty-codec-dns\nInstalled Version: 4.1.74.Final\nVulnerability CVE-2026-42579\nSeverity: HIGH\nFixed Version: 4.2.13.Final, 4.1.133.Final\nLink: [CVE-2026-42579](https://avd.aquasec.com/nvd/cve-2026-42579)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/BOOT-INF/lib/netty-codec-dns-4.1.74.Final.jar",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "app/BOOT-INF/lib/netty-codec-dns-4.1.74.Final.jar: io.netty:netty-codec-dns@4.1.74.Final"
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2026-33870",
+          "ruleIndex": 11,
+          "level": "error",
+          "message": {
+            "text": "Package: io.netty:netty-codec-http\nInstalled Version: 4.1.74.Final\nVulnerability CVE-2026-33870\nSeverity: HIGH\nFixed Version: 4.1.132.Final, 4.2.10.Final\nLink: [CVE-2026-33870](https://avd.aquasec.com/nvd/cve-2026-33870)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/BOOT-INF/lib/netty-codec-http-4.1.74.Final.jar",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "app/BOOT-INF/lib/netty-codec-http-4.1.74.Final.jar: io.netty:netty-codec-http@4.1.74.Final"
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2026-42584",
+          "ruleIndex": 12,
+          "level": "error",
+          "message": {
+            "text": "Package: io.netty:netty-codec-http\nInstalled Version: 4.1.74.Final\nVulnerability CVE-2026-42584\nSeverity: HIGH\nFixed Version: 4.2.13.Final, 4.1.133.Final\nLink: [CVE-2026-42584](https://avd.aquasec.com/nvd/cve-2026-42584)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/BOOT-INF/lib/netty-codec-http-4.1.74.Final.jar",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "app/BOOT-INF/lib/netty-codec-http-4.1.74.Final.jar: io.netty:netty-codec-http@4.1.74.Final"
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2026-42587",
+          "ruleIndex": 13,
+          "level": "error",
+          "message": {
+            "text": "Package: io.netty:netty-codec-http\nInstalled Version: 4.1.74.Final\nVulnerability CVE-2026-42587\nSeverity: HIGH\nFixed Version: 4.2.13.Final, 4.1.133.Final\nLink: [CVE-2026-42587](https://avd.aquasec.com/nvd/cve-2026-42587)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/BOOT-INF/lib/netty-codec-http-4.1.74.Final.jar",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "app/BOOT-INF/lib/netty-codec-http-4.1.74.Final.jar: io.netty:netty-codec-http@4.1.74.Final"
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2025-55163",
+          "ruleIndex": 14,
+          "level": "error",
+          "message": {
+            "text": "Package: io.netty:netty-codec-http2\nInstalled Version: 4.1.74.Final\nVulnerability CVE-2025-55163\nSeverity: HIGH\nFixed Version: 4.2.4.Final, 4.1.124.Final\nLink: [CVE-2025-55163](https://avd.aquasec.com/nvd/cve-2025-55163)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/BOOT-INF/lib/netty-codec-http2-4.1.74.Final.jar",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "app/BOOT-INF/lib/netty-codec-http2-4.1.74.Final.jar: io.netty:netty-codec-http2@4.1.74.Final"
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2026-33871",
+          "ruleIndex": 15,
+          "level": "error",
+          "message": {
+            "text": "Package: io.netty:netty-codec-http2\nInstalled Version: 4.1.74.Final\nVulnerability CVE-2026-33871\nSeverity: HIGH\nFixed Version: 4.1.132.Final, 4.2.11.Final\nLink: [CVE-2026-33871](https://avd.aquasec.com/nvd/cve-2026-33871)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/BOOT-INF/lib/netty-codec-http2-4.1.74.Final.jar",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "app/BOOT-INF/lib/netty-codec-http2-4.1.74.Final.jar: io.netty:netty-codec-http2@4.1.74.Final"
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2026-42587",
+          "ruleIndex": 13,
+          "level": "error",
+          "message": {
+            "text": "Package: io.netty:netty-codec-http2\nInstalled Version: 4.1.74.Final\nVulnerability CVE-2026-42587\nSeverity: HIGH\nFixed Version: 4.2.13.Final, 4.1.133.Final\nLink: [CVE-2026-42587](https://avd.aquasec.com/nvd/cve-2026-42587)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/BOOT-INF/lib/netty-codec-http2-4.1.74.Final.jar",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "app/BOOT-INF/lib/netty-codec-http2-4.1.74.Final.jar: io.netty:netty-codec-http2@4.1.74.Final"
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "GHSA-xpw8-rcwv-8f8p",
+          "ruleIndex": 16,
+          "level": "error",
+          "message": {
+            "text": "Package: io.netty:netty-codec-http2\nInstalled Version: 4.1.74.Final\nVulnerability GHSA-xpw8-rcwv-8f8p\nSeverity: HIGH\nFixed Version: 4.1.100.Final\nLink: [GHSA-xpw8-rcwv-8f8p](https://github.com/advisories/GHSA-xpw8-rcwv-8f8p)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/BOOT-INF/lib/netty-codec-http2-4.1.74.Final.jar",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "app/BOOT-INF/lib/netty-codec-http2-4.1.74.Final.jar: io.netty:netty-codec-http2@4.1.74.Final"
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2023-34054",
+          "ruleIndex": 17,
+          "level": "error",
+          "message": {
+            "text": "Package: io.projectreactor.netty:reactor-netty-core\nInstalled Version: 1.0.16\nVulnerability CVE-2023-34054\nSeverity: HIGH\nFixed Version: 1.1.13, 1.0.39\nLink: [CVE-2023-34054](https://avd.aquasec.com/nvd/cve-2023-34054)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/BOOT-INF/lib/reactor-netty-core-1.0.16.jar",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "app/BOOT-INF/lib/reactor-netty-core-1.0.16.jar: io.projectreactor.netty:reactor-netty-core@1.0.16"
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2023-34062",
+          "ruleIndex": 18,
+          "level": "error",
+          "message": {
+            "text": "Package: io.projectreactor.netty:reactor-netty-http\nInstalled Version: 1.0.16\nVulnerability CVE-2023-34062\nSeverity: HIGH\nFixed Version: 1.1.13, 1.0.39\nLink: [CVE-2023-34062](https://avd.aquasec.com/nvd/cve-2023-34062)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/BOOT-INF/lib/reactor-netty-http-1.0.16.jar",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "app/BOOT-INF/lib/reactor-netty-http-1.0.16.jar: io.projectreactor.netty:reactor-netty-http@1.0.16"
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2022-40150",
+          "ruleIndex": 19,
+          "level": "error",
+          "message": {
+            "text": "Package: org.codehaus.jettison:jettison\nInstalled Version: 1.4.0\nVulnerability CVE-2022-40150\nSeverity: HIGH\nFixed Version: 1.5.2\nLink: [CVE-2022-40150](https://avd.aquasec.com/nvd/cve-2022-40150)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/BOOT-INF/lib/jettison-1.4.0.jar",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "app/BOOT-INF/lib/jettison-1.4.0.jar: org.codehaus.jettison:jettison@1.4.0"
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2022-45685",
+          "ruleIndex": 20,
+          "level": "error",
+          "message": {
+            "text": "Package: org.codehaus.jettison:jettison\nInstalled Version: 1.4.0\nVulnerability CVE-2022-45685\nSeverity: HIGH\nFixed Version: 1.5.2\nLink: [CVE-2022-45685](https://avd.aquasec.com/nvd/cve-2022-45685)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/BOOT-INF/lib/jettison-1.4.0.jar",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "app/BOOT-INF/lib/jettison-1.4.0.jar: org.codehaus.jettison:jettison@1.4.0"
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2022-45693",
+          "ruleIndex": 21,
+          "level": "error",
+          "message": {
+            "text": "Package: org.codehaus.jettison:jettison\nInstalled Version: 1.4.0\nVulnerability CVE-2022-45693\nSeverity: HIGH\nFixed Version: 1.5.2\nLink: [CVE-2022-45693](https://avd.aquasec.com/nvd/cve-2022-45693)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/BOOT-INF/lib/jettison-1.4.0.jar",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "app/BOOT-INF/lib/jettison-1.4.0.jar: org.codehaus.jettison:jettison@1.4.0"
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2023-1436",
+          "ruleIndex": 22,
+          "level": "error",
+          "message": {
+            "text": "Package: org.codehaus.jettison:jettison\nInstalled Version: 1.4.0\nVulnerability CVE-2023-1436\nSeverity: HIGH\nFixed Version: 1.5.4\nLink: [CVE-2023-1436](https://avd.aquasec.com/nvd/cve-2023-1436)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/BOOT-INF/lib/jettison-1.4.0.jar",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "app/BOOT-INF/lib/jettison-1.4.0.jar: org.codehaus.jettison:jettison@1.4.0"
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2025-22235",
+          "ruleIndex": 23,
+          "level": "error",
+          "message": {
+            "text": "Package: org.springframework.boot:spring-boot\nInstalled Version: 2.6.4\nVulnerability CVE-2025-22235\nSeverity: HIGH\nFixed Version: 3.3.11, 3.4.5\nLink: [CVE-2025-22235](https://avd.aquasec.com/nvd/cve-2025-22235)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/BOOT-INF/lib/spring-boot-2.6.4.jar",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "app/BOOT-INF/lib/spring-boot-2.6.4.jar: org.springframework.boot:spring-boot@2.6.4"
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2026-40973",
+          "ruleIndex": 24,
+          "level": "error",
+          "message": {
+            "text": "Package: org.springframework.boot:spring-boot\nInstalled Version: 2.6.4\nVulnerability CVE-2026-40973\nSeverity: HIGH\nFixed Version: 4.0.6, 3.5.14\nLink: [CVE-2026-40973](https://avd.aquasec.com/nvd/cve-2026-40973)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/BOOT-INF/lib/spring-boot-2.6.4.jar",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "app/BOOT-INF/lib/spring-boot-2.6.4.jar: org.springframework.boot:spring-boot@2.6.4"
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2023-20873",
+          "ruleIndex": 25,
+          "level": "error",
+          "message": {
+            "text": "Package: org.springframework.boot:spring-boot-actuator-autoconfigure\nInstalled Version: 2.6.4\nVulnerability CVE-2023-20873\nSeverity: CRITICAL\nFixed Version: 3.0.6, 2.7.11, 2.6.15, 2.5.15\nLink: [CVE-2023-20873](https://avd.aquasec.com/nvd/cve-2023-20873)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/BOOT-INF/lib/spring-boot-actuator-autoconfigure-2.6.4.jar",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "app/BOOT-INF/lib/spring-boot-actuator-autoconfigure-2.6.4.jar: org.springframework.boot:spring-boot-actuator-autoconfigure@2.6.4"
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2023-20883",
+          "ruleIndex": 26,
+          "level": "error",
+          "message": {
+            "text": "Package: org.springframework.boot:spring-boot-autoconfigure\nInstalled Version: 2.6.4\nVulnerability CVE-2023-20883\nSeverity: HIGH\nFixed Version: 3.0.7, 2.7.12, 2.6.15, 2.5.15\nLink: [CVE-2023-20883](https://avd.aquasec.com/nvd/cve-2023-20883)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/BOOT-INF/lib/spring-boot-autoconfigure-2.6.4.jar",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "app/BOOT-INF/lib/spring-boot-autoconfigure-2.6.4.jar: org.springframework.boot:spring-boot-autoconfigure@2.6.4"
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2025-41235",
+          "ruleIndex": 27,
+          "level": "error",
+          "message": {
+            "text": "Package: org.springframework.cloud:spring-cloud-gateway-server\nInstalled Version: 3.1.1\nVulnerability CVE-2025-41235\nSeverity: HIGH\nFixed Version: 4.2.3, 4.1.8, 3.1.10\nLink: [CVE-2025-41235](https://avd.aquasec.com/nvd/cve-2025-41235)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/BOOT-INF/lib/spring-cloud-gateway-server-3.1.1.jar",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "app/BOOT-INF/lib/spring-cloud-gateway-server-3.1.1.jar: org.springframework.cloud:spring-cloud-gateway-server@3.1.1"
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2025-41253",
+          "ruleIndex": 28,
+          "level": "error",
+          "message": {
+            "text": "Package: org.springframework.cloud:spring-cloud-gateway-server\nInstalled Version: 3.1.1\nVulnerability CVE-2025-41253\nSeverity: HIGH\nFixed Version: 4.3.2, 4.2.6\nLink: [CVE-2025-41253](https://avd.aquasec.com/nvd/cve-2025-41253)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/BOOT-INF/lib/spring-cloud-gateway-server-3.1.1.jar",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "app/BOOT-INF/lib/spring-cloud-gateway-server-3.1.1.jar: org.springframework.cloud:spring-cloud-gateway-server@3.1.1"
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2025-22228",
+          "ruleIndex": 29,
+          "level": "error",
+          "message": {
+            "text": "Package: org.springframework.security:spring-security-crypto\nInstalled Version: 5.6.2\nVulnerability CVE-2025-22228\nSeverity: HIGH\nFixed Version: 6.3.8, 6.4.4, 6.2.10, 6.1.14, 6.0.16, 5.8.18, 5.7.16\nLink: [CVE-2025-22228](https://avd.aquasec.com/nvd/cve-2025-22228)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/BOOT-INF/lib/spring-security-crypto-5.6.2.jar",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "app/BOOT-INF/lib/spring-security-crypto-5.6.2.jar: org.springframework.security:spring-security-crypto@5.6.2"
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2022-22965",
+          "ruleIndex": 30,
+          "level": "error",
+          "message": {
+            "text": "Package: org.springframework:spring-beans\nInstalled Version: 5.3.16\nVulnerability CVE-2022-22965\nSeverity: CRITICAL\nFixed Version: 5.2.20.RELEASE, 5.3.18\nLink: [CVE-2022-22965](https://avd.aquasec.com/nvd/cve-2022-22965)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/BOOT-INF/lib/spring-beans-5.3.16.jar",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "app/BOOT-INF/lib/spring-beans-5.3.16.jar: org.springframework:spring-beans@5.3.16"
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2022-22970",
+          "ruleIndex": 31,
+          "level": "error",
+          "message": {
+            "text": "Package: org.springframework:spring-beans\nInstalled Version: 5.3.16\nVulnerability CVE-2022-22970\nSeverity: HIGH\nFixed Version: 5.2.22.RELEASE, 5.3.20\nLink: [CVE-2022-22970](https://avd.aquasec.com/nvd/cve-2022-22970)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/BOOT-INF/lib/spring-beans-5.3.16.jar",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "app/BOOT-INF/lib/spring-beans-5.3.16.jar: org.springframework:spring-beans@5.3.16"
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2022-22968",
+          "ruleIndex": 32,
+          "level": "error",
+          "message": {
+            "text": "Package: org.springframework:spring-context\nInstalled Version: 5.3.16\nVulnerability CVE-2022-22968\nSeverity: HIGH\nFixed Version: 5.3.19, 5.2.21.RELEASE\nLink: [CVE-2022-22968](https://avd.aquasec.com/nvd/cve-2022-22968)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/BOOT-INF/lib/spring-context-5.3.16.jar",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "app/BOOT-INF/lib/spring-context-5.3.16.jar: org.springframework:spring-context@5.3.16"
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2025-41249",
+          "ruleIndex": 33,
+          "level": "error",
+          "message": {
+            "text": "Package: org.springframework:spring-core\nInstalled Version: 5.3.16\nVulnerability CVE-2025-41249\nSeverity: HIGH\nFixed Version: 6.2.11\nLink: [CVE-2025-41249](https://avd.aquasec.com/nvd/cve-2025-41249)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/BOOT-INF/lib/spring-core-5.3.16.jar",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "app/BOOT-INF/lib/spring-core-5.3.16.jar: org.springframework:spring-core@5.3.16"
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2023-20863",
+          "ruleIndex": 34,
+          "level": "error",
+          "message": {
+            "text": "Package: org.springframework:spring-expression\nInstalled Version: 5.3.16\nVulnerability CVE-2023-20863\nSeverity: HIGH\nFixed Version: 6.0.8, 5.3.27, 5.2.24.RELEASE\nLink: [CVE-2023-20863](https://avd.aquasec.com/nvd/cve-2023-20863)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/BOOT-INF/lib/spring-expression-5.3.16.jar",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "app/BOOT-INF/lib/spring-expression-5.3.16.jar: org.springframework:spring-expression@5.3.16"
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2016-1000027",
+          "ruleIndex": 35,
+          "level": "error",
+          "message": {
+            "text": "Package: org.springframework:spring-web\nInstalled Version: 5.3.16\nVulnerability CVE-2016-1000027\nSeverity: CRITICAL\nFixed Version: 6.0.0\nLink: [CVE-2016-1000027](https://avd.aquasec.com/nvd/cve-2016-1000027)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/BOOT-INF/lib/spring-web-5.3.16.jar",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "app/BOOT-INF/lib/spring-web-5.3.16.jar: org.springframework:spring-web@5.3.16"
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2024-22243",
+          "ruleIndex": 36,
+          "level": "error",
+          "message": {
+            "text": "Package: org.springframework:spring-web\nInstalled Version: 5.3.16\nVulnerability CVE-2024-22243\nSeverity: HIGH\nFixed Version: 6.1.4, 6.0.17, 5.3.32\nLink: [CVE-2024-22243](https://avd.aquasec.com/nvd/cve-2024-22243)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/BOOT-INF/lib/spring-web-5.3.16.jar",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "app/BOOT-INF/lib/spring-web-5.3.16.jar: org.springframework:spring-web@5.3.16"
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2024-22259",
+          "ruleIndex": 37,
+          "level": "error",
+          "message": {
+            "text": "Package: org.springframework:spring-web\nInstalled Version: 5.3.16\nVulnerability CVE-2024-22259\nSeverity: HIGH\nFixed Version: 6.1.5, 6.0.18, 5.3.33\nLink: [CVE-2024-22259](https://avd.aquasec.com/nvd/cve-2024-22259)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/BOOT-INF/lib/spring-web-5.3.16.jar",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "app/BOOT-INF/lib/spring-web-5.3.16.jar: org.springframework:spring-web@5.3.16"
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2024-22262",
+          "ruleIndex": 38,
+          "level": "error",
+          "message": {
+            "text": "Package: org.springframework:spring-web\nInstalled Version: 5.3.16\nVulnerability CVE-2024-22262\nSeverity: HIGH\nFixed Version: 5.3.34, 6.0.19, 6.1.6\nLink: [CVE-2024-22262](https://avd.aquasec.com/nvd/cve-2024-22262)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/BOOT-INF/lib/spring-web-5.3.16.jar",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "app/BOOT-INF/lib/spring-web-5.3.16.jar: org.springframework:spring-web@5.3.16"
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2022-22965",
+          "ruleIndex": 30,
+          "level": "error",
+          "message": {
+            "text": "Package: org.springframework:spring-webflux\nInstalled Version: 5.3.16\nVulnerability CVE-2022-22965\nSeverity: CRITICAL\nFixed Version: 5.2.20.RELEASE, 5.3.18\nLink: [CVE-2022-22965](https://avd.aquasec.com/nvd/cve-2022-22965)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/BOOT-INF/lib/spring-webflux-5.3.16.jar",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "app/BOOT-INF/lib/spring-webflux-5.3.16.jar: org.springframework:spring-webflux@5.3.16"
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2024-38816",
+          "ruleIndex": 39,
+          "level": "error",
+          "message": {
+            "text": "Package: org.springframework:spring-webflux\nInstalled Version: 5.3.16\nVulnerability CVE-2024-38816\nSeverity: HIGH\nFixed Version: 6.1.13\nLink: [CVE-2024-38816](https://avd.aquasec.com/nvd/cve-2024-38816)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/BOOT-INF/lib/spring-webflux-5.3.16.jar",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "app/BOOT-INF/lib/spring-webflux-5.3.16.jar: org.springframework:spring-webflux@5.3.16"
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2024-38819",
+          "ruleIndex": 40,
+          "level": "error",
+          "message": {
+            "text": "Package: org.springframework:spring-webflux\nInstalled Version: 5.3.16\nVulnerability CVE-2024-38819\nSeverity: HIGH\nFixed Version: 6.1.14\nLink: [CVE-2024-38819](https://avd.aquasec.com/nvd/cve-2024-38819)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/BOOT-INF/lib/spring-webflux-5.3.16.jar",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "app/BOOT-INF/lib/spring-webflux-5.3.16.jar: org.springframework:spring-webflux@5.3.16"
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2022-1471",
+          "ruleIndex": 41,
+          "level": "error",
+          "message": {
+            "text": "Package: org.yaml:snakeyaml\nInstalled Version: 1.29\nVulnerability CVE-2022-1471\nSeverity: HIGH\nFixed Version: 2.0\nLink: [CVE-2022-1471](https://avd.aquasec.com/nvd/cve-2022-1471)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/BOOT-INF/lib/snakeyaml-1.29.jar",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "app/BOOT-INF/lib/snakeyaml-1.29.jar: org.yaml:snakeyaml@1.29"
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2022-25857",
+          "ruleIndex": 42,
+          "level": "error",
+          "message": {
+            "text": "Package: org.yaml:snakeyaml\nInstalled Version: 1.29\nVulnerability CVE-2022-25857\nSeverity: HIGH\nFixed Version: 1.31\nLink: [CVE-2022-25857](https://avd.aquasec.com/nvd/cve-2022-25857)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/BOOT-INF/lib/snakeyaml-1.29.jar",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "app/BOOT-INF/lib/snakeyaml-1.29.jar: org.yaml:snakeyaml@1.29"
+              }
+            }
+          ]
+        }
+      ],
+      "columnKind": "utf16CodeUnits",
+      "properties": {
+        "imageID": "sha256:c20bccbfb1a94144bffb59c4c300bacdf87bece431dbc609a5e7444db0e2da96",
+        "imageName": "/tmp/banquemssol-apigateway-local.tar",
+        "repoDigests": null,
+        "repoTags": [
+          "docker.io/library/banquemssol-apigateway:local",
+          "localhost/banquemssol-apigateway:local"
+        ]
+      }
+    }
+  ]
+}

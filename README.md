@@ -17,6 +17,7 @@ la chaîne DevOps demandée par le TP.
 - [Partie A — Chaîne de build OCI](#partie-a--chaîne-de-build-oci)
   - [A.1 — Docker vs Buildah](#a1--docker-vs-buildah)
   - [A.2 — Build de l'image avec Buildah](#a2--build-de-limage-avec-buildah)
+  - [A.3 — Scan de sécurité avec Trivy](#a3--scan-de-sécurité-avec-trivy)
 
 ---
 
@@ -144,3 +145,37 @@ sur la taille est l'**image de base** : démontré en A.4 (Dive, comparatif avan
 **contexte** (dossier du module) et `APP_PORT` changent. Le JAR est toujours dans
 `<module>/target/*.jar`. Le script `build.sh` automatise le build du service de référence ;
 la CI (A.5) généralise via une **matrice** (un build par service).
+
+### A.3 — Scan de sécurité avec Trivy
+
+Analyse complète des CVE (faille + remédiation par CVE) :
+**[docs/trivy-cve-analysis.md](docs/trivy-cve-analysis.md)**.
+Rapports bruts : [`build-reports/trivy-report.json`](build-reports/trivy-report.json),
+[`.sarif`](build-reports/trivy-report.sarif) (lisible par l'onglet *Security* de GitHub),
+[`.txt`](build-reports/trivy-report.txt).
+
+> **Nuance Buildah** : Trivy ne lit pas directement le stockage rootless de Buildah. On
+> exporte donc l'image en archive puis on la scanne :
+> ```bash
+> buildah push banquemssol-apigateway:local \
+>   docker-archive:/tmp/banquemssol-apigateway-local.tar:banquemssol-apigateway:local
+> trivy image --input /tmp/banquemssol-apigateway-local.tar \
+>   --severity HIGH,CRITICAL --format json --output build-reports/trivy-report.json
+> ```
+
+**Résultat : 4 CRITICAL + 42 HIGH, *toutes* dans les dépendances Java de l'application**
+(aucune CVE côté OS — la base `eclipse-temurin:11-jre-jammy` est saine). Cause racine
+unique : **Spring Boot 2.6.4** (2022). La remédiation réelle est applicative (monter Spring
+Boot à 2.7.18), hors périmètre de ce TP DevOps.
+
+**Gate CRITICAL — abaissement documenté.** Choix retenu : *documenter & accepter* via
+[`.trivyignore`](.trivyignore), qui liste **uniquement** les 3 CVE CRITICAL, chacune
+justifiée comme **non exploitable** dans le contexte d'une gateway WebFlux/Netty
+(Spring4Shell vise Spring MVC/Tomcat ; `HttpInvokerServiceExporter` non utilisé ; bypass
+actuator propre à Cloud Foundry). La CI échoue donc toujours sur toute **nouvelle** CVE
+CRITICAL non listée.
+
+| Comportement de la gate | Commande | Exit |
+|---|---|---|
+| Sans ignore | `trivy ... --severity CRITICAL --ignorefile /dev/null --exit-code 1` | **1** (échoue) |
+| Avec `.trivyignore` | `trivy ... --severity CRITICAL --exit-code 1` | **0** (passe) |

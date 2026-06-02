@@ -18,6 +18,7 @@ la chaîne DevOps demandée par le TP.
   - [A.1 — Docker vs Buildah](#a1--docker-vs-buildah)
   - [A.2 — Build de l'image avec Buildah](#a2--build-de-limage-avec-buildah)
   - [A.3 — Scan de sécurité avec Trivy](#a3--scan-de-sécurité-avec-trivy)
+  - [A.4 — Audit de l'image avec Dive](#a4--audit-de-limage-avec-dive)
 
 ---
 
@@ -128,10 +129,10 @@ buildah rm $ctr
 
 | Critère | `:local` (Containerfile multi-stage) | `:native` (layer-par-layer) |
 |---|---|---|
-| Taille | 313 MB | 312 MB |
+| Taille | 312 MB | 312 MB |
 | Couches (FS) | 6 | 6 |
 | JAR | éclaté en 4 couches (deps/loader/snapshot/app) | fat-jar entier en 1 couche |
-| Utilisateur | **non-root** (`spring`) ✅ | root (par défaut) ⚠️ |
+| Utilisateur | **non-root** (UID 1000) ✅ | root (par défaut) ⚠️ |
 | Lisibilité | recette versionnée, auto-documentée ✅ | commandes impératives |
 | Reproductibilité | élevée (le fichier = source de vérité) ✅ | dépend du script |
 | Cache au rebuild | bon (seule la couche *app* change) ✅ | faible (couche jar refaite) |
@@ -179,3 +180,37 @@ CRITICAL non listée.
 |---|---|---|
 | Sans ignore | `trivy ... --severity CRITICAL --ignorefile /dev/null --exit-code 1` | **1** (échoue) |
 | Avec `.trivyignore` | `trivy ... --severity CRITICAL --exit-code 1` | **0** (passe) |
+
+### A.4 — Audit de l'image avec Dive
+
+Analyse détaillée (couches, fichiers superflus, optimisation avant/après) :
+**[docs/dive-analysis.md](docs/dive-analysis.md)**. Rapports :
+[`build-reports/dive-report.txt`](build-reports/dive-report.txt),
+[`dive-report.json`](build-reports/dive-report.json).
+
+```bash
+CI=true dive --source docker-archive /tmp/banquemssol-apigateway-local.tar --ci \
+  --lowestEfficiency 0.95 --highestWastedBytes 20MB --highestUserWastedPercent 0.10 \
+  | tee build-reports/dive-report.txt
+```
+
+`--ci` = pas d'interface, validation automatique · `--lowest/highest…` = seuils qui font
+échouer si l'image est mauvaise · `tee` = afficher **et** enregistrer.
+
+**Résultat (image `jammy`) : `PASS` sur les 3 seuils** — efficacité **99.56 %** (≥ 95 %),
+gaspillage **2.2 MB** (≤ 20 MB), **0.95 %** (≤ 10 %). Les ~2 MB gaspillés sont des
+journaux/caches `apt`/`dpkg` de la base (négligeables). Sur ~292 MB, **~250 MB viennent de
+la base** et seulement ~42 MB de l'application.
+
+**Optimisation avant/après (base de l'image, le vrai levier de taille) :**
+
+| | `jammy` (retenue) | `alpine` (explorée) |
+|---|---|---|
+| Taille | 312 MB | **218 MB** (−30 %) |
+| Efficacité Dive | 99.56 % | 99.81 % |
+| **CVE OS (Trivy)** | **0** ✅ | **2 CRITICAL + 3 HIGH** (`gnutls`) ❌ |
+
+> **Leçon** : optimiser la taille n'est pas gratuit. Alpine gagne 95 MB mais réintroduit
+> 2 CVE CRITICAL OS (`gnutls`) qui feraient échouer la gate Trivy. On **garde `jammy`**
+> (meilleur compromis taille/sécurité). Optimisations déjà appliquées : multi-stage,
+> `USER 1000` (non-root, sans `useradd`), couches Spring Boot ordonnées.

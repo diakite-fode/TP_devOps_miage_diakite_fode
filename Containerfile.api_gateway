@@ -2,57 +2,57 @@
 #  Containerfile.api_gateway — service de référence : Banque-APIGateway
 #  Construit avec Buildah (rootless). Multi-stage pour une image finale légère.
 #
-#  Build :
+#  Build (image canonique, base Ubuntu jammy) :
 #    buildah bud -t banquemssol-apigateway:local \
 #      --build-arg APP_PORT=10000 \
 #      -f Containerfile.api_gateway Banque-APIGateway
 #
-#  Généralisation aux autres modules : on change juste le contexte (dossier du
-#  module) et APP_PORT. Le JAR est toujours dans <module>/target/*.jar.
+#  Variante Alpine (plus petite MAIS introduit des CVE OS gnutls -> non retenue,
+#  voir docs/dive-analysis.md) :
+#    buildah bud -t banquemssol-apigateway:alpine \
+#      --build-arg BASE_IMAGE=eclipse-temurin:11-jre-alpine \
+#      -f Containerfile.api_gateway Banque-APIGateway
+#
+#  Généralisation aux autres modules : changer le contexte (dossier du module)
+#  et APP_PORT. Le JAR est toujours dans <module>/target/*.jar.
 # ============================================================================
 
+# Image de base, paramétrable. jammy = base par défaut (0 CVE OS). Alpine plus
+# petite mais introduit des CVE OS -> réservée à la démonstration A.4.
+# Déclaré avant le 1er FROM pour être utilisable dans les deux étapes.
+ARG BASE_IMAGE=eclipse-temurin:11-jre-jammy
+
 # ---------------------------------------------------------------------------
-# STAGE 1 — "builder" : on prend le JAR déjà compilé et on l'éclate en couches
-# (layertools). But : séparer les dépendances (qui changent peu) du code de
-# l'appli (qui change souvent) -> meilleur cache au rebuild.
+# STAGE 1 — "builder" : on éclate le fat-jar Spring Boot en couches (layertools)
+# pour séparer les dépendances (stables) du code applicatif (volatil).
 # ---------------------------------------------------------------------------
-FROM eclipse-temurin:11-jre-jammy AS builder
+FROM ${BASE_IMAGE} AS builder
 WORKDIR /build
 
-# Le JAR du module. ARG = variable de build modifiable depuis la ligne de commande.
 ARG JAR_FILE=target/*.jar
 COPY ${JAR_FILE} application.jar
 
-# "layertools extract" décompose le fat-jar Spring Boot en 4 dossiers :
-# dependencies, spring-boot-loader, snapshot-dependencies, application.
 RUN java -Djarmode=layertools -jar application.jar extract
 
 # ---------------------------------------------------------------------------
-# STAGE 2 — image finale : une base JRE légère, SANS les outils de build.
-# Seuls les fichiers extraits à l'étape 1 sont copiés -> image minimale.
+# STAGE 2 — image finale : base légère, SANS outils de build, exécutée non-root.
 # ---------------------------------------------------------------------------
-FROM eclipse-temurin:11-jre-jammy AS runtime
+FROM ${BASE_IMAGE} AS runtime
 
-# Port applicatif (10000 pour l'API Gateway). Surchargable au build.
 ARG APP_PORT=10000
-
-# Bonne pratique sécurité : ne PAS tourner en root dans le conteneur.
-# On crée un utilisateur non privilégié "spring".
-RUN groupadd --system spring && useradd --system --gid spring spring
 WORKDIR /app
 
-# Copie des couches extraites depuis le stage builder (ordre = du moins au plus
-# volatil, pour maximiser la réutilisation du cache).
-COPY --from=builder --chown=spring:spring /build/dependencies/          ./
-COPY --from=builder --chown=spring:spring /build/spring-boot-loader/    ./
-COPY --from=builder --chown=spring:spring /build/snapshot-dependencies/ ./
-COPY --from=builder --chown=spring:spring /build/application/           ./
+# Sécurité : on tourne sous un UID NON-root (1000). Un UID numérique est
+# portable sur toutes les bases (pas besoin de useradd/adduser) et évite de
+# modifier /etc/passwd (donc moins de couches et moins de gaspillage).
+USER 1000:1000
 
-# On bascule sur l'utilisateur non privilégié pour l'exécution.
-USER spring:spring
+# Couches extraites, du moins au plus volatil (meilleur cache au rebuild).
+COPY --from=builder --chown=1000:1000 /build/dependencies/          ./
+COPY --from=builder --chown=1000:1000 /build/spring-boot-loader/    ./
+COPY --from=builder --chown=1000:1000 /build/snapshot-dependencies/ ./
+COPY --from=builder --chown=1000:1000 /build/application/           ./
 
-# Documente le port exposé par le conteneur (informatif).
 EXPOSE ${APP_PORT}
 
-# Lanceur Spring Boot pour un jar éclaté en couches.
 ENTRYPOINT ["java", "org.springframework.boot.loader.JarLauncher"]

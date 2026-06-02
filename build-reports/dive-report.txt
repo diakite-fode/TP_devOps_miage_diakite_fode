@@ -1,0 +1,30 @@
+  Using default CI config
+[1mImage Source: [0mdocker-archive:///tmp/banquemssol-apigateway-local.tar
+[1mExtracting image from docker-archive...[0m (this can take a while for large images)
+[1mAnalyzing image...[0m
+  efficiency: 99.5583 %
+  wastedBytes: 2176019 bytes (2.2 MB)
+  userWastedPercent: 0.9519 %
+[1mInefficient Files:[0m
+Count  Wasted Space  File Path
+    2        1.4 MB  /var/cache/debconf/templates.dat
+    2        396 kB  /var/log/dpkg.log
+    2        242 kB  /var/lib/dpkg/status
+    2         42 kB  /var/log/apt/history.log
+    2         33 kB  /tmp/hsperfdata_root/65
+    2         30 kB  /var/cache/debconf/config.dat
+    3         22 kB  /var/cache/ldconfig/aux-cache
+    3         22 kB  /etc/ld.so.cache
+    2         13 kB  /var/log/apt/eipp.log.xz
+    2         10 kB  /var/log/alternatives.log
+    2        2.0 kB  /var/lib/apt/extended_states
+    2         230 B  /var/lib/dpkg/triggers/File
+    2           0 B  /var/lib/dpkg/triggers/Unincorp
+    2           0 B  /var/lib/dpkg/lock
+    2           0 B  /var/lib/dpkg/triggers/Lock
+[1mResults:[0m
+  PASS: highestUserWastedPercent
+  PASS: highestWastedBytes
+  PASS: lowestEfficiency
+[32mResult:PASS [Total:3] [Passed:3] [Failed:0] [Warn:0] [Skipped:0][0m
+

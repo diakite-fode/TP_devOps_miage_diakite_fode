@@ -2512,7 +2512,7 @@
       ],
       "columnKind": "utf16CodeUnits",
       "properties": {
-        "imageID": "sha256:c20bccbfb1a94144bffb59c4c300bacdf87bece431dbc609a5e7444db0e2da96",
+        "imageID": "sha256:f35a1cf2e99c875b01b3f80104ab79be1474fb25b26101ef64e43779899a6272",
         "imageName": "/tmp/banquemssol-apigateway-local.tar",
         "repoDigests": null,
         "repoTags": [

@@ -1,12 +1,37 @@
 # =========================================================================
-# Fichier .gitignore recommandé pour un projet Microservices Java / Spring
+# Fichier .gitignore recommandé pour un projet Fullstack (Java Spring & React/Vite)
 # =========================================================================
 
 # --- Spécifique à la demande (Claude & TP) ---
 .claude/
 TP_DEVOPS_BanqueMSSol.md
 
-# --- Compilateurs et Sorties de Construction ---
+# --- FRONT-END (React + Vite) ---
+**/node_modules/
+**/dist/
+**/dist-ssr/
+*.local
+
+# Fichiers d'environnement Vite (Contiennent des clés API / secrets locaux)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs de paquets (npm, yarn, pnpm)
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Outils de linting / cache du front
+.eslintcache
+.stylelintcache
+*.tsbuildinfo
+
+# --- BACK-END (Java / Spring) ---
+# Compilateurs et Sorties de Construction
 **/target/
 **/bin/
 *.class
@@ -16,7 +41,7 @@ TP_DEVOPS_BanqueMSSol.md
 *.nar
 *.rar
 
-# --- Outils de Build (Maven & Gradle) ---
+# Outils de Build (Maven & Gradle)
 # Maven
 .mvn/
 mvnw
@@ -54,17 +79,10 @@ out/
 *.launch
 *.factorypath
 
-# NetBeans
-**/nbproject/private/
-**/nbbuild/
-**/dist/
-**/nbproject/maven-eclipse.xml
-
 # VS Code
 .vscode/
 
-# --- Config & Sécurité (Fichiers sensibles / secrets) ---
-# Fichiers de configuration locaux (pour éviter de push des mots de passe)
+# --- Config & Sécurité (Fichiers sensibles / secrets Back) ---
 **/src/main/resources/application-local.properties
 **/src/main/resources/application-local.yml
 **/src/main/resources/application-local.yaml
@@ -73,18 +91,14 @@ out/
 *.p12
 *.pfx
 
-# --- Conteneurs et DevOps ---
+# --- Conteneurs, DevOps, Logs & Système ---
 .docker/
 .kube/
 **/data/
-
-# --- Logs et Fichiers Temporaires ---
 *.log
 **/logs/
 **/tmp/
 **/temp/
-
-# --- Fichiers Système ---
 .DS_Store
 .DS_Store?
 ._*

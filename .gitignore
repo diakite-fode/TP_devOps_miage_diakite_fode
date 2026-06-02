@@ -1,0 +1,91 @@
+# =========================================================================
+# Fichier .gitignore recommandé pour un projet Microservices Java / Spring
+# =========================================================================
+
+# --- Spécifique à la demande (Claude & TP) ---
+.claude/
+TP_DEVOPS_BanqueMSSol.md
+
+# --- Compilateurs et Sorties de Construction ---
+**/target/
+**/bin/
+*.class
+*.war
+*.ear
+*.jar
+*.nar
+*.rar
+
+# --- Outils de Build (Maven & Gradle) ---
+# Maven
+.mvn/
+mvnw
+mvnw.cmd
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.next
+pom.xml.note
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/wrapper/maven-wrapper.properties
+
+# Gradle
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!gradle/wrapper/gradle-wrapper.properties
+gradlew
+gradlew.cmd
+
+# --- Environnements de Développement (IDEs) ---
+# IntelliJ IDEA
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+
+# Eclipse
+.metadata/
+.classpath
+.project
+.settings/
+*.launch
+*.factorypath
+
+# NetBeans
+**/nbproject/private/
+**/nbbuild/
+**/dist/
+**/nbproject/maven-eclipse.xml
+
+# VS Code
+.vscode/
+
+# --- Config & Sécurité (Fichiers sensibles / secrets) ---
+# Fichiers de configuration locaux (pour éviter de push des mots de passe)
+**/src/main/resources/application-local.properties
+**/src/main/resources/application-local.yml
+**/src/main/resources/application-local.yaml
+*.jks
+*.keystore
+*.p12
+*.pfx
+
+# --- Conteneurs et DevOps ---
+.docker/
+.kube/
+**/data/
+
+# --- Logs et Fichiers Temporaires ---
+*.log
+**/logs/
+**/tmp/
+**/temp/
+
+# --- Fichiers Système ---
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db

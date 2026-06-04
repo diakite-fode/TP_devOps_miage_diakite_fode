@@ -20,6 +20,10 @@ la chaîne DevOps demandée par le TP.
   - [A.3 — Scan de sécurité avec Trivy](#a3--scan-de-sécurité-avec-trivy)
   - [A.4 — Audit de l'image avec Dive](#a4--audit-de-limage-avec-dive)
   - [A.5 — Chaîne CI (GitHub Actions)](#a5--chaîne-ci-github-actions)
+- [Partie B — Helm & Kubernetes (GitOps)](#partie-b--helm--kubernetes-gitops)
+  - [B.1 — Chart Helm BanqueMSSol](#b1--chart-helm-banquemssol)
+  - [B.2 — Déploiement dans Kubernetes](#b2--déploiement-dans-kubernetes)
+  - [B.3 — GitOps avec ArgoCD](#b3--gitops-avec-argocd)
 
 ---
 
@@ -259,3 +263,152 @@ matrix:
 > (Tomcat/Spring), toutes héritées de Spring Boot 2.6.4. Chaque job ne « consomme » que les
 > CVE réellement présentes dans son image. Toute **nouvelle** CRITICAL non listée ferait
 > échouer **ce** job uniquement (les autres continuent grâce à `fail-fast: false`).
+
+---
+
+## Partie B — Helm & Kubernetes (GitOps)
+
+On prend l'image de la Partie A et on la **déploie proprement sur Kubernetes** avec un chart
+Helm, puis on automatise le déploiement en **GitOps** avec ArgoCD.
+
+> ⚠️ **Nommage** : le **dossier du chart** s'appelle `BanqueMSSol/` (imposé par le TP) tandis
+> que le **namespace Kubernetes** s'appelle `miage-bank`. Deux choses distinctes.
+
+**Environnement local** : minikube (driver Docker) avec le CNI **Calico** (nécessaire pour
+que les **NetworkPolicy soient réellement appliquées** — le CNI par défaut de minikube ne les
+fait pas respecter). Ingress assuré par **Traefik** (installé via Helm). Secrets via **Vault**
++ **External Secrets Operator (ESO)**.
+
+```bash
+minikube start --cni=calico
+minikube image load /tmp/apigateway-local.tar   # image OCI de la Partie A
+helm repo add traefik https://traefik.github.io/charts
+helm repo add external-secrets https://charts.external-secrets.io
+helm repo add hashicorp https://helm.releases.hashicorp.com
+helm install traefik traefik/traefik -n traefik --create-namespace --set service.type=NodePort
+helm install external-secrets external-secrets/external-secrets -n external-secrets --create-namespace
+helm install vault hashicorp/vault -n vault --create-namespace \
+  --set "server.dev.enabled=true" --set "server.dev.devRootToken=root" --set "injector.enabled=false"
+```
+
+### B.1 — Chart Helm BanqueMSSol
+
+Chart : **[`BanqueMSSol/`](BanqueMSSol/)**. Service de référence : l'API Gateway. Le chart est
+**générique** (déployer un autre service = changer `image` / `app` / le secret dans
+`values.yaml`). Ressources produites (toutes paramétrables) :
+
+| Fichier | Ressource | Points clés (exigences TP) |
+|---|---|---|
+| `deployment.yaml` | Deployment | `readinessProbe` **+** `livenessProbe` (+ `startupProbe`), `resources.requests`/`limits`, `serviceAccountName` dédié, non-root |
+| `service.yaml` | Service | **ClusterIP uniquement** |
+| `ingress.yaml` | Ingress | classe **`traefik`**, `host` paramétrable, TLS optionnel (bonus) |
+| `networkpolicy.yaml` | 2× NetworkPolicy | **default-deny** en entrée + autorisation **depuis le seul namespace Traefik** |
+| `serviceaccount.yaml` | SA + Role + RoleBinding | **RBAC minimal** (lecture seule configmaps/secrets) |
+| `externalsecret.yaml` | SecretStore + ExternalSecret | secrets tirés de **Vault** par **ESO** (rien en clair dans Git) |
+| `configmap.yaml` | ConfigMap | config non sensible (port, exposition actuator) |
+| `namespace.yaml` | Namespace | optionnel (`namespace.create`) |
+
+Deux jeux de valeurs : **[`values.yaml`](BanqueMSSol/values.yaml)** (dev) et
+**[`values-prod.yaml`](BanqueMSSol/values-prod.yaml)** (prod : 3 réplicas, image GHCR figée,
+TLS activé). Validation **avant tout déploiement** :
+
+```bash
+helm lint BanqueMSSol/
+helm template banquemssol BanqueMSSol/ -n miage-bank      # rend le YAML final
+helm install banquemssol BanqueMSSol/ -n miage-bank --dry-run
+```
+
+### B.2 — Déploiement dans Kubernetes
+
+**Gestion des secrets : Vault + ESO** (option recommandée par le TP). Le mot de passe vit dans
+Vault ; ESO le lit et fabrique un Secret Kubernetes ; le pod le reçoit en variable
+d'environnement. Configuration de Vault (auth Kubernetes liée au ServiceAccount du service) :
+
+```bash
+kubectl exec -n vault vault-0 -- sh -c '
+  export VAULT_ADDR=http://127.0.0.1:8200 VAULT_TOKEN=root
+  vault kv put secret/banquemssol/apigateway demo-password="•••••"
+  vault auth enable kubernetes
+  vault write auth/kubernetes/config kubernetes_host="https://kubernetes.default.svc:443" \
+    token_reviewer_jwt=@/var/run/secrets/kubernetes.io/serviceaccount/token \
+    kubernetes_ca_cert=@/var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+  echo "path \"secret/data/banquemssol/*\" { capabilities = [\"read\"] }" | vault policy write banquemssol -
+  vault write auth/kubernetes/role/banquemssol bound_service_account_names=banquemssol-apigateway \
+    bound_service_account_namespaces=miage-bank policies=banquemssol ttl=1h'
+```
+
+Déploiement :
+
+```bash
+kubectl create namespace miage-bank
+helm install banquemssol BanqueMSSol/ -n miage-bank
+kubectl get all,ingress,networkpolicy -n miage-bank
+```
+
+**Validations obtenues :**
+
+- **Pod `Ready` (1/1)**. *Subtilité rencontrée* : sans le Config Server, l'appli prenait le
+  port Spring par défaut (8080) ; on force `SERVER_PORT=10000` (ConfigMap). Et comme Spring
+  Boot met ~75 s à démarrer, un **`startupProbe`** évite que la liveness ne tue le pod trop tôt.
+- **Accès via l'Ingress Traefik** : `HTTP 200` —
+  `curl -H "Host: banquemssol.local" http://<traefik>/actuator/health` → `{"status":"UP"...}`.
+- **NetworkPolicy active (preuve du blocage)** : un accès **direct** depuis un autre namespace
+  échoue (timeout), alors que Traefik passe :
+  ```bash
+  kubectl run np-test --image=busybox -n default --rm -i --restart=Never -- \
+    wget -T5 -qO- http://banquemssol-apigateway.miage-bank.svc:80/actuator/health
+  # -> wget: download timed out   (bloqué par la NetworkPolicy / Calico)
+  ```
+- **Aucun secret en clair** : le pod a bien la variable issue de Vault, mais la valeur n'existe
+  que dans Vault (le chart ne contient que des références : chemin + nom de clé).
+  ```bash
+  kubectl get externalsecret,secret -n miage-bank   # ExternalSecret READY=True, Secret créé par ESO
+  ```
+
+### B.3 — GitOps avec ArgoCD
+
+**Œuf ou poule** : ArgoCD doit exister **avant** de gérer des apps. On l'installe d'abord, puis
+on déclare une `Application` qui pointe sur ce dépôt.
+
+```bash
+kubectl create namespace argocd
+kubectl apply --server-side -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+kubectl apply -f argocd/application.yaml      # voir argocd/application.yaml
+```
+
+L'`Application` (**[`argocd/application.yaml`](argocd/application.yaml)**) cible le dépôt, le
+dossier `BanqueMSSol`, le namespace `miage-bank`, avec **`prune: true`** et **`selfHeal: true`**.
+
+> **Branche** : le TP demande `main` ; ce dépôt utilise **`master`** comme branche par défaut,
+> donc `targetRevision: master` (écart assumé et documenté).
+
+Résultat : `kubectl get application banquemssol -n argocd` → **`Synced` / `Healthy`**.
+
+> *Note minikube* : ArgoCD juge un Ingress « sain » seulement s'il a une **adresse**. Traefik en
+> NodePort n'en publie pas par défaut ; on renseigne l'IP de minikube sur l'Ingress
+> (`kubectl patch ingress ... --subresource=status`) pour obtenir `Healthy`.
+
+**Démonstration de dérive (exigée) — `avant / pendant / après` :**
+
+```bash
+# 1) On modifie le cluster À LA MAIN (hors Git) : passer à 3 réplicas
+kubectl scale deployment banquemssol-apigateway -n miage-bank --replicas=3
+```
+
+Observation en direct (`replicas` voulu + statut ArgoCD) :
+
+```text
+replicas=3  sync=Synced      <- juste après le scale manuel
+replicas=1  sync=OutOfSync   <- ArgoCD détecte l'écart avec Git
+replicas=1  sync=Synced      <- selfHeal a ramené à 1 (l'état décrit dans Git)
+```
+
+➡️ ArgoCD a **détecté la dérive (`OutOfSync`)** puis **réconcilié automatiquement** (`selfHeal`)
+en quelques secondes : la modification manuelle est annulée, le cluster revient à l'état décrit
+dans Git. C'est le principe même du GitOps.
+
+> **Accès à l'UI ArgoCD** (facultatif) :
+> ```bash
+> kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath='{.data.password}' | base64 -d
+> kubectl port-forward -n argocd svc/argocd-server 8080:443   # https://localhost:8080 (admin)
+> ```

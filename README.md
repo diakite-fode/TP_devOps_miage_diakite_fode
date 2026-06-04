@@ -165,17 +165,25 @@ Rapports bruts : [`build-reports/trivy-report.json`](build-reports/trivy-report.
 >   --severity HIGH,CRITICAL --format json --output build-reports/trivy-report.json
 > ```
 
-**Résultat : 4 CRITICAL + 42 HIGH, *toutes* dans les dépendances Java de l'application**
-(aucune CVE côté OS — la base `eclipse-temurin:11-jre-jammy` est saine). Cause racine
-unique : **Spring Boot 2.6.4** (2022). La remédiation réelle est applicative (monter Spring
-Boot à 2.7.18), hors périmètre de ce TP DevOps.
+**Résultat (service de référence API Gateway) : 4 CRITICAL + 42 HIGH, *toutes* dans les
+dépendances Java de l'application** (aucune CVE côté OS — la base
+`eclipse-temurin:11-jre-jammy` est saine). Cause racine unique : **Spring Boot 2.6.4** (2022).
+La remédiation réelle est applicative (monter Spring Boot à 2.7.18), hors périmètre de ce TP
+DevOps.
 
 **Gate CRITICAL — abaissement documenté.** Choix retenu : *documenter & accepter* via
-[`.trivyignore`](.trivyignore), qui liste **uniquement** les 3 CVE CRITICAL, chacune
-justifiée comme **non exploitable** dans le contexte d'une gateway WebFlux/Netty
-(Spring4Shell vise Spring MVC/Tomcat ; `HttpInvokerServiceExporter` non utilisé ; bypass
-actuator propre à Cloud Foundry). La CI échoue donc toujours sur toute **nouvelle** CVE
-CRITICAL non listée.
+[`.trivyignore`](.trivyignore), classé en **deux groupes** (chaque CVE expliquée en langage
+simple dans le fichier) :
+- **API Gateway (3 CVE)** : **non exploitables** ici (WebFlux/Netty, pas de Tomcat) —
+  Spring4Shell vise Spring MVC/Tomcat, `HttpInvokerServiceExporter` non utilisé, bypass
+  actuator propre à Cloud Foundry.
+- **Services servlet (7 CVE)** — Annuaire, ConfigServer, ClientService, CompteService,
+  CompositeService : eux utilisent Tomcat, donc ces failles **sont** dans du code utilisé.
+  On les **accepte avec mitigation** (correctif = monter Spring Boot/Tomcat, hors périmètre ;
+  services exposés en interne seulement, derrière la gateway + NetworkPolicy en Partie B).
+
+La CI échoue donc toujours sur toute **nouvelle** CVE CRITICAL non listée. Détail par CVE :
+[docs/trivy-cve-analysis.md](docs/trivy-cve-analysis.md).
 
 | Comportement de la gate | Commande | Exit |
 |---|---|---|
@@ -246,7 +254,8 @@ matrix:
     - { name: compositeservice, module: Banque-CompositeService, port: 10031 }
 ```
 
-> La gate Trivy raisonne par **identifiant de CVE** : les 3 CRITICAL acceptées (Spring Boot
-> 2.6.4) étant communes à tous les modules, `.trivyignore` s'applique aux 6 services. Toute
-> **nouvelle** CRITICAL propre à un service ferait échouer **ce** job (les autres continuent
-> grâce à `fail-fast: false`).
+> La gate Trivy raisonne par **identifiant de CVE** : le `.trivyignore` (commun aux 6 jobs)
+> liste les CRITICAL acceptées — 3 pour la gateway, 7 de plus pour les services servlet
+> (Tomcat/Spring), toutes héritées de Spring Boot 2.6.4. Chaque job ne « consomme » que les
+> CVE réellement présentes dans son image. Toute **nouvelle** CRITICAL non listée ferait
+> échouer **ce** job uniquement (les autres continuent grâce à `fail-fast: false`).

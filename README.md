@@ -24,6 +24,8 @@ la chaîne DevOps demandée par le TP.
   - [B.1 — Chart Helm BanqueMSSol](#b1--chart-helm-banquemssol)
   - [B.2 — Déploiement dans Kubernetes](#b2--déploiement-dans-kubernetes)
   - [B.3 — GitOps avec ArgoCD](#b3--gitops-avec-argocd)
+- [Lancer tout le projet en local (docker-compose)](#lancer-tout-le-projet-en-local-docker-compose)
+- [🚀 Lancer le projet via la chaîne DevOps (pas à pas)](#-lancer-le-projet-via-la-chaîne-devops-pas-à-pas)
 
 ---
 
@@ -412,3 +414,240 @@ dans Git. C'est le principe même du GitOps.
 > kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath='{.data.password}' | base64 -d
 > kubectl port-forward -n argocd svc/argocd-server 8080:443   # https://localhost:8080 (admin)
 > ```
+
+---
+
+## Lancer tout le projet en local (docker-compose)
+
+> 🎯 But : faire tourner **toute l'application** (les 6 microservices + bases MySQL/MongoDB +
+> Prometheus/Zipkin) **et le front-end**, en quelques commandes. C'est la voie la plus simple
+> pour *utiliser* l'appli (différente de la chaîne DevOps qui, elle, déploie sur Kubernetes).
+> `docker-compose.yml` gère tout : construction des images et ordre de démarrage.
+
+### Prérequis
+
+| Outil | Vérifier |
+|---|---|
+| **Docker** + **Docker Compose** | `docker --version` · `docker compose version` |
+| **JDK 11** + **Maven** | `java -version` · `mvn -v` |
+| **Node.js 18+** + **npm** (pour le front) | `node -v` · `npm -v` |
+
+### 1. Cloner et compiler les JAR
+
+Les images Docker de chaque service partent de `target/*.jar` : on compile d'abord.
+
+```bash
+git clone https://github.com/diakite-fode/TP_devOps_miage_diakite_fode.git
+cd TP_devOps_miage_diakite_fode
+mvn clean package -DskipTests
+```
+
+### 2. Démarrer tout le back-end (docker-compose)
+
+```bash
+docker compose up -d --build      # (ou : docker-compose up -d --build)
+```
+
+Le **premier** lancement prend quelques minutes (build + démarrage ordonné : Eureka →
+Config Server → services → Gateway). Suivre l'avancement :
+
+```bash
+docker compose ps                 # tous les conteneurs doivent être "Up"
+```
+
+| Service | Accès |
+|---|---|
+| **API Gateway** (point d'entrée) | http://localhost:10000 |
+| Eureka (annuaire) | http://localhost:10001 |
+| Prometheus / Zipkin | http://localhost:9090 · http://localhost:9411 |
+
+> Patiente que les services apparaissent **enregistrés dans Eureka** (http://localhost:10001)
+> avant de tester l'API — la gateway route vers eux via Eureka.
+
+### 3. Charger les jeux de données de test (copier/coller)
+
+Crée 3 clients et 3 comptes via la gateway (rien à modifier, juste copier/coller) :
+
+```bash
+# --- 3 clients ---
+curl -s -X POST http://localhost:10000/api/clients -H "Content-Type: application/json" -d '{"id":1,"nom":"Dupont","prenom":"Jean"}'
+curl -s -X POST http://localhost:10000/api/clients -H "Content-Type: application/json" -d '{"id":2,"nom":"Martin","prenom":"Claire"}'
+curl -s -X POST http://localhost:10000/api/clients -H "Content-Type: application/json" -d '{"id":3,"nom":"Diakite","prenom":"Fode"}'
+
+# --- 3 comptes (idclient = à quel client appartient le compte) ---
+curl -s -X POST http://localhost:10000/api/comptes -H "Content-Type: application/json" -d '{"id":100,"solde":1500.50,"idclient":1}'
+curl -s -X POST http://localhost:10000/api/comptes -H "Content-Type: application/json" -d '{"id":101,"solde":320.00,"idclient":1}'
+curl -s -X POST http://localhost:10000/api/comptes -H "Content-Type: application/json" -d '{"id":200,"solde":9999.99,"idclient":2}'
+```
+
+Vérifier que les données sont bien là :
+
+```bash
+curl http://localhost:10000/api/clients                 # liste des 3 clients
+curl "http://localhost:10000/api/comptes?client=1"       # les 2 comptes du client 1
+curl http://localhost:10000/api/clientscomptes/1         # client 1 AVEC ses comptes (service composite)
+```
+
+### 4. Lancer le front-end (React + Vite)
+
+```bash
+cd frontend
+npm install        # une seule fois (installe les dépendances)
+npm run dev
+```
+
+➡️ Ouvre **http://localhost:5173**. Le front proxifie automatiquement `/api` vers la gateway
+(`http://localhost:10000`, cf. `frontend/vite.config.js`). Les onglets **Clients**, **Comptes**
+et **Composite** affichent les données chargées à l'étape 3.
+
+> 💡 Tu peux aussi créer des clients/comptes directement depuis les formulaires du front.
+
+### 5. Arrêter / nettoyer
+
+```bash
+docker compose down        # arrête et supprime les conteneurs
+docker compose down -v     # idem + supprime les volumes (remet les bases à zéro)
+```
+
+---
+
+## 🚀 Lancer le projet via la chaîne DevOps (pas à pas)
+
+> Procédure complète pour lancer le **service de référence (API Gateway)** en réutilisant la
+> chaîne du TP : image OCI fabriquée avec **Buildah** (Partie A), déployée sur **Kubernetes**
+> via le **chart Helm** et **ArgoCD** (Partie B). La fin explique comment **généraliser** aux
+> autres microservices.
+
+### Prérequis
+
+| Outil | Vérifier | Rôle |
+|---|---|---|
+| **JDK 11** + **Maven** | `mvn -v` | compiler le `.jar` |
+| **Buildah** | `buildah --version` | fabriquer l'image OCI |
+| **minikube** + **kubectl** + **Helm** | `helm version` | cluster + déploiement |
+| **ArgoCD CLI** *(facultatif)* | `argocd version --client` | GitOps |
+
+### 1. Cloner et compiler le JAR
+
+```bash
+git clone https://github.com/diakite-fode/TP_devOps_miage_diakite_fode.git
+cd TP_devOps_miage_diakite_fode
+mvn -pl Banque-APIGateway -am package -DskipTests
+```
+
+### 2. Fabriquer l'image OCI avec Buildah (Partie A)
+
+```bash
+buildah bud -t banquemssol-apigateway:local \
+  --build-arg APP_PORT=10000 \
+  -f Containerfile.api_gateway Banque-APIGateway
+```
+
+### 3. Démarrer le cluster + la pile de support (Partie B)
+
+`--cni=calico` est requis pour que les **NetworkPolicy** soient réellement appliquées.
+
+```bash
+minikube start --cni=calico
+helm repo add traefik https://traefik.github.io/charts
+helm repo add external-secrets https://charts.external-secrets.io
+helm repo add hashicorp https://helm.releases.hashicorp.com ; helm repo update
+helm install traefik traefik/traefik -n traefik --create-namespace --set service.type=NodePort
+helm install external-secrets external-secrets/external-secrets -n external-secrets --create-namespace
+helm install vault hashicorp/vault -n vault --create-namespace \
+  --set "server.dev.enabled=true" --set "server.dev.devRootToken=root" --set "injector.enabled=false"
+```
+
+### 4. Charger l'image dans minikube
+
+L'image est locale (pas de registry) : on l'injecte dans le cluster.
+
+```bash
+buildah push banquemssol-apigateway:local \
+  docker-archive:/tmp/apigateway.tar:banquemssol-apigateway:local
+minikube image load /tmp/apigateway.tar
+```
+
+### 5. Alimenter Vault (secret + auth Kubernetes)
+
+Le chart attend un secret fourni par Vault via ESO. On l'écrit et on configure l'auth K8s :
+
+```bash
+kubectl exec -n vault vault-0 -- sh -c '
+  export VAULT_ADDR=http://127.0.0.1:8200 VAULT_TOKEN=root
+  vault kv put secret/banquemssol/apigateway demo-password="S3cr3t-Demo-Vault!"
+  vault auth enable kubernetes
+  vault write auth/kubernetes/config kubernetes_host="https://kubernetes.default.svc:443" \
+    token_reviewer_jwt=@/var/run/secrets/kubernetes.io/serviceaccount/token \
+    kubernetes_ca_cert=@/var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+  echo "path \"secret/data/banquemssol/*\" { capabilities = [\"read\"] }" | vault policy write banquemssol -
+  vault write auth/kubernetes/role/banquemssol bound_service_account_names=banquemssol-apigateway \
+    bound_service_account_namespaces=miage-bank policies=banquemssol ttl=1h'
+```
+
+> 💡 *Raccourci sans Vault* : pour un essai rapide, on peut désactiver les secrets externes et
+> sauter les étapes Vault/ESO : ajouter `--set externalSecrets.enabled=false` au `helm install`.
+
+### 6. Déployer (choisir UNE voie)
+
+**Voie A — Helm (déploiement direct) :**
+```bash
+kubectl create namespace miage-bank
+helm install banquemssol BanqueMSSol/ -n miage-bank
+kubectl rollout status deployment/banquemssol-apigateway -n miage-bank
+```
+
+**Voie B — GitOps avec ArgoCD :**
+```bash
+kubectl create namespace argocd
+kubectl apply --server-side -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+kubectl apply -f argocd/application.yaml      # synchronise depuis Git -> Synced / Healthy
+```
+
+### 7. Vérifier et accéder
+
+```bash
+kubectl get pods,svc,ingress,networkpolicy -n miage-bank
+kubectl get externalsecret -n miage-bank            # READY=True (secret venu de Vault)
+
+# accès HTTP via l'Ingress Traefik (port-forward, simple et portable)
+kubectl port-forward -n traefik svc/traefik 8080:80 &
+curl -H "Host: banquemssol.local" http://localhost:8080/actuator/health   # -> {"status":"UP"...}
+```
+
+### 🧩 Généraliser aux autres services
+
+Le chart est **générique** : on déploie n'importe quel module en changeant 3 valeurs. Pour
+chaque service, on refait les étapes 1–2–4 (build + chargement de l'image) puis :
+
+```bash
+# Exemple : ClientService (port 10011)
+buildah bud -t banquemssol-clientservice:local --build-arg APP_PORT=10011 \
+  -f Containerfile.api_gateway Banque-ClientService
+buildah push banquemssol-clientservice:local docker-archive:/tmp/clientservice.tar:banquemssol-clientservice:local
+minikube image load /tmp/clientservice.tar
+
+helm install clientservice BanqueMSSol/ -n miage-bank \
+  --set image.repository=banquemssol-clientservice \
+  --set app.name=clientservice \
+  --set app.containerPort=10011
+```
+
+Table de correspondance (module → port) :
+
+| Service | Module | Port |
+|---|---|---|
+| annuaire (Eureka) | `Banque-Annuaire` | 10001 |
+| configserver | `Banque-ConfigServer` | 10003 |
+| clientservice | `Banque-ClientService` | 10011 |
+| compteservice | `Banque-CompteService` | 10021 |
+| compositeservice | `Banque-CompositeService` | 10031 |
+
+> ⚠️ **À savoir pour un fonctionnement de bout en bout** : les services métier
+> (client/compte/composite) ne sont pleinement opérationnels que s'ils retrouvent leurs
+> **dépendances** — l'**Eureka** (annuaire), le **Config Server** (qui sert `Banque-configs/`)
+> et leurs **bases** (MySQL/MongoDB). Il faut alors reproduire la topologie de
+> `docker-compose.yml` côté Kubernetes : nommer les Services K8s comme les hôtes attendus
+> (`bnkannuaire`, `bnkconfigsrv`, `bnkmysql`, `bnkmongo`) et activer
+> `EUREKA_INSTANCE_PREFER_IP_ADDRESS=true` (pour qu'Eureka publie l'IP du pod). Le **service de
+> référence (API Gateway)**, lui, démarre seul — c'est pourquoi le TP le déroule en détail.

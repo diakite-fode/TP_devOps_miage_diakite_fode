@@ -1,0 +1,20 @@
+# Chart.yaml — carte d'identité du paquet Helm.
+# Un "chart" Helm = un dossier qui regroupe tous les manifestes Kubernetes
+# d'une appli, paramétrables via values.yaml. Helm les assemble puis les
+# envoie au cluster en une seule commande (helm install).
+apiVersion: v2
+name: BanqueMSSol
+description: >-
+  Chart de déploiement de BanqueMSSol (MIAGE-Bank) sur Kubernetes.
+  Déploie un microservice (service de référence : l'API Gateway) avec
+  Deployment, Service ClusterIP, Ingress Traefik, NetworkPolicy, RBAC
+  minimal et secrets via Vault + External Secrets Operator.
+type: application
+
+# version = version DU CHART (incrémentée à chaque changement du packaging).
+version: 0.1.0
+# appVersion = version de l'APPLICATION déployée (ici les JAR sont en 7.0).
+appVersion: "7.0"
+
+maintainers:
+  - name: Fode Diakite

@@ -1,0 +1,37 @@
+# ============================================================================
+#  values-prod.yaml — surcharges pour la PRODUCTION.
+#  Usage : helm install ... -f values.yaml -f values-prod.yaml
+#  On ne répète QUE ce qui change par rapport à values.yaml ; Helm fusionne.
+#  But pédagogique : montrer qu'un même chart sert dev ET prod sans duplication.
+# ============================================================================
+
+# Plus de réplicas en prod = haute dispo (si un pod tombe, les autres servent).
+replicaCount: 3
+
+# En prod, l'image doit être FIGÉE sur un tag immuable (pas "local" ni "latest")
+# pour garantir qu'on déploie exactement la version testée.
+image:
+  repository: ghcr.io/diakite-fode/banquemssol-apigateway
+  tag: "7.0"
+  pullPolicy: IfNotPresent
+
+app:
+  profile: prod
+
+# Marges de ressources plus larges en prod.
+resources:
+  requests:
+    cpu: 250m
+    memory: 512Mi
+  limits:
+    cpu: "1"
+    memory: 1Gi
+
+ingress:
+  host: banquemssol.example.com
+  tls:
+    enabled: true # en prod, HTTPS obligatoire
+
+# En prod on resynchronise les secrets plus souvent (rotation plus réactive).
+externalSecrets:
+  refreshInterval: "15m"

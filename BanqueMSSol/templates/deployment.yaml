@@ -1,0 +1,85 @@
+{{/*
+deployment.yaml — décrit COMMENT lancer l'appli (le "moteur" du déploiement).
+Un Deployment maintient en permanence le nombre voulu de pods (réplicas),
+les redémarre s'ils meurent, et gère les mises à jour progressives.
+*/}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "banquemssol.fullname" . }}
+  namespace: {{ .Values.namespace.name }}
+  labels:
+    {{- include "banquemssol.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    # Le Deployment "possède" les pods qui portent ces labels.
+    matchLabels:
+      {{- include "banquemssol.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        # Force un redéploiement des pods dès que la ConfigMap change (sinon
+        # une modif de config ne relance pas les pods automatiquement).
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+      labels:
+        {{- include "banquemssol.labels" . | nindent 8 }}
+    spec:
+      # Identité du pod (RBAC) : ServiceAccount dédié, moindre privilège.
+      serviceAccountName: {{ include "banquemssol.serviceAccountName" . }}
+      # Durcissement : le pod tourne sous un utilisateur non-root (cohérent
+      # avec l'image de la Partie A qui tourne en UID 1000).
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        fsGroup: 1000
+      containers:
+        - name: {{ .Values.app.name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.app.containerPort }}
+          # Injection de la config : toutes les clés du ConfigMap ET du Secret
+          # deviennent des variables d'environnement du conteneur.
+          envFrom:
+            - configMapRef:
+                name: {{ include "banquemssol.fullname" . }}
+            {{- if .Values.externalSecrets.enabled }}
+            # Secret produit par ESO depuis Vault (jamais en clair dans Git).
+            - secretRef:
+                name: {{ .Values.externalSecrets.secretName }}
+            {{- end }}
+          # startupProbe : tant qu'elle n'a pas réussi, liveness/readiness sont
+          # SUSPENDUES. Donne à Spring Boot le temps de démarrer sans être tué.
+          startupProbe:
+            httpGet:
+              path: {{ .Values.probes.readinessPath }}
+              port: http
+            failureThreshold: {{ .Values.probes.startup.failureThreshold }}
+            periodSeconds: {{ .Values.probes.startup.periodSeconds }}
+            timeoutSeconds: {{ .Values.probes.timeoutSeconds }}
+          # readinessProbe : "prêt à recevoir du trafic ?" Tant qu'elle échoue,
+          # le Service n'envoie pas de requêtes à ce pod.
+          readinessProbe:
+            httpGet:
+              path: {{ .Values.probes.readinessPath }}
+              port: http
+            periodSeconds: {{ .Values.probes.periodSeconds }}
+            timeoutSeconds: {{ .Values.probes.timeoutSeconds }}
+          # livenessProbe : "toujours vivant ?" Si elle échoue, K8s redémarre
+          # le conteneur.
+          livenessProbe:
+            httpGet:
+              path: {{ .Values.probes.livenessPath }}
+              port: http
+            periodSeconds: {{ .Values.probes.periodSeconds }}
+            timeoutSeconds: {{ .Values.probes.timeoutSeconds }}
+          # requests = réservé au démarrage ; limits = plafond (anti-emballement).
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          # Durcissement supplémentaire du conteneur.
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]

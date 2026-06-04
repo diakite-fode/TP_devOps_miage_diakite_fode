@@ -1,0 +1,52 @@
+{{/*
+networkpolicy.yaml — pare-feu réseau À L'INTÉRIEUR du cluster.
+Par défaut, dans Kubernetes, tous les pods peuvent se parler librement. Une
+NetworkPolicy restreint ça. On applique le principe "tout bloquer, puis
+n'ouvrir que le nécessaire".
+
+Deux politiques :
+ 1) default-deny : bloque TOUT le trafic entrant vers les pods du namespace.
+ 2) allow-ingress-controller : ré-autorise UNIQUEMENT le trafic venant du
+    controller d'Ingress (Traefik) vers nos pods, sur le port applicatif.
+    => l'extérieur ne peut atteindre l'appli QUE via l'Ingress, pas en direct.
+*/}}
+{{- if .Values.networkPolicy.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ include "banquemssol.fullname" . }}-default-deny
+  namespace: {{ .Values.namespace.name }}
+  labels:
+    {{- include "banquemssol.labels" . | nindent 4 }}
+spec:
+  # podSelector vide {} = s'applique à TOUS les pods du namespace.
+  podSelector: {}
+  policyTypes:
+    - Ingress
+  # Aucune règle ingress => aucune entrée autorisée (deny par défaut).
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ include "banquemssol.fullname" . }}-allow-ingress
+  namespace: {{ .Values.namespace.name }}
+  labels:
+    {{- include "banquemssol.labels" . | nindent 4 }}
+spec:
+  # Ne cible que NOS pods (ceux du chart).
+  podSelector:
+    matchLabels:
+      {{- include "banquemssol.selectorLabels" . | nindent 6 }}
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        # Trafic venant du namespace du controller d'Ingress (Traefik).
+        # Chaque namespace porte automatiquement le label kubernetes.io/metadata.name.
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: {{ .Values.networkPolicy.ingressControllerNamespace }}
+      ports:
+        - protocol: TCP
+          port: {{ .Values.app.containerPort }}
+{{- end }}

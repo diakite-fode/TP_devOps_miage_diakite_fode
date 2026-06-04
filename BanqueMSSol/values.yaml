@@ -1,0 +1,134 @@
+# ============================================================================
+#  values.yaml — toutes les valeurs PARAMÉTRABLES du chart (profil par défaut).
+#  Chaque template (deployment, service, ingress…) lit ces valeurs.
+#  Pour la prod, voir values-prod.yaml (qui ne surcharge que ce qui change).
+#
+#  Service de référence déployé : l'API Gateway (cohérent avec la Partie A).
+#  Le chart est GÉNÉRIQUE : déployer un autre service = changer image/app/secret.
+# ============================================================================
+
+# -- Réplicas (nombre de pods identiques) --
+replicaCount: 1
+
+# -- Image OCI (construite en Partie A, chargée localement dans minikube) --
+image:
+  repository: banquemssol-apigateway
+  tag: local
+  # IfNotPresent : on n'essaie PAS d'aller chercher l'image sur un registry
+  # distant si elle est déjà présente sur le nœud (cas du minikube image load).
+  pullPolicy: IfNotPresent
+
+# -- Métadonnées applicatives --
+app:
+  # nom logique du service (sert aux noms de ressources et aux labels)
+  name: apigateway
+  # port sur lequel l'appli écoute DANS le conteneur (lu en Partie A)
+  containerPort: 10000
+  # profil Spring actif
+  profile: dev
+
+# -- Namespace cible --
+# Note : le dossier du chart s'appelle "BanqueMSSol" mais le namespace
+# Kubernetes s'appelle "miage-bank" (deux choses différentes, voir README).
+namespace:
+  # false = on laisse `helm install --create-namespace` créer le namespace.
+  # true  = le chart crée lui-même le namespace (utile pour ArgoCD).
+  create: false
+  name: miage-bank
+
+# -- ServiceAccount + RBAC (qui a le droit de faire quoi) --
+serviceAccount:
+  create: true
+  name: "" # vide => nom dérivé automatiquement (voir _helpers.tpl)
+rbac:
+  # Role + RoleBinding minimalistes (principe du moindre privilège).
+  create: true
+
+# -- Sondes de santé (probes) --
+# On utilise les GROUPES K8s natifs de Spring Boot : /actuator/health/readiness
+# et /liveness. Ils reflètent l'état de l'appli SANS dépendre d'Eureka/Config
+# (sinon la santé passerait DOWN dès qu'une dépendance externe est absente).
+probes:
+  readinessPath: /actuator/health/readiness
+  livenessPath: /actuator/health/liveness
+  periodSeconds: 10
+  timeoutSeconds: 3
+  # startupProbe : laisse l'appli démarrer AVANT que liveness/readiness n'agissent.
+  # Évite que la liveness tue un Spring Boot encore en cours de démarrage.
+  # 30 tentatives x 10s = jusqu'à 5 min pour démarrer (large).
+  startup:
+    failureThreshold: 30
+    periodSeconds: 10
+
+# -- Ressources : requests = réservé ; limits = plafond à ne pas dépasser --
+resources:
+  requests:
+    cpu: 100m # 0,1 cœur
+    memory: 256Mi
+  limits:
+    cpu: 500m # 0,5 cœur
+    memory: 512Mi
+
+# -- Service (adresse stable interne) --
+service:
+  # ClusterIP UNIQUEMENT : pas d'exposition directe ; l'extérieur passe par
+  # l'Ingress (exigence du TP).
+  type: ClusterIP
+  port: 80 # port du Service (le trafic est routé vers app.containerPort)
+
+# -- Ingress (porte d'entrée HTTP depuis l'extérieur, via Traefik) --
+ingress:
+  enabled: true
+  className: traefik
+  host: banquemssol.local # hostname paramétrable (exigence du TP)
+  path: /
+  pathType: Prefix
+  tls:
+    enabled: false # TLS = bonus, désactivé par défaut
+
+# -- NetworkPolicy (pare-feu réseau interne au cluster) --
+networkPolicy:
+  enabled: true
+  # Default-deny en entrée + on n'autorise QUE le controller d'ingress.
+  # Namespace où tourne le controller d'Ingress Traefik (installé via Helm en
+  # B.2). On n'autorise l'entrée QUE depuis ce namespace.
+  ingressControllerNamespace: traefik
+
+# -- ConfigMap : configuration NON sensible injectée en variables d'env --
+config:
+  # Port applicatif. En isolation (sans Config Server), l'appli prendrait sinon
+  # le port Spring par défaut (8080) ; on force le port documenté en Partie A.
+  SERVER_PORT: "10000"
+  # Active les groupes de probes liveness/readiness et expose /actuator/health.
+  MANAGEMENT_ENDPOINT_HEALTH_PROBES_ENABLED: "true"
+  MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: "health,info"
+  MANAGEMENT_ENDPOINT_HEALTH_SHOW_DETAILS: "always"
+
+# ============================================================================
+#  Secrets via Vault + External Secrets Operator (ESO)
+#  Principe : les mots de passe vivent dans Vault (coffre-fort). ESO lit Vault
+#  et fabrique automatiquement un Secret Kubernetes, sans jamais écrire le mot
+#  de passe en clair dans Git. La pile (Vault + ESO) est installée en B.2.
+# ============================================================================
+externalSecrets:
+  enabled: true
+  refreshInterval: "1h" # ESO resynchronise depuis Vault à cet intervalle
+
+  # SecretStore : DIT à ESO où est Vault et comment s'y authentifier.
+  vault:
+    server: "http://vault.vault.svc:8200" # adresse interne de Vault
+    path: "secret" # moteur KV v2 monté sur "secret/"
+    version: "v2"
+    # Auth Kubernetes : Vault fait confiance au ServiceAccount du pod.
+    auth:
+      mountPath: "kubernetes"
+      role: "banquemssol"
+
+  # ExternalSecret : quelles clés récupérer dans Vault et sous quel nom de
+  # secret K8s les matérialiser. Pour la gateway, secret de démonstration ;
+  # pour ClientService (MySQL) / CompteService (MongoDB) = vrais identifiants.
+  secretName: apigateway-secrets
+  vaultSecretPath: "banquemssol/apigateway" # chemin dans le KV Vault
+  data:
+    - secretKey: APP_DEMO_PASSWORD # nom de la variable d'env dans le pod
+      remoteKey: demo-password # nom de la clé dans Vault

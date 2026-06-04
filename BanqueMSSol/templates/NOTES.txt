@@ -1,0 +1,19 @@
+✅ {{ .Chart.Name }} déployé (release « {{ .Release.Name }} ») dans le namespace « {{ .Values.namespace.name }} ».
+
+Service de référence : {{ .Values.app.name }} (image {{ .Values.image.repository }}:{{ .Values.image.tag }}).
+
+Vérifier le déploiement :
+  kubectl get all,ingress,networkpolicy -n {{ .Values.namespace.name }}
+  kubectl rollout status deployment/{{ include "banquemssol.fullname" . }} -n {{ .Values.namespace.name }}
+
+Accès via l'Ingress ({{ .Values.ingress.className }}) :
+  Hôte configuré : {{ .Values.ingress.host }}
+  Ajouter dans /etc/hosts :  <IP-ingress>  {{ .Values.ingress.host }}
+  (IP via : kubectl get ingress -n {{ .Values.namespace.name }})
+
+{{- if .Values.externalSecrets.enabled }}
+
+Secrets : fournis par Vault via External Secrets Operator
+  (ExternalSecret -> Secret « {{ .Values.externalSecrets.secretName }} »).
+  Vérifier : kubectl get externalsecret,secret -n {{ .Values.namespace.name }}
+{{- end }}

@@ -1,0 +1,19 @@
+{{/*
+configmap.yaml — configuration NON sensible, sous forme de paires clé/valeur.
+Un ConfigMap découple la config du code : on peut changer ces valeurs sans
+reconstruire l'image. Ici, on injecte des variables d'environnement Spring Boot
+(ex. activation des probes liveness/readiness). Les SECRETS, eux, ne vont
+JAMAIS ici (voir externalsecret.yaml).
+*/}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "banquemssol.fullname" . }}
+  namespace: {{ .Values.namespace.name }}
+  labels:
+    {{- include "banquemssol.labels" . | nindent 4 }}
+data:
+  SPRING_PROFILES_ACTIVE: {{ .Values.app.profile | quote }}
+  {{- range $key, $value := .Values.config }}
+  {{ $key }}: {{ $value | quote }}
+  {{- end }}

@@ -1,0 +1,25 @@
+{{/*
+service.yaml — donne une adresse réseau STABLE et interne à l'appli.
+Les pods vont et viennent (IP changeantes) ; le Service offre un nom DNS et une
+IP fixes, et répartit le trafic vers les pods sains (sélectionnés par labels).
+
+Type ClusterIP UNIQUEMENT (exigence du TP) : joignable seulement DANS le
+cluster. L'extérieur passe obligatoirement par l'Ingress.
+*/}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "banquemssol.fullname" . }}
+  namespace: {{ .Values.namespace.name }}
+  labels:
+    {{- include "banquemssol.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  selector:
+    {{- include "banquemssol.selectorLabels" . | nindent 4 }}
+  ports:
+    - name: http
+      port: {{ .Values.service.port }}
+      # targetPort = port réel du conteneur (app.containerPort).
+      targetPort: http
+      protocol: TCP

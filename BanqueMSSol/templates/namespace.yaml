@@ -1,0 +1,17 @@
+{{/*
+namespace.yaml — crée le namespace "miage-bank" SI namespace.create=true.
+Un namespace = un espace logique cloisonné dans le cluster (ses propres
+ressources, ses propres règles réseau).
+
+Par défaut create=false : on laisse `helm install --create-namespace` le créer
+(sinon Helm et ce manifeste se disputeraient la propriété du namespace).
+On le met à true pour ArgoCD (B.3), qui applique les manifestes directement.
+*/}}
+{{- if .Values.namespace.create }}
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ .Values.namespace.name }}
+  labels:
+    {{- include "banquemssol.labels" . | nindent 4 }}
+{{- end }}

@@ -26,6 +26,10 @@ ARG BASE_IMAGE=eclipse-temurin:11-jre-jammy
 # STAGE 1 — "builder" : on éclate le fat-jar Spring Boot en couches (layertools)
 # pour séparer les dépendances (stables) du code applicatif (volatil).
 # ---------------------------------------------------------------------------
+# DL3006 : l'image EST taguée (défaut de BASE_IMAGE = ...:11-jre-jammy). Hadolint
+# < 2.13 (embarqué dans hadolint-action) ne résout pas le défaut d'un ARG dans
+# FROM -> faux positif. On l'ignore explicitement (gate abaissée, documentée).
+# hadolint ignore=DL3006
 FROM ${BASE_IMAGE} AS builder
 WORKDIR /build
 
@@ -37,6 +41,8 @@ RUN java -Djarmode=layertools -jar application.jar extract
 # ---------------------------------------------------------------------------
 # STAGE 2 — image finale : base légère, SANS outils de build, exécutée non-root.
 # ---------------------------------------------------------------------------
+# Même faux positif DL3006 qu'au STAGE 1 (cf. commentaire ci-dessus).
+# hadolint ignore=DL3006
 FROM ${BASE_IMAGE} AS runtime
 
 ARG APP_PORT=10000

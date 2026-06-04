@@ -1,24 +1,70 @@
 # ============================================================================
-#  .trivyignore — CVE CRITICAL acceptées (abaissement de gate DOCUMENTÉ)
+#  .trivyignore — failles CRITICAL que l'on accepte (et qu'on EXPLIQUE)
 #
-#  Règle du TP : on peut abaisser une gate à condition de le documenter
-#  explicitement (quelle CVE, pourquoi). Ici, les CRITICAL sont toutes
-#  APPLICATIVES (Spring Boot 2.6.4) et non exploitables dans le contexte d'une
-#  API Gateway WebFlux/Netty. Remédiation réelle = monter Spring Boot (2.7.18),
-#  hors périmètre de ce TP DevOps. Détail : docs/trivy-cve-analysis.md
+#  Règle du TP : on a le droit d'accepter une faille pour ne pas bloquer la CI,
+#  À CONDITION de dire laquelle et pourquoi. Ici, TOUTES les failles viennent
+#  des librairies à l'intérieur de l'application (le "fat-jar"), PAS de l'image
+#  de base (eclipse-temurin:11-jre-jammy, qui n'a aucune faille).
 #
-#  Effet : la CI échoue toujours sur toute NOUVELLE CVE CRITICAL ; seules les
-#  3 CVE ci-dessous (connues et justifiées) sont acceptées.
+#  La vraie raison : l'appli utilise une version ancienne de Spring Boot (2.6.4,
+#  qui n'est plus maintenue). Le vrai correctif serait de monter cette version
+#  — mais ça touche au code de l'appli, pas au périmètre de ce TP (qui porte sur
+#  la chaîne DevOps). Explications détaillées : docs/trivy-cve-analysis.md
+#
+#  Effet : la CI continue d'échouer sur TOUTE nouvelle faille CRITICAL ; seules
+#  celles listées ci-dessous (connues et expliquées) sont acceptées.
 # ============================================================================
 
-# Spring4Shell — RCE via data binding. Exploit type = Spring MVC en WAR sur
-# Tomcat ; ici gateway WebFlux/Netty (pas de servlet Tomcat) -> non exploitable.
+# ----------------------------------------------------------------------------
+# (1) API Gateway (la "porte d'entrée"). Elle n'utilise PAS le serveur web
+#     Tomcat. Ces 3 failles visent justement Tomcat ou des composants qu'on
+#     n'utilise pas -> elles ne peuvent pas nous toucher ici.
+# ----------------------------------------------------------------------------
+
+# "Spring4Shell" : permet d'exécuter du code à distance, mais seulement sur les
+# applis web classiques (Tomcat). Notre passerelle n'utilise pas Tomcat.
 CVE-2022-22965
 
-# spring-web HttpInvokerServiceExporter — désérialisation Java. Nécessite
-# d'utiliser HttpInvokerServiceExporter, non utilisé par la gateway.
+# Faille dans un vieux composant d'échange de données Java qu'on n'utilise pas.
 CVE-2016-1000027
 
-# spring-boot-actuator — bypass auth sur Cloud Foundry uniquement. Pas de
-# déploiement Cloud Foundry ici -> non applicable.
+# Contournement de mot de passe, mais uniquement sur l'hébergeur "Cloud Foundry".
+# On ne déploie pas sur Cloud Foundry.
 CVE-2023-20873
+
+# ----------------------------------------------------------------------------
+# (2) Les autres services (Annuaire, ConfigServer, ClientService, CompteService,
+#     CompositeService). Eux utilisent bien le serveur web Tomcat.
+#
+#     À être honnête : ces failles, elles, sont dans une partie réellement
+#     utilisée du code. On ne peut donc pas dire "pas concerné". On les accepte
+#     quand même parce que :
+#       - le vrai correctif = mettre à jour Spring Boot/Tomcat, ce qui modifie
+#         l'appli (hors sujet de ce TP DevOps) ;
+#       - ces services ne sont jamais exposés directement sur Internet : ils
+#         sont cachés derrière la passerelle et un pare-feu réseau (Partie B).
+#     => risque connu, limité, et accepté pour ce TP.
+# ----------------------------------------------------------------------------
+
+# Serveur web Tomcat : un envoi de fichier mal formé peut faire exécuter du code.
+CVE-2025-24813
+
+# Serveur web Tomcat : une requête mal formée n'est pas correctement vérifiée.
+CVE-2026-41293
+
+# Serveur web Tomcat : possibilité de contourner l'authentification.
+CVE-2026-43512
+
+# Serveur web Tomcat : un utilisateur peut accéder à des pages qui devraient être protégées.
+CVE-2026-43515
+
+# Spring (gestion des adresses web) : certaines adresses peuvent échapper aux
+# règles de sécurité.
+CVE-2023-20860
+
+# Base MongoDB (CompteService) : une recherche piégée peut injecter du code.
+CVE-2022-22980
+
+# Serveur de configuration (ConfigServer) : on peut tenter de lire des fichiers
+# en dehors du dossier prévu ("remonter" dans l'arborescence).
+CVE-2026-40982

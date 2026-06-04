@@ -1,0 +1,37 @@
+# ============================================================================
+#  Application ArgoCD — déploiement GitOps du chart BanqueMSSol.
+#
+#  Principe GitOps : on ne fait plus "helm install" à la main. On déclare ici
+#  l'état voulu (quel dépôt, quel chemin, quel namespace) et ArgoCD maintient
+#  EN PERMANENCE le cluster synchronisé avec Git. Si quelqu'un modifie le
+#  cluster à la main, ArgoCD le détecte (OutOfSync) et corrige (selfHeal).
+#
+#  NOTE branche : le TP demande de cibler "main" ; ce dépôt utilise "master"
+#  comme branche par défaut -> targetRevision: master (écart assumé/documenté).
+# ============================================================================
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: banquemssol
+  namespace: argocd # les Application vivent dans le namespace d'ArgoCD
+  finalizers:
+    # garantit que la suppression de l'Application nettoie aussi les ressources
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/diakite-fode/TP_devOps_miage_diakite_fode.git
+    targetRevision: master
+    path: BanqueMSSol # dossier du chart Helm dans le dépôt
+    helm:
+      valueFiles:
+        - values.yaml
+  destination:
+    server: https://kubernetes.default.svc # cluster local
+    namespace: miage-bank
+  syncPolicy:
+    automated:
+      prune: true # supprime du cluster ce qui n'est plus dans Git
+      selfHeal: true # corrige automatiquement toute dérive manuelle
+    syncOptions:
+      - CreateNamespace=true # ArgoCD crée le namespace miage-bank si absent
